@@ -1,0 +1,27 @@
+
+{
+    "relasApp": {
+        "introduceUser" : {
+            "home": {
+                "title": "Introduce Users",
+                "createLabel": "Create a new Introduce User",
+                "createOrEditLabel": "Create or edit a Introduce User",
+                "search": "Search for Introduce User"
+            },
+            "created": "A new Introduce User is created with identifier {{ param }}",
+            "updated": "A Introduce User is updated with identifier {{ param }}",
+            "deleted": "A Introduce User is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Introduce User {{ id }}?"
+            },
+            "detail": {
+                "title": "Introduce User"
+            },
+            "time": "Time",
+            "reason": "Reason",
+            "introduceBy": "Introduce By",
+            "introduceTo": "Introduce To",
+            "introduceUserID": "Introduce User ID"
+        }
+    }
+}

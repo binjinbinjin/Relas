@@ -1,0 +1,27 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "message",
+            "otherEntityName": "chatMessage",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "userID",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        }
+    ],
+    "fields": [],
+    "changelogDate": "20180320031053",
+    "entityTableName": "unread_chat_message",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "mySuffix"
+}

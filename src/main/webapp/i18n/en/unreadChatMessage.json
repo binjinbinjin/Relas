@@ -1,0 +1,24 @@
+
+{
+    "relasApp": {
+        "unreadChatMessage" : {
+            "home": {
+                "title": "Unread Chat Messages",
+                "createLabel": "Create a new Unread Chat Message",
+                "createOrEditLabel": "Create or edit a Unread Chat Message",
+                "search": "Search for Unread Chat Message"
+            },
+            "created": "A new Unread Chat Message is created with identifier {{ param }}",
+            "updated": "A Unread Chat Message is updated with identifier {{ param }}",
+            "deleted": "A Unread Chat Message is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Unread Chat Message {{ id }}?"
+            },
+            "detail": {
+                "title": "Unread Chat Message"
+            },
+            "message": "Message",
+            "userID": "User ID"
+        }
+    }
+}

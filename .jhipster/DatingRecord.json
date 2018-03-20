@@ -1,0 +1,36 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "userOne",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "userTwo",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "progress",
+            "fieldType": "DatingProgress",
+            "fieldValues": "L1,L2,L3,L4,L5,L6,L7,L8,L9,L10",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180320031054",
+    "entityTableName": "dating_record",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "mySuffix"
+}

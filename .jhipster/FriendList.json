@@ -1,0 +1,36 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "userID",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "friendID",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "userRelationship",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "remark",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180320031049",
+    "entityTableName": "friend_list",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "mySuffix"
+}

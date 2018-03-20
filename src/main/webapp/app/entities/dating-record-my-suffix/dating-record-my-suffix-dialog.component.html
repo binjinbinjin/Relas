@@ -1,0 +1,72 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myDatingRecordLabel" jhiTranslate="relasApp.datingRecord.home.createOrEditLabel">Create or edit a Dating Record</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!datingRecord.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="datingRecord.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="relasApp.datingRecord.progress" for="field_progress">Progress</label>
+            <select class="form-control" name="progress" [(ngModel)]="datingRecord.progress" id="field_progress"  required>
+                <option value="L1">{{'relasApp.DatingProgress.L1' | translate}}</option>
+                <option value="L2">{{'relasApp.DatingProgress.L2' | translate}}</option>
+                <option value="L3">{{'relasApp.DatingProgress.L3' | translate}}</option>
+                <option value="L4">{{'relasApp.DatingProgress.L4' | translate}}</option>
+                <option value="L5">{{'relasApp.DatingProgress.L5' | translate}}</option>
+                <option value="L6">{{'relasApp.DatingProgress.L6' | translate}}</option>
+                <option value="L7">{{'relasApp.DatingProgress.L7' | translate}}</option>
+                <option value="L8">{{'relasApp.DatingProgress.L8' | translate}}</option>
+                <option value="L9">{{'relasApp.DatingProgress.L9' | translate}}</option>
+                <option value="L10">{{'relasApp.DatingProgress.L10' | translate}}</option>
+            </select>
+            <div [hidden]="!(editForm.controls.progress?.dirty && editForm.controls.progress?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.progress?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="relasApp.datingRecord.userOne" for="field_userOne">User One</label>
+            <select class="form-control" id="field_userOne" name="userOne" [(ngModel)]="datingRecord.userOneId"  required>
+                <option *ngIf="!editForm.value.userOne" [ngValue]="null" selected></option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.userOne?.dirty && editForm.controls.userOne?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.userOne?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="relasApp.datingRecord.userTwo" for="field_userTwo">User Two</label>
+            <select class="form-control" id="field_userTwo" name="userTwo" [(ngModel)]="datingRecord.userTwoId"  required>
+                <option *ngIf="!editForm.value.userTwo" [ngValue]="null" selected></option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.userTwo?.dirty && editForm.controls.userTwo?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.userTwo?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

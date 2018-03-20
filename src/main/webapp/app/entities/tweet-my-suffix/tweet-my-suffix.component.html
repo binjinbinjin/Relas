@@ -1,0 +1,82 @@
+<div>
+    <h2>
+        <span jhiTranslate="relasApp.tweet.home.title">Tweets</span>
+        <button class="btn btn-primary float-right jh-create-entity create-tweet-my-suffix" [routerLink]="['/', { outlets: { popup: ['tweet-my-suffix-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="relasApp.tweet.home.createLabel">
+            Create new Tweet
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'relasApp.tweet.home.search' | translate }}">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="tweets">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="time"><span jhiTranslate="relasApp.tweet.time">Time</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="message"><span jhiTranslate="relasApp.tweet.message">Message</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="accessory"><span jhiTranslate="relasApp.tweet.accessory">Accessory</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="userIDLogin"><span jhiTranslate="relasApp.tweet.userID">User ID</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let tweet of tweets ;trackBy: trackId">
+                <td><a [routerLink]="['../tweet-my-suffix', tweet.id ]">{{tweet.id}}</a></td>
+                <td>{{tweet.time | date:'medium'}}</td>
+                <td>{{tweet.message}}</td>
+                <td>
+                    <a *ngIf="tweet.accessory" (click)="openFile(tweet.accessoryContentType, tweet.accessory)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="tweet.accessory">{{tweet.accessoryContentType}}, {{byteSize(tweet.accessory)}}</span>
+                </td>
+                <td>
+                    {{tweet.userIDLogin}}
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../tweet-my-suffix', tweet.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'tweet-my-suffix/'+ tweet.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'tweet-my-suffix/'+ tweet.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

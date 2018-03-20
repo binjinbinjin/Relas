@@ -1,0 +1,27 @@
+
+{
+    "relasApp": {
+        "chatMessage" : {
+            "home": {
+                "title": "Chat Messages",
+                "createLabel": "创建新 Chat Message",
+                "createOrEditLabel": "创建或编辑 Chat Message",
+                "search": "查找 Chat Message"
+            },
+            "created": "Chat Message {{ param }} 创建成功",
+            "updated": "Chat Message {{ param }} 更新成功",
+            "deleted": "Chat Message {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Chat Message {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Chat Message"
+            },
+            "time": "Time",
+            "message": "Message",
+            "accessory": "Accessory",
+            "chatID": "Chat ID",
+            "messageSender": "Message Sender"
+        }
+    }
+}

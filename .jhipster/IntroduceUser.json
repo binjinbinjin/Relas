@@ -1,0 +1,50 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "introduceBy",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "introduceTo",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "introduceUserID",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "time",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "reason",
+            "fieldType": "IntroduceUserReason",
+            "fieldValues": "FRIEND,COLLEAGUE,CLASSMATE,FAMILY,DATING,STRANGER",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180320031055",
+    "entityTableName": "introduce_user",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "mySuffix"
+}

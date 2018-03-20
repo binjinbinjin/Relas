@@ -1,0 +1,13 @@
+{
+    "relasApp": {
+        "IntroduceUserReason" : {
+            "null": "",
+            "FRIEND": "FRIEND",
+            "COLLEAGUE": "COLLEAGUE",
+            "CLASSMATE": "CLASSMATE",
+            "FAMILY": "FAMILY",
+            "DATING": "DATING",
+            "STRANGER": "STRANGER"
+        }
+    }
+}

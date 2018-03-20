@@ -1,0 +1,42 @@
+
+<div *ngIf="introduceUser">
+    <h2><span jhiTranslate="relasApp.introduceUser.detail.title">Introduce User</span> {{introduceUser.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="relasApp.introduceUser.time">Time</span></dt>
+        <dd>
+            <span>{{introduceUser.time | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="relasApp.introduceUser.reason">Reason</span></dt>
+        <dd>
+            <span jhiTranslate="{{'relasApp.IntroduceUserReason.' + introduceUser.reason}}">{{introduceUser.reason}}</span>
+        </dd>
+        <dt><span jhiTranslate="relasApp.introduceUser.introduceBy">Introduce By</span></dt>
+        <dd>
+            {{introduceUser.introduceByLogin}}
+        </dd>
+        <dt><span jhiTranslate="relasApp.introduceUser.introduceTo">Introduce To</span></dt>
+        <dd>
+            {{introduceUser.introduceToLogin}}
+        </dd>
+        <dt><span jhiTranslate="relasApp.introduceUser.introduceUserID">Introduce User ID</span></dt>
+        <dd>
+            {{introduceUser.introduceUserIDLogin}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'introduce-user-my-suffix/'+ introduceUser.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

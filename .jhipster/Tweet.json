@@ -1,0 +1,40 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "userID",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "time",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "message",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "accessory",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        }
+    ],
+    "changelogDate": "20180320031056",
+    "entityTableName": "tweet",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "mySuffix"
+}

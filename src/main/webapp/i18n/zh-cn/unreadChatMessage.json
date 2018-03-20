@@ -1,0 +1,24 @@
+
+{
+    "relasApp": {
+        "unreadChatMessage" : {
+            "home": {
+                "title": "Unread Chat Messages",
+                "createLabel": "创建新 Unread Chat Message",
+                "createOrEditLabel": "创建或编辑 Unread Chat Message",
+                "search": "查找 Unread Chat Message"
+            },
+            "created": "Unread Chat Message {{ param }} 创建成功",
+            "updated": "Unread Chat Message {{ param }} 更新成功",
+            "deleted": "Unread Chat Message {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Unread Chat Message {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Unread Chat Message"
+            },
+            "message": "Message",
+            "userID": "User ID"
+        }
+    }
+}

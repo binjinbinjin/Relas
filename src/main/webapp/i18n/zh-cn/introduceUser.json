@@ -1,0 +1,27 @@
+
+{
+    "relasApp": {
+        "introduceUser" : {
+            "home": {
+                "title": "Introduce Users",
+                "createLabel": "创建新 Introduce User",
+                "createOrEditLabel": "创建或编辑 Introduce User",
+                "search": "查找 Introduce User"
+            },
+            "created": "Introduce User {{ param }} 创建成功",
+            "updated": "Introduce User {{ param }} 更新成功",
+            "deleted": "Introduce User {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Introduce User {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Introduce User"
+            },
+            "time": "Time",
+            "reason": "Reason",
+            "introduceBy": "Introduce By",
+            "introduceTo": "Introduce To",
+            "introduceUserID": "Introduce User ID"
+        }
+    }
+}

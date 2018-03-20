@@ -43,6 +43,14 @@ public class CacheConfiguration {
             cm.createCache(relas.java.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(relas.java.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(relas.java.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.FriendList.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.ChatRoom.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.ChatRoomMember.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.ChatMessage.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.UnreadChatMessage.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.DatingRecord.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.IntroduceUser.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.Tweet.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

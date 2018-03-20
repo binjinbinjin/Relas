@@ -1,0 +1,26 @@
+
+{
+    "relasApp": {
+        "chatRoom" : {
+            "home": {
+                "title": "Chat Rooms",
+                "createLabel": "创建新 Chat Room",
+                "createOrEditLabel": "创建或编辑 Chat Room",
+                "search": "查找 Chat Room"
+            },
+            "created": "Chat Room {{ param }} 创建成功",
+            "updated": "Chat Room {{ param }} 更新成功",
+            "deleted": "Chat Room {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Chat Room {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Chat Room"
+            },
+            "chatID": "Chat ID",
+            "maxMember": "Max Member",
+            "chatRoomName": "Chat Room Name",
+            "description": "Description"
+        }
+    }
+}

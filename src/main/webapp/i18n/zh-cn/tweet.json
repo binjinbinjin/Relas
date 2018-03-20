@@ -1,0 +1,26 @@
+
+{
+    "relasApp": {
+        "tweet" : {
+            "home": {
+                "title": "Tweets",
+                "createLabel": "创建新 Tweet",
+                "createOrEditLabel": "创建或编辑 Tweet",
+                "search": "查找 Tweet"
+            },
+            "created": "Tweet {{ param }} 创建成功",
+            "updated": "Tweet {{ param }} 更新成功",
+            "deleted": "Tweet {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Tweet {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Tweet"
+            },
+            "time": "Time",
+            "message": "Message",
+            "accessory": "Accessory",
+            "userID": "User ID"
+        }
+    }
+}

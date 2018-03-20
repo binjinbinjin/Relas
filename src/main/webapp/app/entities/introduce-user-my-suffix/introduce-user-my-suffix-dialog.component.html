@@ -1,0 +1,98 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myIntroduceUserLabel" jhiTranslate="relasApp.introduceUser.home.createOrEditLabel">Create or edit a Introduce User</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!introduceUser.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="introduceUser.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="relasApp.introduceUser.time" for="field_time">Time</label>
+            <div class="d-flex">
+                <input id="field_time" type="datetime-local" class="form-control" name="time" [(ngModel)]="introduceUser.time"
+                required/>
+            </div>
+            <div [hidden]="!(editForm.controls.time?.dirty && editForm.controls.time?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.time?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.time?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="relasApp.introduceUser.reason" for="field_reason">Reason</label>
+            <select class="form-control" name="reason" [(ngModel)]="introduceUser.reason" id="field_reason"  required>
+                <option value="FRIEND">{{'relasApp.IntroduceUserReason.FRIEND' | translate}}</option>
+                <option value="COLLEAGUE">{{'relasApp.IntroduceUserReason.COLLEAGUE' | translate}}</option>
+                <option value="CLASSMATE">{{'relasApp.IntroduceUserReason.CLASSMATE' | translate}}</option>
+                <option value="FAMILY">{{'relasApp.IntroduceUserReason.FAMILY' | translate}}</option>
+                <option value="DATING">{{'relasApp.IntroduceUserReason.DATING' | translate}}</option>
+                <option value="STRANGER">{{'relasApp.IntroduceUserReason.STRANGER' | translate}}</option>
+            </select>
+            <div [hidden]="!(editForm.controls.reason?.dirty && editForm.controls.reason?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.reason?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="relasApp.introduceUser.introduceBy" for="field_introduceBy">Introduce By</label>
+            <select class="form-control" id="field_introduceBy" name="introduceBy" [(ngModel)]="introduceUser.introduceById"  required>
+                <option *ngIf="!editForm.value.introduceBy" [ngValue]="null" selected></option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.introduceBy?.dirty && editForm.controls.introduceBy?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.introduceBy?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="relasApp.introduceUser.introduceTo" for="field_introduceTo">Introduce To</label>
+            <select class="form-control" id="field_introduceTo" name="introduceTo" [(ngModel)]="introduceUser.introduceToId"  required>
+                <option *ngIf="!editForm.value.introduceTo" [ngValue]="null" selected></option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.introduceTo?.dirty && editForm.controls.introduceTo?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.introduceTo?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="relasApp.introduceUser.introduceUserID" for="field_introduceUserID">Introduce User ID</label>
+            <select class="form-control" id="field_introduceUserID" name="introduceUserID" [(ngModel)]="introduceUser.introduceUserIDId"  required>
+                <option *ngIf="!editForm.value.introduceUserID" [ngValue]="null" selected></option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.introduceUserID?.dirty && editForm.controls.introduceUserID?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.introduceUserID?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "chatID",
+            "otherEntityName": "chatRoom",
+            "otherEntityField": "chatID"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "messageSender",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "time",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "message",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "accessory",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        }
+    ],
+    "changelogDate": "20180320031052",
+    "entityTableName": "chat_message",
+    "dto": "mapstruct",
+    "pagination": "infinite-scroll",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "angularJSSuffix": "mySuffix"
+}

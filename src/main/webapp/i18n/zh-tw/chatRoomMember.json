@@ -1,0 +1,24 @@
+
+{
+    "relasApp": {
+        "chatRoomMember" : {
+            "home": {
+                "title": "Chat Room Members",
+                "createLabel": "建立一筆新的 Chat Room Member",
+                "createOrEditLabel": "建立或編輯 Chat Room Member",
+                "search": "搜尋 Chat Room Member"
+            },
+            "created": "新的 Chat Room Member 建立成功，識別碼為 {{ param }}",
+            "updated": "識別碼為 {{ param }} 的 Chat Room Member 更新成功",
+            "deleted": "識別碼為 {{ param }} 的 Chat Room Member 刪除成功",
+            "delete": {
+                "question": "您確定要刪除 Chat Room Member {{ id }} 嗎?"
+            },
+            "detail": {
+                "title": "Chat Room Member"
+            },
+            "chatID": "Chat ID",
+            "memberID": "Member ID"
+        }
+    }
+}

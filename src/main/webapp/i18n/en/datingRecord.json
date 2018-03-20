@@ -1,0 +1,25 @@
+
+{
+    "relasApp": {
+        "datingRecord" : {
+            "home": {
+                "title": "Dating Records",
+                "createLabel": "Create a new Dating Record",
+                "createOrEditLabel": "Create or edit a Dating Record",
+                "search": "Search for Dating Record"
+            },
+            "created": "A new Dating Record is created with identifier {{ param }}",
+            "updated": "A Dating Record is updated with identifier {{ param }}",
+            "deleted": "A Dating Record is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Dating Record {{ id }}?"
+            },
+            "detail": {
+                "title": "Dating Record"
+            },
+            "progress": "Progress",
+            "userOne": "User One",
+            "userTwo": "User Two"
+        }
+    }
+}

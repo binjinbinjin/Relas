@@ -7,6 +7,14 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entities",
+                "friendListMySuffix": "Friend List",
+                "chatRoomMySuffix": "Chat Room",
+                "chatRoomMemberMySuffix": "Chat Room Member",
+                "chatMessageMySuffix": "Chat Message",
+                "unreadChatMessageMySuffix": "Unread Chat Message",
+                "datingRecordMySuffix": "Dating Record",
+                "introduceUserMySuffix": "Introduce User",
+                "tweetMySuffix": "Tweet",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

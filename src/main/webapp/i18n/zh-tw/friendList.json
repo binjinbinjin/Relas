@@ -1,0 +1,26 @@
+
+{
+    "relasApp": {
+        "friendList" : {
+            "home": {
+                "title": "Friend Lists",
+                "createLabel": "建立一筆新的 Friend List",
+                "createOrEditLabel": "建立或編輯 Friend List",
+                "search": "搜尋 Friend List"
+            },
+            "created": "新的 Friend List 建立成功，識別碼為 {{ param }}",
+            "updated": "識別碼為 {{ param }} 的 Friend List 更新成功",
+            "deleted": "識別碼為 {{ param }} 的 Friend List 刪除成功",
+            "delete": {
+                "question": "您確定要刪除 Friend List {{ id }} 嗎?"
+            },
+            "detail": {
+                "title": "Friend List"
+            },
+            "userRelationship": "User Relationship",
+            "remark": "Remark",
+            "userID": "User ID",
+            "friendID": "Friend ID"
+        }
+    }
+}
