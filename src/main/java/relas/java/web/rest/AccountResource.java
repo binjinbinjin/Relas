@@ -6,9 +6,11 @@ import relas.java.domain.User;
 import relas.java.repository.UserRepository;
 import relas.java.security.SecurityUtils;
 import relas.java.service.MailService;
+import relas.java.service.UserPortfolioService;
 import relas.java.service.UserService;
 import relas.java.service.dto.UserDTO;
 import relas.java.web.rest.errors.*;
+import relas.java.web.rest.util.DefaultUserPortfolioDTO;
 import relas.java.web.rest.vm.KeyAndPasswordVM;
 import relas.java.web.rest.vm.ManagedUserVM;
 
@@ -37,12 +39,16 @@ public class AccountResource {
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    private final UserPortfolioService userPortfolioService;
+
+    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, UserPortfolioService userPortfolioService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.userPortfolioService = userPortfolioService;
     }
+
 
     /**
      * POST  /register : register the user.
@@ -62,6 +68,7 @@ public class AccountResource {
         userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).ifPresent(u -> {throw new LoginAlreadyUsedException();});
         userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail()).ifPresent(u -> {throw new EmailAlreadyUsedException();});
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        this.userPortfolioService.save(DefaultUserPortfolioDTO.getUserPortfolioDTO(user.getId(), user.getLogin()));
         mailService.sendActivationEmail(user);
     }
 

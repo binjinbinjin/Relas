@@ -5,9 +5,11 @@ import relas.java.RelasApp;
 import relas.java.domain.Authority;
 import relas.java.domain.User;
 import relas.java.repository.AuthorityRepository;
+import relas.java.repository.UserPortfolioRepository;
 import relas.java.repository.UserRepository;
 import relas.java.security.AuthoritiesConstants;
 import relas.java.service.MailService;
+import relas.java.service.UserPortfolioService;
 import relas.java.service.dto.UserDTO;
 import relas.java.web.rest.errors.ExceptionTranslator;
 import relas.java.web.rest.vm.KeyAndPasswordVM;
@@ -70,6 +72,12 @@ public class AccountResourceIntTest {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
+    @Autowired
+    private UserPortfolioService userPortfolioService;
+
+    @Autowired
+    private UserPortfolioRepository userPortfolioRepository;
+
     @Mock
     private UserService mockUserService;
 
@@ -85,10 +93,10 @@ public class AccountResourceIntTest {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(anyObject());
         AccountResource accountResource =
-            new AccountResource(userRepository, userService, mockMailService);
+            new AccountResource(userRepository, userService, mockMailService, userPortfolioService);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService, mockMailService);
+            new AccountResource(userRepository, mockUserService, mockMailService, userPortfolioService);
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)
@@ -178,7 +186,9 @@ public class AccountResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(validUser)))
             .andExpect(status().isCreated());
 
+        User user = userRepository.findOneByLogin("joe").get();
         assertThat(userRepository.findOneByLogin("joe").isPresent()).isTrue();
+        assertThat(userPortfolioRepository.findOneByUser(user).isPresent());
     }
 
     @Test
