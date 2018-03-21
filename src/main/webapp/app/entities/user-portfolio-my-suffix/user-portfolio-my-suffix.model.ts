@@ -11,7 +11,11 @@ export class UserPortfolioMySuffix implements BaseEntity {
         public displayName?: string,
         public description?: string,
         public gender?: GenderEnum,
+        public imageContentType?: string,
+        public image?: any,
         public userId?: number,
+        public userNameLogin?: string,
+        public userNameId?: number,
     ) {
     }
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import javax.persistence.Lob;
 import relas.java.domain.enumeration.GenderEnum;
 
 /**
@@ -20,7 +21,15 @@ public class UserPortfolioDTO implements Serializable {
 
     private GenderEnum gender;
 
+    @Lob
+    private byte[] image;
+    private String imageContentType;
+
     private Long userId;
+
+    private Long userNameId;
+
+    private String userNameLogin;
 
     public Long getId() {
         return id;
@@ -54,12 +63,44 @@ public class UserPortfolioDTO implements Serializable {
         this.gender = gender;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
     public Long getUserId() {
         return userId;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getUserNameId() {
+        return userNameId;
+    }
+
+    public void setUserNameId(Long userId) {
+        this.userNameId = userId;
+    }
+
+    public String getUserNameLogin() {
+        return userNameLogin;
+    }
+
+    public void setUserNameLogin(String userLogin) {
+        this.userNameLogin = userLogin;
     }
 
     @Override
@@ -90,6 +131,7 @@ public class UserPortfolioDTO implements Serializable {
             ", displayName='" + getDisplayName() + "'" +
             ", description='" + getDescription() + "'" +
             ", gender='" + getGender() + "'" +
+            ", image='" + getImage() + "'" +
             "}";
     }
 }

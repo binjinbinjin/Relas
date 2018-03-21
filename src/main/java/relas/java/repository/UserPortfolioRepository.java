@@ -16,4 +16,7 @@ public interface UserPortfolioRepository extends JpaRepository<UserPortfolio, Lo
     @Query("select user_portfolio from UserPortfolio user_portfolio where user_portfolio.user.login = ?#{principal.username}")
     List<UserPortfolio> findByUserIsCurrentUser();
 
+    @Query("select user_portfolio from UserPortfolio user_portfolio where user_portfolio.userName.login = ?#{principal.username}")
+    List<UserPortfolio> findByUserNameIsCurrentUser();
+
 }

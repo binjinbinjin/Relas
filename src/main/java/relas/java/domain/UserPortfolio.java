@@ -36,8 +36,18 @@ public class UserPortfolio implements Serializable {
     @Column(name = "gender")
     private GenderEnum gender;
 
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
+
+    @Column(name = "image_content_type")
+    private String imageContentType;
+
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private User userName;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -87,6 +97,32 @@ public class UserPortfolio implements Serializable {
         this.gender = gender;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public UserPortfolio image(byte[] image) {
+        this.image = image;
+        return this;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public UserPortfolio imageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+        return this;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
     public User getUser() {
         return user;
     }
@@ -98,6 +134,19 @@ public class UserPortfolio implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getUserName() {
+        return userName;
+    }
+
+    public UserPortfolio userName(User user) {
+        this.userName = user;
+        return this;
+    }
+
+    public void setUserName(User user) {
+        this.userName = user;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -128,6 +177,8 @@ public class UserPortfolio implements Serializable {
             ", displayName='" + getDisplayName() + "'" +
             ", description='" + getDescription() + "'" +
             ", gender='" + getGender() + "'" +
+            ", image='" + getImage() + "'" +
+            ", imageContentType='" + getImageContentType() + "'" +
             "}";
     }
 }

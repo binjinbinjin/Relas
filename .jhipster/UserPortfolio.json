@@ -6,6 +6,12 @@
             "relationshipName": "user",
             "otherEntityName": "user",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "userName",
+            "otherEntityName": "user",
+            "otherEntityField": "login"
         }
     ],
     "fields": [
@@ -21,6 +27,11 @@
             "fieldName": "gender",
             "fieldType": "GenderEnum",
             "fieldValues": "MALE,FEMALE"
+        },
+        {
+            "fieldName": "image",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
         }
     ],
     "changelogDate": "20180321025247",

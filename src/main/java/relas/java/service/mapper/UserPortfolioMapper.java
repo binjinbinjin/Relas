@@ -12,9 +12,12 @@ import org.mapstruct.*;
 public interface UserPortfolioMapper extends EntityMapper<UserPortfolioDTO, UserPortfolio> {
 
     @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "userName.id", target = "userNameId")
+    @Mapping(source = "userName.login", target = "userNameLogin")
     UserPortfolioDTO toDto(UserPortfolio userPortfolio);
 
     @Mapping(source = "userId", target = "user")
+    @Mapping(source = "userNameId", target = "userName")
     UserPortfolio toEntity(UserPortfolioDTO userPortfolioDTO);
 
     default UserPortfolio fromId(Long id) {

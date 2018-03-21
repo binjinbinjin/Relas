@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -51,6 +52,11 @@ public class UserPortfolioResourceIntTest {
 
     private static final GenderEnum DEFAULT_GENDER = GenderEnum.MALE;
     private static final GenderEnum UPDATED_GENDER = GenderEnum.FEMALE;
+
+    private static final byte[] DEFAULT_IMAGE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(2, "1");
+    private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
 
     @Autowired
     private UserPortfolioRepository userPortfolioRepository;
@@ -101,7 +107,9 @@ public class UserPortfolioResourceIntTest {
         UserPortfolio userPortfolio = new UserPortfolio()
             .displayName(DEFAULT_DISPLAY_NAME)
             .description(DEFAULT_DESCRIPTION)
-            .gender(DEFAULT_GENDER);
+            .gender(DEFAULT_GENDER)
+            .image(DEFAULT_IMAGE)
+            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
         return userPortfolio;
     }
 
@@ -130,6 +138,8 @@ public class UserPortfolioResourceIntTest {
         assertThat(testUserPortfolio.getDisplayName()).isEqualTo(DEFAULT_DISPLAY_NAME);
         assertThat(testUserPortfolio.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testUserPortfolio.getGender()).isEqualTo(DEFAULT_GENDER);
+        assertThat(testUserPortfolio.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testUserPortfolio.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
 
         // Validate the UserPortfolio in Elasticsearch
         UserPortfolio userPortfolioEs = userPortfolioSearchRepository.findOne(testUserPortfolio.getId());
@@ -169,7 +179,9 @@ public class UserPortfolioResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(userPortfolio.getId().intValue())))
             .andExpect(jsonPath("$.[*].displayName").value(hasItem(DEFAULT_DISPLAY_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())));
+            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
     }
 
     @Test
@@ -185,7 +197,9 @@ public class UserPortfolioResourceIntTest {
             .andExpect(jsonPath("$.id").value(userPortfolio.getId().intValue()))
             .andExpect(jsonPath("$.displayName").value(DEFAULT_DISPLAY_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()));
+            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
+            .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.image").value(Base64Utils.encodeToString(DEFAULT_IMAGE)));
     }
 
     @Test
@@ -211,7 +225,9 @@ public class UserPortfolioResourceIntTest {
         updatedUserPortfolio
             .displayName(UPDATED_DISPLAY_NAME)
             .description(UPDATED_DESCRIPTION)
-            .gender(UPDATED_GENDER);
+            .gender(UPDATED_GENDER)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
         UserPortfolioDTO userPortfolioDTO = userPortfolioMapper.toDto(updatedUserPortfolio);
 
         restUserPortfolioMockMvc.perform(put("/api/user-portfolios")
@@ -226,6 +242,8 @@ public class UserPortfolioResourceIntTest {
         assertThat(testUserPortfolio.getDisplayName()).isEqualTo(UPDATED_DISPLAY_NAME);
         assertThat(testUserPortfolio.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testUserPortfolio.getGender()).isEqualTo(UPDATED_GENDER);
+        assertThat(testUserPortfolio.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testUserPortfolio.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
 
         // Validate the UserPortfolio in Elasticsearch
         UserPortfolio userPortfolioEs = userPortfolioSearchRepository.findOne(testUserPortfolio.getId());
@@ -287,7 +305,9 @@ public class UserPortfolioResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(userPortfolio.getId().intValue())))
             .andExpect(jsonPath("$.[*].displayName").value(hasItem(DEFAULT_DISPLAY_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())));
+            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
     }
 
     @Test

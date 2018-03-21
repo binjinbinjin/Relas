@@ -33,7 +33,9 @@
             <th jhiSortBy="displayName"><span jhiTranslate="relasApp.userPortfolio.displayName">Display Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="description"><span jhiTranslate="relasApp.userPortfolio.description">Description</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="gender"><span jhiTranslate="relasApp.userPortfolio.gender">Gender</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="image"><span jhiTranslate="relasApp.userPortfolio.image">Image</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="userId"><span jhiTranslate="relasApp.userPortfolio.user">User</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="userNameLogin"><span jhiTranslate="relasApp.userPortfolio.userName">User Name</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -44,7 +46,16 @@
                 <td>{{userPortfolio.description}}</td>
                 <td jhiTranslate="{{'relasApp.GenderEnum.' + userPortfolio.gender}}">{{userPortfolio.gender}}</td>
                 <td>
+                    <a *ngIf="userPortfolio.image" (click)="openFile(userPortfolio.imageContentType, userPortfolio.image)">
+                        <img [src]="'data:' + userPortfolio.imageContentType + ';base64,' + userPortfolio.image" style="max-height: 30px;" alt="userPortfolio image"/>
+                    </a>
+                    <span *ngIf="userPortfolio.image">{{userPortfolio.imageContentType}}, {{byteSize(userPortfolio.image)}}</span>
+                </td>
+                <td>
                     {{userPortfolio.userId}}
+                </td>
+                <td>
+                    {{userPortfolio.userNameLogin}}
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

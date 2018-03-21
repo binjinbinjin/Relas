@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { UserPortfolioMySuffix } from './user-portfolio-my-suffix.model';
 import { UserPortfolioMySuffixService } from './user-portfolio-my-suffix.service';
@@ -29,6 +29,7 @@ export class UserPortfolioMySuffixComponent implements OnInit, OnDestroy {
     constructor(
         private userPortfolioService: UserPortfolioMySuffixService,
         private jhiAlertService: JhiAlertService,
+        private dataUtils: JhiDataUtils,
         private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
@@ -120,6 +121,14 @@ export class UserPortfolioMySuffixComponent implements OnInit, OnDestroy {
 
     trackId(index: number, item: UserPortfolioMySuffix) {
         return item.id;
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
     }
     registerChangeInUserPortfolios() {
         this.eventSubscriber = this.eventManager.subscribe('userPortfolioListModification', (response) => this.reset());

@@ -20,7 +20,9 @@
             "displayName": "Display Name",
             "description": "Description",
             "gender": "Gender",
-            "user": "User"
+            "image": "Image",
+            "user": "User",
+            "userName": "User Name"
         }
     }
 }

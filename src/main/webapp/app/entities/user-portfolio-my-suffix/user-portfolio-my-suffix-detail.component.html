@@ -16,9 +16,22 @@
         <dd>
             <span jhiTranslate="{{'relasApp.GenderEnum.' + userPortfolio.gender}}">{{userPortfolio.gender}}</span>
         </dd>
+        <dt><span jhiTranslate="relasApp.userPortfolio.image">Image</span></dt>
+        <dd>
+            <div *ngIf="userPortfolio.image">
+                <a (click)="openFile(userPortfolio.imageContentType, userPortfolio.image)">
+                    <img [src]="'data:' + userPortfolio.imageContentType + ';base64,' + userPortfolio.image" style="max-width: 100%;" alt="userPortfolio image"/>
+                </a>
+                {{userPortfolio.imageContentType}}, {{byteSize(userPortfolio.image)}}
+            </div>
+        </dd>
         <dt><span jhiTranslate="relasApp.userPortfolio.user">User</span></dt>
         <dd>
             {{userPortfolio.userId}}
+        </dd>
+        <dt><span jhiTranslate="relasApp.userPortfolio.userName">User Name</span></dt>
+        <dd>
+            {{userPortfolio.userNameLogin}}
         </dd>
     </dl>
 
