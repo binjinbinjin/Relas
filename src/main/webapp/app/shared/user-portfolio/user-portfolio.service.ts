@@ -18,5 +18,7 @@ export class UserPortfolioService {
 
   updatePortfolio(portfolio: UserPortfolio): Observable<UserPortfolioServiceConnection>  {
     return this.http.put<UserPortfolio>(this.resourceSearchUrl, portfolio, {observe: 'response'});
-  }  
+  }
+
+  
 }
