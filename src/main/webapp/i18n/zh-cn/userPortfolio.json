@@ -1,0 +1,26 @@
+
+{
+    "relasApp": {
+        "userPortfolio" : {
+            "home": {
+                "title": "User Portfolios",
+                "createLabel": "创建新 User Portfolio",
+                "createOrEditLabel": "创建或编辑 User Portfolio",
+                "search": "查找 User Portfolio"
+            },
+            "created": "User Portfolio {{ param }} 创建成功",
+            "updated": "User Portfolio {{ param }} 更新成功",
+            "deleted": "User Portfolio {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 User Portfolio {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "User Portfolio"
+            },
+            "displayName": "Display Name",
+            "description": "Description",
+            "gender": "Gender",
+            "user": "User"
+        }
+    }
+}

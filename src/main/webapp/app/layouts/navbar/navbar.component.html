@@ -135,6 +135,12 @@
                             <span jhiTranslate="global.menu.entities.tweetMySuffix">Tweet My Suffix</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="user-portfolio-my-suffix" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.entities.userPortfolioMySuffix">User Portfolio My Suffix</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

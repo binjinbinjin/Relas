@@ -13,6 +13,7 @@
     <include file="config/liquibase/changelog/20180320031054_added_entity_DatingRecord.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180320031055_added_entity_IntroduceUser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180320031056_added_entity_Tweet.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180321025247_added_entity_UserPortfolio.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20180320031049_added_entity_constraints_FriendList.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180320031051_added_entity_constraints_ChatRoomMember.xml" relativeToChangelogFile="false"/>
@@ -21,5 +22,6 @@
     <include file="config/liquibase/changelog/20180320031054_added_entity_constraints_DatingRecord.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180320031055_added_entity_constraints_IntroduceUser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180320031056_added_entity_constraints_Tweet.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180321025247_added_entity_constraints_UserPortfolio.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

@@ -8,6 +8,7 @@ import { RelasUnreadChatMessageMySuffixModule } from './unread-chat-message-my-s
 import { RelasDatingRecordMySuffixModule } from './dating-record-my-suffix/dating-record-my-suffix.module';
 import { RelasIntroduceUserMySuffixModule } from './introduce-user-my-suffix/introduce-user-my-suffix.module';
 import { RelasTweetMySuffixModule } from './tweet-my-suffix/tweet-my-suffix.module';
+import { RelasUserPortfolioMySuffixModule } from './user-portfolio-my-suffix/user-portfolio-my-suffix.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -20,6 +21,7 @@ import { RelasTweetMySuffixModule } from './tweet-my-suffix/tweet-my-suffix.modu
         RelasDatingRecordMySuffixModule,
         RelasIntroduceUserMySuffixModule,
         RelasTweetMySuffixModule,
+        RelasUserPortfolioMySuffixModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

@@ -1,0 +1,26 @@
+
+{
+    "relasApp": {
+        "userPortfolio" : {
+            "home": {
+                "title": "User Portfolios",
+                "createLabel": "Create a new User Portfolio",
+                "createOrEditLabel": "Create or edit a User Portfolio",
+                "search": "Search for User Portfolio"
+            },
+            "created": "A new User Portfolio is created with identifier {{ param }}",
+            "updated": "A User Portfolio is updated with identifier {{ param }}",
+            "deleted": "A User Portfolio is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete User Portfolio {{ id }}?"
+            },
+            "detail": {
+                "title": "User Portfolio"
+            },
+            "displayName": "Display Name",
+            "description": "Description",
+            "gender": "Gender",
+            "user": "User"
+        }
+    }
+}

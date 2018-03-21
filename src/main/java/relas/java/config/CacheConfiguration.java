@@ -51,6 +51,7 @@ public class CacheConfiguration {
             cm.createCache(relas.java.domain.DatingRecord.class.getName(), jcacheConfiguration);
             cm.createCache(relas.java.domain.IntroduceUser.class.getName(), jcacheConfiguration);
             cm.createCache(relas.java.domain.Tweet.class.getName(), jcacheConfiguration);
+            cm.createCache(relas.java.domain.UserPortfolio.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
