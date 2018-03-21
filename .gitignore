@@ -141,3 +141,11 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+
+
+######################
+# Image files
+######################
+*.png
+*.jpg
+*.jpeg
