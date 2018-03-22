@@ -1,8 +1,11 @@
 package relas.java.service;
 
+import relas.java.domain.enumeration.GenderEnum;
 import relas.java.service.dto.UserPortfolioDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Service Interface for managing UserPortfolio.
@@ -26,6 +29,14 @@ public interface UserPortfolioService {
     Page<UserPortfolioDTO> findAll(Pageable pageable);
 
     /**
+     * Get all the userPortfolios.
+     *
+     * @param gender gender
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    Page<UserPortfolioDTO> findGender(GenderEnum gender, Pageable pageable);
+    /**
      * Get the "id" userPortfolio.
      *
      * @param id the id of the entity
@@ -44,7 +55,7 @@ public interface UserPortfolioService {
      * Search for the userPortfolio corresponding to the query.
      *
      * @param query the query of the search
-     * 
+     *
      * @param pageable the pagination information
      * @return the list of entities
      */

@@ -1,6 +1,7 @@
 package relas.java.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import relas.java.domain.enumeration.GenderEnum;
 import relas.java.service.UserPortfolioService;
 import relas.java.web.rest.errors.BadRequestAlertException;
 import relas.java.web.rest.util.HeaderUtil;
@@ -141,6 +142,15 @@ public class UserPortfolioResource {
         log.debug("REST request to search for a page of UserPortfolios for query {}", query);
         Page<UserPortfolioDTO> page = userPortfolioService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/user-portfolios");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/_search/user-portfolios/gender")
+    @Timed
+    public ResponseEntity<List<UserPortfolioDTO>> getUserPortfolios(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for all UserPortfolios that match the given gender, gender {}", pageable.getSort());
+        Page<UserPortfolioDTO> page = userPortfolioService.findGender(GenderEnum.valueOf(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/user-portfolios/gender");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 

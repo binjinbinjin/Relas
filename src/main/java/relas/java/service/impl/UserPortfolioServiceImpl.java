@@ -1,5 +1,6 @@
 package relas.java.service.impl;
 
+import relas.java.domain.enumeration.GenderEnum;
 import relas.java.service.UserPortfolioService;
 import relas.java.domain.UserPortfolio;
 import relas.java.repository.UserPortfolioRepository;
@@ -13,6 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -64,6 +69,14 @@ public class UserPortfolioServiceImpl implements UserPortfolioService {
     public Page<UserPortfolioDTO> findAll(Pageable pageable) {
         log.debug("Request to get all UserPortfolios");
         return userPortfolioRepository.findAll(pageable)
+            .map(userPortfolioMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<UserPortfolioDTO> findGender(GenderEnum gender, Pageable pageable) {
+        log.debug("Request to get UserPortfolio by gender {}", gender);
+        return userPortfolioRepository.findUserPortfolioByGender(gender, pageable)
             .map(userPortfolioMapper::toDto);
     }
 
