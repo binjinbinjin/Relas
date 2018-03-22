@@ -72,6 +72,13 @@ public class UserPortfolioServiceImpl implements UserPortfolioService {
             .map(userPortfolioMapper::toDto);
     }
 
+    /**
+     * Get all the userPortfolios with specifies gender.
+     *
+     * @param gender gender
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
     @Override
     @Transactional(readOnly = true)
     public Page<UserPortfolioDTO> findGender(GenderEnum gender, Pageable pageable) {
@@ -79,6 +86,22 @@ public class UserPortfolioServiceImpl implements UserPortfolioService {
         return userPortfolioRepository.findUserPortfolioByGender(gender, pageable)
             .map(userPortfolioMapper::toDto);
     }
+
+    /**
+     * Get the userPortfolios with specifies login.
+     *
+     * @param login login
+     * @return user portfolio
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public UserPortfolioDTO findLogin(String login) {
+        log.debug("Request to get UserPortfolio by login {}", login);
+        UserPortfolio userPortfolio = userPortfolioRepository.findUserPortfolioByUserName_Login(login).get();
+        return userPortfolioMapper.toDto(userPortfolio);
+    }
+
+
 
     /**
      * Get one userPortfolio by id.

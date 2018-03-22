@@ -34,12 +34,20 @@ public interface UserPortfolioRepository extends JpaRepository<UserPortfolio, Lo
     Optional<UserPortfolio> findOneByUser(User user);
 
     /**
-     * Get all the userPortfolios.
+     * Get all the userPortfolios by specifies gender.
      *
      * @param gender gender
      * @param pageable the pagination information
      * @return Page of UserPortfolio
      */
     Page<UserPortfolio> findUserPortfolioByGender(GenderEnum gender, Pageable pageable);
+
+    /**
+     * Get the userPortfolios by specifies login
+     *
+     * @param login userlogin
+     * @return UserPortfolio that match the login
+     */
+    Optional<UserPortfolio> findUserPortfolioByUserName_Login(String login);
 
 }

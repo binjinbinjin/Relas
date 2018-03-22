@@ -29,13 +29,22 @@ public interface UserPortfolioService {
     Page<UserPortfolioDTO> findAll(Pageable pageable);
 
     /**
-     * Get all the userPortfolios.
+     * Get all the userPortfolios with defined gender.
      *
      * @param gender gender
      * @param pageable the pagination information
      * @return the list of entities
      */
     Page<UserPortfolioDTO> findGender(GenderEnum gender, Pageable pageable);
+
+    /**
+     * Get all the userPortfolios with defined login.
+     *
+     * @param login user login
+     * @return the userPortfolio
+     */
+    UserPortfolioDTO findLogin(String login);
+
     /**
      * Get the "id" userPortfolio.
      *

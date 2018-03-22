@@ -145,13 +145,36 @@ public class UserPortfolioResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    /**
+     * Get  /_search/user-portfolios/gender?gender=:gender : search for the userPortfolio corresponding
+     * to the gender.
+     *
+     * @param gender the query of the userPortfolio search must be either MALE or FEMALE
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
     @GetMapping("/_search/user-portfolios/gender")
     @Timed
-    public ResponseEntity<List<UserPortfolioDTO>> getUserPortfolios(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for all UserPortfolios that match the given gender, gender {}", pageable.getSort());
-        Page<UserPortfolioDTO> page = userPortfolioService.findGender(GenderEnum.valueOf(query), pageable);
-        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/user-portfolios/gender");
+    public ResponseEntity<List<UserPortfolioDTO>> getUserPortfoliosByGender(@RequestParam String gender, Pageable pageable) {
+        log.debug("REST request to search for all UserPortfolios that match the given gender, gender {}", gender);
+        Page<UserPortfolioDTO> page = userPortfolioService.findGender(GenderEnum.valueOf(gender), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(gender, page, "/api/_search/user-portfolios/gender");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * Get /_search/user-portfolios/login?login=:login : search for the userPortfolio corresponding
+     * to user login
+     *
+     * @param login the login of User
+     * @return the result of the search
+     */
+    @GetMapping("/_search/user-portfolios/login")
+    @Timed
+    public ResponseEntity<UserPortfolioDTO> getUserPortfoliosByLogin(@RequestParam String login) {
+        log.debug("REST request to get UserPortfolios that match the  login {}", login);
+        UserPortfolioDTO userPortfolioDTO = userPortfolioService.findLogin(login);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(userPortfolioDTO));
     }
 
 }
