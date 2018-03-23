@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -97,8 +98,12 @@ public class UserPortfolioServiceImpl implements UserPortfolioService {
     @Transactional(readOnly = true)
     public UserPortfolioDTO findLogin(String login) {
         log.debug("Request to get UserPortfolio by login {}", login);
-        UserPortfolio userPortfolio = userPortfolioRepository.findUserPortfolioByUserName_Login(login).get();
-        return userPortfolioMapper.toDto(userPortfolio);
+        Optional<UserPortfolio> get = userPortfolioRepository.findUserPortfolioByUserName_Login(login);
+        if(get.isPresent()) {
+            UserPortfolio userPortfolio = get.get();
+            return userPortfolioMapper.toDto(userPortfolio);
+        }
+       return null;
     }
 
 
