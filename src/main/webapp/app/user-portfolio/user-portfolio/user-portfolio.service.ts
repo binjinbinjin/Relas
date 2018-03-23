@@ -3,8 +3,8 @@ import { SERVER_API_URL } from '../../app.constants';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { UserPortfolio } from './user-portfolio.model';
-import { Principal } from '..';
 import { creatRequestOptionWithoutPaging, createRequestOption } from '../../shared';
+import { Principal } from '../../shared/auth/principal.service';
 
 export type UserPortfolioServiceConnection = HttpResponse<UserPortfolio>;
 @Injectable()
