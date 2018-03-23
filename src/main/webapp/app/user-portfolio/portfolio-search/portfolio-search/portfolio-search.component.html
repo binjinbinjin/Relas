@@ -1,5 +1,4 @@
-<p>
-  portfolio-search works!
-  <app-search-bar></app-search-bar>
-  <app-search-result-display></app-search-result-display>
-</p>
+<div class="container-fluid">
+  <app-search-bar (searchResult)="search($event)"></app-search-bar>
+  <app-search-result-display [page]="pageNumber" [userPortfolioss]="result" (flipPage)="pageGenderChange($event)"></app-search-result-display>
+</div>
