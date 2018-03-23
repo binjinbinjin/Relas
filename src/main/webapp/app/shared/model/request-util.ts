@@ -22,11 +22,11 @@ export const createRequestOption = (req?: any): HttpParams => {
  *
  * */
 export const creatRequestOptionWithoutPaging = (req: any): HttpParams => {
-  if(!req)
-      throw Error("req cant be empty in + creatRequestOptionWithoutPaging()");
+  if (!req)
+      throw Error('req cant be empty in "creatRequestOptionWithoutPaging"');
 
   let option: HttpParams = new HttpParams();
-  Object.keys(req).forEach((key)=> {
+  Object.keys(req).forEach((key) => {
       option = option.set(key, req[key]);
   });
 
