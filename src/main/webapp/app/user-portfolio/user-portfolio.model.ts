@@ -1,11 +1,13 @@
+/**Gender in user portfolio */
 export enum gender {
-    'MALE', 'FEMALE'
+    'MALE' = 0, 'FEMALE' = 1
 }
+/**UserPortfolio model */
 export interface UserPortfolio {
     id?: number;
     displayName?: string;
     description?: string;
-    gender?: gender;
+    gender: String;
     imageContentType?: string;
     image?: any;
     userId?: number;
