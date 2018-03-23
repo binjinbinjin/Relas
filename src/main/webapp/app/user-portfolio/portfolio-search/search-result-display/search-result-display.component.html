@@ -1,3 +1,43 @@
-<p>
-  search-result-display works!
-</p>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>
+          <span jhiTranslate="relasApp.userPortfolio.image">Image</span>
+        </th>
+        <th>
+          <span jhiTranslate="relasApp.userPortfolio.userName">User Name</span>
+        </th>
+        <th>
+          <span jhiTranslate="relasApp.userPortfolio.displayName">Display Name</span>
+        </th>
+        <th>
+          <span jhiTranslate="relasApp.userPortfolio.gender">Gender</span>
+        </th>
+        <th>
+          <span jhiTranslate="relasApp.userPortfolio.description">Description</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>     
+     <tr *ngFor="let userPortfolio of userPortfolios">
+        <td>
+          <a *ngIf="userPortfolio.image" (click)="openImage(userPortfolio.imageContentType, userPortfolio.image)">
+            <img [src]="'data:' + userPortfolio.imageContentType + ';base64,' + userPortfolio.image" style="max-height: 30px;" alt="userPortfolio image"
+            />
+          </a>
+        </td>
+        <td>
+          {{userPortfolio.userNameLogin}}
+        </td>
+        <td>{{userPortfolio.displayName}}</td>
+        <td jhiTranslate="{{'relasApp.GenderEnum.' + userPortfolio.gender}}">{{userPortfolio.gender}}</td>
+        <td>{{userPortfolio.description}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="text-align: right;">
+    <button *ngIf="page > 0" type="button" class="btn btn-primary" (click)="prevPage()">{{prevTag}} Prev </button>   
+    <button *ngIf="page >= 0" type="button" class="btn btn-primary" (click)="nextPage()">Next {{nextTag}}</button>
+  </div>
+</div>
