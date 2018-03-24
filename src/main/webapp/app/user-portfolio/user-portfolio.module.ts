@@ -7,16 +7,19 @@ import { SearchResultDisplayComponent } from './portfolio-search/search-result-d
 import { SearchBarComponent } from './portfolio-search/search-bar/search-bar.component';
 import { UserPortfolioService } from './user-portfolio-service/user-portfolio.service';
 import { RelasSharedModule } from '../shared';
-
+import { PortfolioChangeFormComponent } from './portfolio-change-form/portfolio-change-form.component';
+import { JhiDataUtils } from 'ng-jhipster';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
-  exports: [PortfolioSearchComponent],
+  exports: [PortfolioSearchComponent, PortfolioChangeComponent],
   imports: [
     CommonModule,
     FormsModule,
     RelasSharedModule,
+    NgbModule
   ],
-  providers: [UserPortfolioService],
-  declarations: [PortfolioSearchComponent, PortfolioChangeComponent, SearchResultDisplayComponent, SearchBarComponent],
+  providers: [UserPortfolioService, JhiDataUtils],
+  declarations: [PortfolioSearchComponent, PortfolioChangeComponent, SearchResultDisplayComponent, SearchBarComponent, PortfolioChangeFormComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UserPortfolioModule { }
