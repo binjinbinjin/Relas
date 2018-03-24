@@ -1,0 +1,27 @@
+<form *ngIf="portfolio" #f="ngForm" (ngSubmit)="submitForm()" > 
+  <div class="form-group">
+    <label for="displayName">Display Name</label>
+    <input type="text" class="form-control" id="displayName" name="displayName" required [(ngModel)]="portfolio.displayName">
+  </div>
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <select class="form-control" id="gender" name="gender" [(ngModel)]="portfolio.gender" required>
+        <option [value]="userGender[0]">{{userGender[0]}}</option>
+        <option [value]="userGender[1]">{{userGender[1]}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" class="form-control" id="description" name="description" [(ngModel)]="portfolio.description">
+    </div>
+    <div class="form-group">
+      <label class="form-control-label" jhiTranslate="relasApp.userPortfolio.image" for="field_image">Image</label>
+      <div>
+        <img [src]="'data:' + portfolio.imageContentType + ';base64,' + portfolio.image" style="max-height: 100px;" alt="userPortfolio image" />
+        <input type="file" id="file_image" (change)="setFileData($event, portfolio, 'image', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+      </div>
+      <input type="hidden" class="form-control" name="image" id="field_image" [(ngModel)]="portfolio.image" />
+      <input type="hidden" class="form-control" name="imageContentType" id="field_imageContentType" [(ngModel)]="portfolio.imageContentType"/>
+    </div>
+    <button *ngIf="f.valid" type="submit" class="btn btn-primary">Submit</button>
+</form>
