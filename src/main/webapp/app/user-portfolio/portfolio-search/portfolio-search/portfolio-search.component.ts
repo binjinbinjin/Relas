@@ -1,9 +1,10 @@
 import { gender } from '../../user-portfolio.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { PortfolioSearchOption } from '../search-util';
 import { UserPortfolioService } from '../../user-portfolio-service/user-portfolio.service';
 import { UserPortfolio } from '../../user-portfolio.model';
 import { ITEMS_PER_PAGE } from '../../../shared';
+import { UserIDAndLogin } from '../../../shared/userID-userLogin-model';
 @Component({
   selector: 'app-portfolio-search',
   templateUrl: './portfolio-search.component.html',
@@ -19,11 +20,15 @@ export class PortfolioSearchComponent implements OnInit {
   /**Search result */
   result: UserPortfolio[];
 
+  /**Click user portfolio */
+  @Output('clickUser') clikeUser: EventEmitter<UserIDAndLogin>;
+
   /**record of the value of last gender search */
   reqGenderHistory: gender;
   constructor(private userPortfolioService: UserPortfolioService) {
     this.result = [];
     this.pageNumber = -1;
+    this.clikeUser = new EventEmitter();
    }
 
   ngOnInit() {
@@ -79,5 +84,10 @@ export class PortfolioSearchComponent implements OnInit {
   /**Generate pagination info for search */
   get page() {
     return { page: this.pageNumber, size: ITEMS_PER_PAGE, sort: ['id', 'asc'] };
+  }
+
+  /**Click user portfolilo*/
+  clickPortfolio(user: UserIDAndLogin) {
+    this.clikeUser.emit(user);
   }
 }
