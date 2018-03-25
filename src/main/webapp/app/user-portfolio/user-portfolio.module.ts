@@ -10,13 +10,15 @@ import { RelasSharedModule } from '../shared';
 import { PortfolioChangeFormComponent } from './portfolio-change-form/portfolio-change-form.component';
 import { JhiDataUtils } from 'ng-jhipster';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DirectivesModule } from '../directives/directives.module';
 @NgModule({
   exports: [PortfolioSearchComponent, PortfolioChangeComponent],
   imports: [
     CommonModule,
     FormsModule,
     RelasSharedModule,
-    NgbModule
+    NgbModule,
+    DirectivesModule
   ],
   providers: [UserPortfolioService, JhiDataUtils],
   declarations: [PortfolioSearchComponent, PortfolioChangeComponent, SearchResultDisplayComponent, SearchBarComponent, PortfolioChangeFormComponent],
