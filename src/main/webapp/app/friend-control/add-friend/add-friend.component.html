@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <app-portfolio-search (clickUser)="clickUser($event, content)"></app-portfolio-search>
+  <ng-template #content>
+    <div class="modal-header">
+      <h4 class="modal-title">Modal title</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Add Friend </p>
+      <form #f="ngForm">
+        <label for="reason">Pick a reason</label>
+        <select class="form-group" name="reason" id="reason" #reasonSelect="ngModel" ngModel required>
+          <option> </option>
+          <option [value]="reason[0]">{{reason[0]}}</option>
+          <option [value]="reason[1]">{{reason[1]}}</option>
+          <option [value]="reason[2]">{{reason[2]}}</option>
+          <option [value]="reason[3]">{{reason[3]}}</option>
+          <option [value]="reason[4]">{{reason[4]}}</option>
+          <option [value]="reason[5]">{{reason[5]}}</option>
+        </select>
+        <div *ngIf="reasonSelect.invalid" class="alert alert-danger">
+          Please pick a reason to for request
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button  type="button" class="btn btn-outline-light" (click)="close()">No</button>
+      <button *ngIf="f.valid" type="button" class="btn btn-primary" (click)="close(reasonSelect.value)">Yes</button>
+    </div>
+  </ng-template>
+</div>
+
