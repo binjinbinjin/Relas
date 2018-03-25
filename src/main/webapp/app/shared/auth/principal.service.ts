@@ -102,7 +102,11 @@ export class Principal {
         return this.isIdentityResolved() ? this.userIdentity.imageUrl : null;
     }
 
-    getUserLogin(): String {
+    getUserLogin(): string {
         return  this.isIdentityResolved() ? this.userIdentity.login : null;
+    }
+
+    getUserID(): number {
+        return this.isIdentityResolved() ? this.userIdentity.id : -1;
     }
 }
