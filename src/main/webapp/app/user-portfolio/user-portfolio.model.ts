@@ -2,6 +2,7 @@
 export enum gender {
     'MALE' = 0, 'FEMALE' = 1
 }
+
 /**UserPortfolio model */
 export interface UserPortfolio {
     id?: number;
