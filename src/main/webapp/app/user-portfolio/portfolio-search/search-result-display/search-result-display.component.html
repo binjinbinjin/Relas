@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>     
-     <tr *ngFor="let userPortfolio of userPortfolios">
+     <tr appHoverPointer appHoverAddBorder *ngFor="let userPortfolio of userPortfolios" (click)="clickPortfolio(userPortfolio.id, userPortfolio.userNameLogin)">
         <td>
           <a *ngIf="userPortfolio.image" (click)="openImage(userPortfolio.imageContentType, userPortfolio.image)">
             <img [src]="'data:' + userPortfolio.imageContentType + ';base64,' + userPortfolio.image" style="max-height: 30px;" alt="userPortfolio image"

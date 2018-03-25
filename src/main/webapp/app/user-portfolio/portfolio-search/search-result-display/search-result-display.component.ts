@@ -1,3 +1,4 @@
+import { UserIDAndLogin } from './../../../shared/userID-userLogin-model';
 import { ProfileService } from './../../../layouts/profiles/profile.service';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { UserPortfolio } from '../../user-portfolio.model';
@@ -14,6 +15,8 @@ export class SearchResultDisplayComponent  {
   @Input('userPortfolioss') userPortfolios: UserPortfolio[];
   /**Filp page if result if pagable */
   @Output('flipPage') flipPage: EventEmitter<number>;
+  /**Click user portfolio */
+  @Output('clickUser') clikeUser: EventEmitter<UserIDAndLogin>;
   /**Page number; (if page < 0 that means current result is not pagable) */
   @Input('page') page: number;
   /**Symbol of >> */
@@ -26,6 +29,7 @@ export class SearchResultDisplayComponent  {
     this.nextTag = '>>';
     this.prevTag = '<<';
     this.flipPage = new EventEmitter();
+    this.clikeUser = new EventEmitter();
   }
 
   /**Open the image for user portfolio */
@@ -45,6 +49,11 @@ export class SearchResultDisplayComponent  {
   prevPage() {
     this.page--;
     this.emitPage();
+  }
+
+  /**Click user portfolilo*/
+  clickPortfolio(userID: number, userLogin: string) {
+    this.clikeUser.emit({id: userID, login: userLogin});
   }
 
   /**Emmit the page change */
