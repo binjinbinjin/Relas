@@ -74,7 +74,6 @@ export class FriendshipService {
   }
 
   sendFriendRequest(userLogin: string, userID: number, requetReason: friendRequestReason) {
-    console.log("send1");
     const selfLogin = this.principalService.getUserLogin();
     const selfID = this.principalService.getUserID();
     if (!selfLogin || selfID < 0)
@@ -82,7 +81,6 @@ export class FriendshipService {
     const reqBody = this.createRqustObject(selfID, selfLogin, selfID, selfLogin, userID, userLogin, requetReason);
 
     if (this.stompClient !== null && this.stompClient.connected) {
-      console.log("send3");
       this.stompClient.send(
         '/addFriend/req', // destination
         JSON.stringify(reqBody), // body
@@ -94,7 +92,6 @@ export class FriendshipService {
   subscribe() {
     this.connection.then(() => {
       this.subscriber = this.stompClient.subscribe('/addFriend/' + this.principalService.getUserLogin(), (data) => {
-        console.log("finished to subscribe");
         this.listenerObserver.next(JSON.parse(data.body));
       });
     });
