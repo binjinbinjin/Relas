@@ -13,12 +13,12 @@ public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMes
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
             .nullDestMatcher().authenticated()
-            .simpDestMatchers("/topic/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
+            .simpDestMatchers("/topic/tracker", "/chat/tracker", "/addFriend/tracker").authenticated()//.hasAuthority(AuthoritiesConstants.ADMIN)
             // matches any destination that starts with /topic/
             // (i.e. cannot send messages directly to /topic/)
             // (i.e. cannot subscribe to /topic/messages/* to get messages sent to
             // /topic/messages-user<id>)
-            .simpDestMatchers("/topic/**").authenticated()
+            .simpDestMatchers("/topic/**", "/chat/**", "/addFriend/**").authenticated()
             // message types other than MESSAGE and SUBSCRIBE
             .simpTypeMatchers(SimpMessageType.MESSAGE, SimpMessageType.SUBSCRIBE).denyAll()
             // catch all
@@ -29,7 +29,5 @@ public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMes
      * Disables CSRF for Websockets.
      */
     @Override
-    protected boolean sameOriginDisabled() {
-        return true;
-    }
+    protected boolean sameOriginDisabled() {return true;}
 }

@@ -1,5 +1,7 @@
 package relas.java.config;
 
+import org.springframework.messaging.simp.user.SimpUserRegistry;
+import org.springframework.web.socket.messaging.DefaultSimpUserRegistry;
 import relas.java.security.AuthoritiesConstants;
 import io.github.jhipster.config.JHipsterProperties;
 import org.slf4j.Logger;
@@ -41,13 +43,13 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
+        config.enableSimpleBroker("/topic", "/addFriend");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         String[] allowedOrigins = Optional.ofNullable(jHipsterProperties.getCors().getAllowedOrigins()).map(origins -> origins.toArray(new String[0])).orElse(new String[0]);
-        registry.addEndpoint("/websocket/tracker")
+        registry.addEndpoint("/websocket/tracker", "/websocket/addFriend")
             .setHandshakeHandler(defaultHandshakeHandler())
             .setAllowedOrigins(allowedOrigins)
             .withSockJS()
