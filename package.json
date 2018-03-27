@@ -8,6 +8,8 @@
     "node_modules"
   ],
   "dependencies": {
+    "@angular-redux/form": "^6.7.0",
+    "@angular-redux/router": "^7.0.0",
     "@angular/common": "5.2.0",
     "@angular/compiler": "5.2.0",
     "@angular/core": "5.2.0",
