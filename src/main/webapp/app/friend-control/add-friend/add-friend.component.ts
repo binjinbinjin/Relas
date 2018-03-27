@@ -27,6 +27,7 @@ export class AddFriendComponent implements OnInit {
   constructor(private friendshipService: FriendshipService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    // this.friendshipService.subscribe();
     this.reason = friendRequestReason;
   }
 
@@ -41,8 +42,7 @@ export class AddFriendComponent implements OnInit {
 
   /**Send the request */
   sendRequest(reason: friendRequestReason) {
-    this.friendshipService.sendFriendRequest(this.req.login, this.req.id, reason).toPromise().then((response) => {
-    });
+    this.friendshipService.sendFriendRequest(this.req.login, this.req.id, reason);
   }
 
   /**Open the add user confirm modal */

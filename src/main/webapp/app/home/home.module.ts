@@ -1,3 +1,4 @@
+import { FriendControlModule } from './../friend-control/friend-control.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -8,7 +9,8 @@ import { HOME_ROUTE, HomeComponent } from './';
 @NgModule({
     imports: [
         RelasSharedModule,
-        RouterModule.forChild([ HOME_ROUTE ])
+        RouterModule.forChild([ HOME_ROUTE ]),
+        FriendControlModule
     ],
     declarations: [
         HomeComponent,
