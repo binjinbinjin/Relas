@@ -1,15 +1,18 @@
-import { CSRFService } from './../../shared/auth/csrf.service';
-import { AuthServerProvider } from './../../shared/auth/auth-jwt.service';
+import { dispatch } from '@angular-redux/store';
 import { Injectable } from '@angular/core';
-import { Principal } from '../../shared';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { friendRequestReason, FriendshipRequst } from './friend-request-model';
-import { SERVER_API_URL } from '../../app.constants';
-import { Observable, Observer, Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
+import { Observable, Observer, Subscription } from 'rxjs/Rx';
 import SockJS = require('sockjs-client');
 import Stomp = require('webstomp-client');
-import { WindowRef } from '../../shared/tracker/window.service';
+
+import { friendRequestReason, FriendshipRequest } from '../friend-control/friend-control-services/friend-request-model';
+import { Principal } from '../shared';
+import { AuthServerProvider } from '../shared/auth/auth-jwt.service';
+import { CSRFService } from '../shared/auth/csrf.service';
+import { WindowRef } from '../shared/tracker/window.service';
+import { createSendRequstAction, FriendControlActionsList } from './friend-control/friend-control.action';
+import { StoreDataStatus } from './app-store/app.store.model';
+
 @Injectable()
 export class FriendshipService {
   stompClient = null;
@@ -73,13 +76,12 @@ export class FriendshipService {
     return this.listener;
   }
 
-  sendFriendRequest(userLogin: string, userID: number, requetReason: friendRequestReason) {
+  sendFriendRequest(friendShipRequst: FriendshipRequest) {
     const selfLogin = this.principalService.getUserLogin();
     const selfID = this.principalService.getUserID();
     if (!selfLogin || selfID < 0)
       throw Error('Please login');
-    const reqBody = this.createRqustObject(selfID, selfLogin, selfID, selfLogin, userID, userLogin, requetReason);
-
+    const reqBody = this.createRqustObject(selfID, selfLogin, selfID, selfLogin, friendShipRequst.introduceUserIDId, friendShipRequst.introduceUserIDLogin, friendShipRequst.reason);
     if (this.stompClient !== null && this.stompClient.connected) {
       this.stompClient.send(
         '/addFriend/req', // destination
@@ -96,6 +98,17 @@ export class FriendshipService {
       });
     });
   }
+
+  // keepSubcribe() {
+  //   this.receive().subscribe((response: FriendshipRequest) => {
+  //     this.friendControlReceiveRequest(response);
+  //   });
+  // }
+
+  // @dispatch()
+  // friendControlReceiveRequest(response) {
+  //   return createSendRequstAction(FriendControlActionsList.NEW_REQUEST, { dataStatus: StoreDataStatus.COMPLETE }, response);
+  // }
 
   unsubscribe() {
     if (this.subscriber !== null) {
@@ -139,7 +152,7 @@ export class FriendshipService {
     introUserID: number,
     introUserLogin: string,
     requestReason: friendRequestReason
-  ): FriendshipRequst {
+  ): FriendshipRequest {
     return {
       time: new Date(),
       reason: requestReason,
