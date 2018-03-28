@@ -99,16 +99,16 @@ export class FriendshipService {
     });
   }
 
-  // keepSubcribe() {
-  //   this.receive().subscribe((response: FriendshipRequest) => {
-  //     this.friendControlReceiveRequest(response);
-  //   });
-  // }
+  keepSubcribe() {
+    this.receive().subscribe((response: FriendshipRequest) => {
+      this.friendControlReceiveRequest(response);
+    });
+  }
 
-  // @dispatch()
-  // friendControlReceiveRequest(response) {
-  //   return createSendRequstAction(FriendControlActionsList.NEW_REQUEST, { dataStatus: StoreDataStatus.COMPLETE }, response);
-  // }
+  @dispatch()
+  friendControlReceiveRequest(response) {
+    return createSendRequstAction(FriendControlActionsList.NEW_REQUEST, { dataStatus: StoreDataStatus.COMPLETE }, response);
+  }
 
   unsubscribe() {
     if (this.subscriber !== null) {
