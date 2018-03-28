@@ -32,6 +32,6 @@ export const INITIAL_INTRO_FRIEND = (): StoreDataInter<FriendshipRequest> => ({
 export const INITIAL_RECEIVED_REQUEST = (): StoreDataInter<FriendshipRequest> => ({
     dataSource: StoreDataSource.CLIENT,
     dataInfo: { dataStatus: StoreDataStatus.EMPTY },
-    payloads: [defaultFriendShipRequestObject()]
+    payloads: []
 });
 /*******************************************************************************************/
