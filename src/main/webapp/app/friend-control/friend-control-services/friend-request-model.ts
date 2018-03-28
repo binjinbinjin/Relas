@@ -1,3 +1,4 @@
+import { FriendshipRequest } from './friend-request-model';
 export enum friendRequestReason {
     'FRIEND' = 0,
     'COLLEAGUE' = 1,
@@ -12,7 +13,7 @@ export enum friendRequestReason {
  * This data model is both for 1. when user wants to add a new friend,
  * 2. when user wants to introduce a friend to an other user
  */
-export interface FriendshipRequst {
+export interface FriendshipRequest {
     id?: number;
     time: any;
     reason?: friendRequestReason;
@@ -22,4 +23,14 @@ export interface FriendshipRequst {
     introduceToId: number;
     introduceUserIDLogin?: string;
     introduceUserIDId: number;
+}
+
+/**A function to create a FriendshipService object*/
+export function defaultFriendShipRequestObject(): FriendshipRequest {
+    return {
+        time: new Date(),
+        introduceById: -1,
+        introduceToId: -1,
+        introduceUserIDId: -1
+    };
 }
