@@ -1,8 +1,15 @@
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { UserIDAndLogin } from './../../shared/userID-userLogin-model';
+import { dispatch } from '@angular-redux/store';
 import { Component, OnInit } from '@angular/core';
-import { FriendshipService } from '../friend-control-services/friendship.service';
-import { friendRequestReason } from '../friend-control-services/friend-request-model';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
+import { StoreDataStatus } from '../../app-store/app-store/app.store.model';
+import {
+  createSendRequstAction,
+  FriendControlActionRequestAction,
+  FriendControlActionsList,
+} from '../../app-store/friend-control/friend-control.action';
+import { defaultFriendShipRequestObject, friendRequestReason } from '../friend-control-services/friend-request-model';
+import { UserIDAndLogin } from './../../shared/userID-userLogin-model';
 
 @Component({
   selector: 'app-add-friend',
@@ -24,7 +31,7 @@ export class AddFriendComponent implements OnInit {
   /**record of the last search result that user have clicked */
   req: UserIDAndLogin;
 
-  constructor(private friendshipService: FriendshipService, private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
     // this.friendshipService.subscribe();
@@ -40,9 +47,16 @@ export class AddFriendComponent implements OnInit {
     this.open(content);
   }
 
-  /**Send the request */
-  sendRequest(reason: friendRequestReason) {
-    this.friendshipService.sendFriendRequest(this.req.login, this.req.id, reason);
+  /**Send the request to store*/
+  @dispatch()
+  sendRequest(reason: friendRequestReason): FriendControlActionRequestAction {
+    const request = defaultFriendShipRequestObject();
+    request.introduceUserIDId = this.req.id;
+    request.introduceUserIDLogin = this.req.login;
+    request.reason = reason;
+    const action = createSendRequstAction(FriendControlActionsList.ADD_FRIEND, { dataStatus: StoreDataStatus.SENT }, request);
+    return action;
+
   }
 
   /**Open the add user confirm modal */

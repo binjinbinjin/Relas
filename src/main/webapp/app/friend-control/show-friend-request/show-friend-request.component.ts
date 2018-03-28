@@ -1,6 +1,9 @@
+import { select } from '@angular-redux/store';
 import { Component, OnInit } from '@angular/core';
-import { FriendshipRequst } from '../friend-control-services/friend-request-model';
-import { FriendshipService } from '../friend-control-services/friendship.service';
+import { Observable } from 'rxjs/Observable';
+
+import { FriendshipRequest } from '../friend-control-services/friend-request-model';
+import { RECEIVED_REQUEST } from './../../app-store/friend-control/friend-control.data';
 
 @Component({
   selector: 'app-show-friend-request',
@@ -9,13 +12,15 @@ import { FriendshipService } from '../friend-control-services/friendship.service
 })
 export class ShowFriendRequestComponent implements OnInit {
 
+  /**Get the requests from store */
+  @select([RECEIVED_REQUEST, 'payloads'])
+  readonly requsts: Observable<FriendshipRequest[]>;
   req: any;
-  constructor(private friendshipService: FriendshipService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.req = {num: 1};
-    // this.friendshipService.subscribe();
-    this.friendshipService.receive().subscribe((response) => {
+    this.req = { };
+    this.requsts.subscribe((response) => {
       this.req = response;
     });
   }
