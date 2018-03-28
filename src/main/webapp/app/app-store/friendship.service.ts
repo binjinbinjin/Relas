@@ -99,17 +99,6 @@ export class FriendshipService {
     });
   }
 
-  keepSubcribe() {
-    this.receive().subscribe((response: FriendshipRequest) => {
-      this.friendControlReceiveRequest(response);
-    });
-  }
-
-  @dispatch()
-  friendControlReceiveRequest(response) {
-    return createSendRequstAction(FriendControlActionsList.NEW_REQUEST, { dataStatus: StoreDataStatus.COMPLETE }, response);
-  }
-
   unsubscribe() {
     if (this.subscriber !== null) {
       this.subscriber.unsubscribe();
@@ -126,23 +115,6 @@ export class FriendshipService {
   private createConnection(): Promise<any> {
     return new Promise((resolve, reject) => this.connectedPromise = resolve);
   }
-
-  // /**userLogin: login of the user that you want to add
-  //  * userID:  id of the user that you want to add
-  //  */
-  // sendFriendRequest(userLogin: string, userID: number, requetReason: friendRequestReason): Observable<Boolean> {
-  //   const selfLogin = this.principalService.getUserLogin();
-  //   const selfID = this.principalService.getUserID();
-  //   if (!selfLogin || selfID < 0)
-  //     throw Error('Please login');
-  //   const reqBody = this.createRqustObject(selfID, selfLogin, selfID, selfLogin, userID, userLogin, requetReason);
-  //   console.log(reqBody);
-  //   return this.http.post<FriendshipRequst>(this.resourceUrl, reqBody, { observe: 'response'}).map((response) => {
-  //     if (response.ok)
-  //       return true;
-  //     return false;
-  //   });
-  // }
 
   private createRqustObject(
     introByID: number,
@@ -164,5 +136,16 @@ export class FriendshipService {
       introduceUserIDId: introUserID,
     };
   }
+
+  // keepSubcribe() {
+  //   this.receive().subscribe((response: FriendshipRequest) => {
+  //     this.friendControlReceiveRequest(response);
+  //   });
+  // }
+
+  // @dispatch()
+  // friendControlReceiveRequest(response) {
+  //   return createSendRequstAction(FriendControlActionsList.NEW_REQUEST, { dataStatus: StoreDataStatus.COMPLETE }, response);
+  // }
 
 }
