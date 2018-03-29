@@ -11,13 +11,18 @@ import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import relas.java.config.Constants;
+import relas.java.security.SecurityUtils;
 import relas.java.service.IntroduceUserService;
 import relas.java.service.dto.IntroduceUserDTO;
+import relas.java.service.dto.UserPortfolioDTO;
 import relas.java.web.websocket.Abst.ServiceWithInitialSubscribeListener;
+import relas.java.web.websocket.error.SubscribeOtherUserChannelException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 public class FriendRequestService extends ServiceWithInitialSubscribeListener<IntroduceUserDTO, String> {
@@ -30,29 +35,49 @@ public class FriendRequestService extends ServiceWithInitialSubscribeListener<In
     }
 
     @SubscribeMapping("/addFriend/{login}")
-    public void subscribedEvent(@DestinationVariable String login, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
+    @SendTo("/addFriend/{login}")
+    public List<IntroduceUserDTO> subscribedEvent(@DestinationVariable String login, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
 
         log.debug("User subscribed the add friend {}", login);
+        log.debug("Subscriber's Principal: {}", principal.getName());
+        log.debug("Current user {} ", SecurityUtils.getCurrentUserLogin().get());
+        this.authenticatedCheck(stompHeaderAccessor, principal, login);
+        List<IntroduceUserDTO> users = this.introduceUserService.findByIntroduceUserID_Login(login);
+        if (users == null)
+            return null;
+        return users;
     }
 
     @MessageMapping("/addFriend/req")
     public void receivedNewMessage(@NotNull @Payload IntroduceUserDTO dto, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
         //adding new friend
         log.debug("Received a add friend request", dto);
+        IntroduceUserDTO check = this.introduceUserService.saveIfNotExist(dto);
+        if(check == null) return;
         if (dto.getIntroduceByLogin().equals(dto.getIntroduceToLogin())) {
-            this.introduceUserService.save(dto);
             if(this.simpUserRegistry.getUser(dto.getIntroduceUserIDLogin()) == null)
                 return;
            this.messagingTemplate.convertAndSend("/addFriend/"+dto.getIntroduceUserIDLogin(), dto);
 
         }
+        if(this.simpUserRegistry.getUser(dto.getIntroduceToLogin()) == null)
+            return;
+        this.messagingTemplate.convertAndSend("/addFriend/"+dto.getIntroduceToLogin(), dto);
         // add logic for introduce a friend to other in here
     }
 
 
 
     @Override
-    public void newSubcriber(SessionDisconnectEvent event) {
+    public void disconnect(SessionDisconnectEvent event) {
+
+    }
+
+    private void authenticatedCheck(StompHeaderAccessor stompHeaderAccessor, Principal principal, String login) {
+
+        if(principal == null || !principal.getName().equals(login)  || !login.equals(SecurityUtils.getCurrentUserLogin().get()))
+            throw new SubscribeOtherUserChannelException("Friendship request");
+
 
     }
 
