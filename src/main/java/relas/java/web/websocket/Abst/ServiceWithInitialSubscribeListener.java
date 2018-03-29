@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.security.Principal;
+import java.util.List;
 
 public abstract class ServiceWithInitialSubscribeListener<T, E> implements ApplicationListener<SessionDisconnectEvent> {
 
@@ -27,15 +28,14 @@ public abstract class ServiceWithInitialSubscribeListener<T, E> implements Appli
 
 
 
-    public abstract void subscribedEvent(E login, StompHeaderAccessor stompHeaderAccessor, Principal principal);
+    public abstract List<T> subscribedEvent(E login, StompHeaderAccessor stompHeaderAccessor, Principal principal);
 
 
     public abstract void receivedNewMessage(T t, StompHeaderAccessor stompHeaderAccessor, Principal principal);
 
-    public abstract void newSubcriber(SessionDisconnectEvent event);
+    public abstract void disconnect(SessionDisconnectEvent event);
     @Override
     public void onApplicationEvent(SessionDisconnectEvent event) {
-        this.newSubcriber(event);
+        this.disconnect(event);
     }
-
 }
