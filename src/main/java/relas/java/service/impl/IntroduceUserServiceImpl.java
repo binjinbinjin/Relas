@@ -14,6 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -51,6 +56,50 @@ public class IntroduceUserServiceImpl implements IntroduceUserService {
         IntroduceUserDTO result = introduceUserMapper.toDto(introduceUser);
         introduceUserSearchRepository.save(introduceUser);
         return result;
+    }
+
+    /**
+     * Save a introduceUser iff no same request exist
+     * - the request with different reason and time, but same users will be consider as same request
+     *
+     * @param introduceUserDTO the entity to save
+     * @return the persisted entity if no same request exist, null other
+     */
+    @Override
+    public IntroduceUserDTO saveIfNotExist(IntroduceUserDTO introduceUserDTO) {
+        if (this.introduceUserRepository.existsByIntroduceUserID_LoginAndIntroduceTo_LoginAndIntroduceBy_Login
+            (introduceUserDTO.getIntroduceUserIDLogin(),
+                introduceUserDTO.getIntroduceToLogin(),
+                introduceUserDTO.getIntroduceByLogin())
+            .get()) {
+            log.debug("IntruoduceDTO exit? true");
+            return null;
+        }
+        log.debug("IntruoduceDTO exit? false");
+        IntroduceUserDTO saveDTO = this.save(introduceUserDTO);
+        log.debug("IntroduceDTO do not exist, create object {}", saveDTO);
+        return saveDTO;
+    }
+
+    /**
+     * Save a introduceUser.
+     *
+     * @param login user login
+     * @return a list of request
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<IntroduceUserDTO> findByIntroduceUserID_Login(String login) {
+        log.debug("Get all the user friendship request of user by Login, login: {}", login);
+
+        Optional<List<IntroduceUser>> fetch = introduceUserRepository.findByIntroduceUserID_Login(login);
+        if (!fetch.isPresent())
+            return null;
+        List<IntroduceUser> users = fetch.get();
+
+        List<IntroduceUserDTO> userDTOS = introduceUserMapper.toDto(users);
+        log.debug("Found requests {}", userDTOS);
+        return userDTOS;
     }
 
     /**
@@ -96,7 +145,7 @@ public class IntroduceUserServiceImpl implements IntroduceUserService {
     /**
      * Search for the introduceUser corresponding to the query.
      *
-     * @param query the query of the search
+     * @param query    the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */

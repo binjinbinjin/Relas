@@ -4,6 +4,8 @@ import relas.java.service.dto.IntroduceUserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Service Interface for managing IntroduceUser.
  */
@@ -17,6 +19,22 @@ public interface IntroduceUserService {
      */
     IntroduceUserDTO save(IntroduceUserDTO introduceUserDTO);
 
+    /**
+     * Save a introduceUser iff no same request exist
+     * - the request with different reason and time, but same users will be consider as same request
+     *
+     * @param introduceUserDTO the entity to save
+     * @return the persisted entity if no same request exist, null other
+     */
+    IntroduceUserDTO saveIfNotExist(IntroduceUserDTO introduceUserDTO);
+
+    /**
+     * Save a introduceUser.
+     *
+     * @param login user login
+     * @return a list of request
+     */
+    List<IntroduceUserDTO> findByIntroduceUserID_Login(String login);
     /**
      * Get all the introduceUsers.
      *
@@ -44,7 +62,7 @@ public interface IntroduceUserService {
      * Search for the introduceUser corresponding to the query.
      *
      * @param query the query of the search
-     * 
+     *
      * @param pageable the pagination information
      * @return the list of entities
      */
