@@ -19,7 +19,8 @@ export class FriendshipService {
   subscriber = null;
   connection: Promise<any>;
   connectedPromise: any;
-  listener: Observable<any>;
+  listener: Observable<any>; // use to get the new request
+  // use to publish the new request after arrived, then use can get through listener
   listenerObserver: Observer<any>;
   alreadyConnectedOnce = false;
   private subscription: Subscription;
@@ -33,9 +34,10 @@ export class FriendshipService {
   ) {
     this.connection = this.createConnection();
     this.listener = this.createListener();
-    this.connect();
+    this.connect(); // connect to the service
   }
 
+  /**Connect to service */
   connect() {
     if (this.connectedPromise === null) {
       this.connection = this.createConnection();
@@ -72,10 +74,12 @@ export class FriendshipService {
     this.alreadyConnectedOnce = false;
   }
 
+  /**Get the request from service */
   receive() {
     return this.listener;
   }
 
+  /***Send the requsest to service */
   sendFriendRequest(friendShipRequst: FriendshipRequest) {
     const selfLogin = this.principalService.getUserLogin();
     const selfID = this.principalService.getUserID();
