@@ -13,7 +13,7 @@ public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMes
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
             .nullDestMatcher().authenticated()
-            .simpDestMatchers("/topic/tracker", "/chat/tracker", "/addFriend/tracker").authenticated()//.hasAuthority(AuthoritiesConstants.ADMIN)
+            .simpDestMatchers("/topic/tracker", "/chat/tracker", "/addFriend/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
             // matches any destination that starts with /topic/
             // (i.e. cannot send messages directly to /topic/)
             // (i.e. cannot subscribe to /topic/messages/* to get messages sent to
