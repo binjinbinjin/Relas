@@ -41,7 +41,13 @@ export function receivedRequestReducer() {
         switch (action.dataInfo.dataStatus) {
             case StoreDataStatus.COMPLETE: {
                 const oldPayLoads: FriendshipRequest[] = state.payloads;
-                oldPayLoads.push(action.request);
+                if (Array.isArray(action.request)) {
+                    action.request.forEach((value) => {
+                        oldPayLoads.push(value);
+                    });
+                }else {
+                    oldPayLoads.push(action.request);
+                }
                 return {
                     ...state,
                     payloads: oldPayLoads,
@@ -51,6 +57,7 @@ export function receivedRequestReducer() {
             case StoreDataStatus.LOADING:
                 return {
                     ...state,
+                    payloads: [],
                     dataInfo: action.dataInfo
                 };
             case StoreDataStatus.ERROR:
