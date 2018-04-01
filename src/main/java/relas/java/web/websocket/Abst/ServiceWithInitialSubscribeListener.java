@@ -8,6 +8,8 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import relas.java.security.SecurityUtils;
+import relas.java.web.websocket.error.SubscribeOtherUserChannelException;
 
 import java.security.Principal;
 import java.util.List;
@@ -26,16 +28,18 @@ public abstract class ServiceWithInitialSubscribeListener<T, E> implements Appli
         this.log = LoggerFactory.getLogger(o.getClass());
     }
 
-
-
-    public abstract List<T> subscribedEvent(E login, StompHeaderAccessor stompHeaderAccessor, Principal principal);
-
-
-    public abstract void receivedNewMessage(T t, StompHeaderAccessor stompHeaderAccessor, Principal principal);
-
     public abstract void disconnect(SessionDisconnectEvent event);
     @Override
     public void onApplicationEvent(SessionDisconnectEvent event) {
         this.disconnect(event);
     }
+
+    protected void authenticatedCheck(StompHeaderAccessor stompHeaderAccessor, Principal principal, String login) {
+
+        if(principal == null || !principal.getName().equals(login)  || !login.equals(SecurityUtils.getCurrentUserLogin().get()))
+            throw new SubscribeOtherUserChannelException("Friendship request");
+
+
+    }
+
 }
