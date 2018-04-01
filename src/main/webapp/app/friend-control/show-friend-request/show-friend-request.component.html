@@ -1,3 +1,39 @@
-<p>
-  {{req|json}}
-</p>
+<div class="container-fluid"></div>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>
+          <span>User Login</span>
+        </th>
+        <th>
+          <span>Reason</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr appHoverPointer appHoverAddBorder *ngFor="let each of req" (click)="showPortfolio(each.introduceToLogin, each.id, content)">
+        <td>
+          {{each.introduceToLogin}}
+        </td>
+        <td>{{each.reason}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #content>
+  <div class="modal-header">
+    <h4 class="modal-title">User Info</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal(null)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-portfolio-search [showSearchBar]="false" [search]="requestUser.search"></app-portfolio-search>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="closeModal(requestUser)">Accept</button>
+    <button type="button" class="btn btn-dark" (click)="closeModal(null)">Close</button>
+  </div>
+</ng-template>
