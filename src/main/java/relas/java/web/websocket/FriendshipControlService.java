@@ -21,12 +21,12 @@ import java.util.List;
 @MessageMapping("/friendshipControl")
 public class FriendshipControlService extends ServiceWithInitialSubscribeListener<FriendshipControlDTO, String>{
 
-    private final IntroduceUserService introduceUserService;
+    private final relas.java.service.FriendshipControlService friendshipControlService;
     public FriendshipControlService(SimpMessageSendingOperations messagingTemplate,
                                     SimpUserRegistry defaultSimpUserRegistry,
-                                    IntroduceUserService introduceUserService) {
+                                    relas.java.service.FriendshipControlService friendshipControlService) {
         super(messagingTemplate, defaultSimpUserRegistry, FriendRequestService.class);
-        this.introduceUserService = introduceUserService;
+        this.friendshipControlService = friendshipControlService;
     }
 
     @SubscribeMapping("/{login}")
@@ -40,8 +40,7 @@ public class FriendshipControlService extends ServiceWithInitialSubscribeListene
     @MessageMapping("/add")
     public void addFriend(FriendshipControlDTO dto, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
         log.debug("user {} add friend {}", dto.getUserLogin(), dto.getTargetLogin());
-        this.introduceUserService.removeIntroduceUser(dto.getUserLogin(), dto.getTargetLogin());
-
+        this.friendshipControlService.acceptRequest(dto.getUserLogin(), dto.getTargetLogin(), "Friend");
         // not finish yet
     }
 

@@ -1,6 +1,7 @@
 package relas.java.service;
 
 import relas.java.domain.UserPortfolio;
+import relas.java.service.dto.FriendListDTO;
 
 public interface FriendshipControlService {
 
@@ -9,6 +10,6 @@ public interface FriendshipControlService {
      * @param requstSender
      * @param requestTo
      */
-   void acceptRequest(String requstSender, String requestTo);
+    FriendListDTO[] acceptRequest(String requstSender, String requestTo, String relationship);
 
 }
