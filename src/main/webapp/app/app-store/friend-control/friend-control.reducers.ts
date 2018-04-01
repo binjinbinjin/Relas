@@ -1,6 +1,6 @@
-import { FriendshipRequest } from '../../friend-control/friend-control-services/friend-request-model';
+import { FriendshipRequest } from '../../friend-control/friend-control-model/friend-request-model';
 import { StoreDataInter, StoreDataSource, StoreDataStatus } from '../app-store/app.store.model';
-import { FriendshipService } from '../friendship.service';
+import { FriendshipRequestService } from '../service/friendshipRequest.service';
 import { FriendControlActionRequestAction, FriendControlActionsList } from './friend-control.action';
 import { INITIAL_ADD_FRIEND, INITIAL_RECEIVED_REQUEST } from './friend-control.data';
 
@@ -9,7 +9,7 @@ import { INITIAL_ADD_FRIEND, INITIAL_RECEIVED_REQUEST } from './friend-control.d
  * param: friendshipService: FriendshipService
  *          a service that use to send the request
 */
-export function sendRequestReducer(friendshipService: FriendshipService) {
+export function sendRequestReducer(friendshipService: FriendshipRequestService) {
      return (state: StoreDataInter<FriendshipRequest> = INITIAL_ADD_FRIEND(), action: FriendControlActionRequestAction) => {
         if (action.type !== FriendControlActionsList.ADD_FRIEND)
             return state;

@@ -1,7 +1,7 @@
 import { ActionCreator } from 'redux';
 
+import { FriendshipRequest } from '../../friend-control/friend-control-model/friend-request-model';
 import { AppAction } from '../app-store/app.action.model';
-import { FriendshipRequest } from './../../friend-control/friend-control-services/friend-request-model';
 import { StoreDataInfo } from './../app-store/app.store.model';
 
 /**A list of actions that can perform for the friend control */

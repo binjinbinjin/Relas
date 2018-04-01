@@ -9,7 +9,7 @@ import { ActionsObservable, createEpicMiddleware, Epic } from 'redux-observable'
 import { of } from 'rxjs/observable/of';
 
 import { StoreDataStatus } from '../app-store/app.store.model';
-import { FriendshipService } from '../friendship.service';
+import { FriendshipRequestService} from '../service/friendshipRequest.service';
 import { AppStoreState } from './../app-store/app.store.model';
 import { FriendControlActionRequestAction, FriendControlActionsList } from './friend-control.action';
 
@@ -17,10 +17,10 @@ import { FriendControlActionRequestAction, FriendControlActionsList } from './fr
  * To work properly, a function with @dispatch() and return FriendControlActionBasic with type
  * FriendControlActionsList.RECEIVED_REQUEST must be call after initialized of the store
  *
- * param: friendshipService FriendshipService
+ * param: friendshipService FriendshipRequestService
  *          service that with an observable function to subscribe the request from the service
  */
-export function getFriendRequest(friendshipService: FriendshipService) {
+export function getFriendRequest(friendshipService: FriendshipRequestService) {
     // create the middleware
     return createEpicMiddleware(getFriendRequestImp(friendshipService));
 }
@@ -29,10 +29,10 @@ export function getFriendRequest(friendshipService: FriendshipService) {
  *
  * Intercept all the action with type FriendControlActionsList.RECEIVED_REQUEST
  *
- * param: friendshipService FriendshipService
+ * param: friendshipService FriendshipRequestService
  *          service that with an observable function to subscribe the request from the service
  */
-function getFriendRequestImp(friendshipService: FriendshipService): Epic<FriendControlActionRequestAction, AppStoreState> {
+function getFriendRequestImp(friendshipService: FriendshipRequestService): Epic<FriendControlActionRequestAction, AppStoreState> {
     return (action$: ActionsObservable<FriendControlActionRequestAction>, store) => {
         return action$.ofType(FriendControlActionsList.RECEIVED_REQUEST)
         .mergeMap(() => {
