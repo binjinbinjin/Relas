@@ -1,4 +1,4 @@
 <div class="container-fluid">
-  <app-search-bar (searchResult)="search($event)"></app-search-bar>
+  <app-search-bar *ngIf="showSearchBar" (searchResult)="search($event)"></app-search-bar>
   <app-search-result-display [page]="pageNumber" [userPortfolioss]="result" (flipPage)="pageGenderChange($event)" (clickUser)="clickPortfolio($event)"></app-search-result-display>
 </div>

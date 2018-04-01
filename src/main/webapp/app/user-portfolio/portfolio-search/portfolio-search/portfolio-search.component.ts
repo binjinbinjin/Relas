@@ -1,10 +1,11 @@
-import { gender } from '../../user-portfolio.model';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { PortfolioSearchOption } from '../search-util';
-import { UserPortfolioService } from '../../user-portfolio-service/user-portfolio.service';
-import { UserPortfolio } from '../../user-portfolio.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { ITEMS_PER_PAGE } from '../../../shared';
 import { UserIDAndLogin } from '../../../shared/userID-userLogin-model';
+import { UserPortfolioService } from '../../user-portfolio-service/user-portfolio.service';
+import { gender, UserPortfolio } from '../../user-portfolio.model';
+import { PortfolioSearchOption } from '../search-util';
+
 @Component({
   selector: 'app-portfolio-search',
   templateUrl: './portfolio-search.component.html',
@@ -20,6 +21,9 @@ export class PortfolioSearchComponent implements OnInit {
   /**Search result */
   result: UserPortfolio[];
 
+  /**Show search bar, display the search bar or not, initial to true */
+  @Input('showSearchBar') showSearchBar: boolean;
+
   /**Click user portfolio */
   @Output('clickUser') clikeUser: EventEmitter<UserIDAndLogin>;
 
@@ -28,6 +32,7 @@ export class PortfolioSearchComponent implements OnInit {
   constructor(private userPortfolioService: UserPortfolioService) {
     this.result = [];
     this.pageNumber = -1;
+    this.showSearchBar = true;
     this.clikeUser = new EventEmitter();
    }
 
@@ -89,5 +94,10 @@ export class PortfolioSearchComponent implements OnInit {
   /**Click user portfolilo*/
   clickPortfolio(user: UserIDAndLogin) {
     this.clikeUser.emit(user);
+  }
+
+  /**Preform a search */
+  @Input('search') set newSearch(req: PortfolioSearchOption) {
+    this.search(req);
   }
 }
