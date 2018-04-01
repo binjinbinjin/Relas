@@ -3,26 +3,27 @@ import { NgReduxRouter, NgReduxRouterModule } from '@angular-redux/router';
 import { DevToolsExtension, NgRedux, NgReduxModule } from '@angular-redux/store';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { createLogger } from 'redux-logger';
 
 import { createEpics } from './app-store/app.epics';
 import { AppStoreInitializer } from './app-store/app.initialize';
 import { rootReducer } from './app-store/app.reducers';
 import { AppStoreState, INITIAL_APP_STORE } from './app-store/app.store.model';
-import { FriendshipService } from './friendship.service';
+import { FriendshipRequestService } from './service/friendshipRequest.service';
+import { FriendshipControlService } from './service/friendshipControl.service';
 
 @NgModule({
   imports: [
     CommonModule,
     NgReduxModule, NgReduxRouterModule],
-  providers: [FriendshipService],
+  providers: [FriendshipRequestService, FriendshipControlService],
+  exports: [],
   declarations: []
 })
 export class AppStoreModule {
   constructor(public store: NgRedux<AppStoreState>,
     devTools: DevToolsExtension,
     ngReduxRouter: NgReduxRouter,
-    friendshipService: FriendshipService
+    friendshipService: FriendshipRequestService
   ) {
       store.configureStore(
         rootReducer(friendshipService),
