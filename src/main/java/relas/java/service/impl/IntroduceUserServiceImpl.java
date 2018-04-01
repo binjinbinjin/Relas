@@ -36,7 +36,9 @@ public class IntroduceUserServiceImpl implements IntroduceUserService {
 
     private final IntroduceUserSearchRepository introduceUserSearchRepository;
 
-    public IntroduceUserServiceImpl(IntroduceUserRepository introduceUserRepository, IntroduceUserMapper introduceUserMapper, IntroduceUserSearchRepository introduceUserSearchRepository) {
+    public IntroduceUserServiceImpl(IntroduceUserRepository introduceUserRepository,
+                                    IntroduceUserMapper introduceUserMapper,
+                                    IntroduceUserSearchRepository introduceUserSearchRepository) {
         this.introduceUserRepository = introduceUserRepository;
         this.introduceUserMapper = introduceUserMapper;
         this.introduceUserSearchRepository = introduceUserSearchRepository;
@@ -77,7 +79,6 @@ public class IntroduceUserServiceImpl implements IntroduceUserService {
         }
         log.debug("IntruoduceDTO exit? false");
         IntroduceUserDTO saveDTO = this.save(introduceUserDTO);
-        log.debug("IntroduceDTO do not exist, create object {}", saveDTO);
         return saveDTO;
     }
 
@@ -101,6 +102,30 @@ public class IntroduceUserServiceImpl implements IntroduceUserService {
         log.debug("Found requests {}", userDTOS);
         return userDTOS;
     }
+
+    /**
+     * Remove introduceUser Entities
+     *
+     * This method will remove all the entities that try to get introduceToUser and introduceUser
+     * into friendship.
+     *
+     *
+     * @param introduceUser login of user want to add
+     * @param introduceToUser login of user who wants to add introduceUser
+     */
+    public void removeIntroduceUser(String introduceToUser, String introduceUser) {
+        this.introduceUserRepository
+            .deleteAllByIntroduceUserID_LoginAndIntroduceTo_Login(
+                introduceToUser,
+                introduceUser);
+
+        this.introduceUserRepository
+            .deleteAllByIntroduceUserID_LoginAndIntroduceTo_Login(
+                introduceUser,
+                introduceToUser);
+
+    }
+
 
     /**
      * Get all the introduceUsers.
