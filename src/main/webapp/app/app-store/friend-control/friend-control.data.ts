@@ -1,8 +1,5 @@
 import { StoreDataInter, StoreDataSource, StoreDataStatus } from '../app-store/app.store.model';
-import {
-        defaultFriendShipRequestObject,
-        FriendshipRequest,
-} from './../../friend-control/friend-control-services/friend-request-model';
+import { FriendshipRequest } from '../../friend-control/friend-control-model/friend-request-model';
 
 /**Name of the data that stored in the app store */
 // add friend
