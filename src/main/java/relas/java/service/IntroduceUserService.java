@@ -28,6 +28,19 @@ public interface IntroduceUserService {
      */
     IntroduceUserDTO saveIfNotExist(IntroduceUserDTO introduceUserDTO);
 
+
+    /**
+     * Remove introduceUser Entities
+     *
+     * This method will remove all the entities that try to get introduceToUser and introduceUser
+     * into friendship.
+     *
+     *
+     * @param introduceUser login of user want to add
+     * @param introduceToUser login of user who wants to add introduceUser
+     */
+    void removeIntroduceUser(String introduceToUser, String introduceUser);
+
     /**
      * Save a introduceUser.
      *
