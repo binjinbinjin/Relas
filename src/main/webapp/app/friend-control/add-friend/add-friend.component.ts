@@ -8,7 +8,7 @@ import {
   FriendControlActionRequestAction,
   FriendControlActionsList,
 } from '../../app-store/friend-control/friend-control.action';
-import { defaultFriendShipRequestObject, friendRequestReason } from '../friend-control-services/friend-request-model';
+import { defaultFriendShipRequestObject, friendRequestReason } from '../friend-control-model/friend-request-model';
 import { UserIDAndLogin } from './../../shared/userID-userLogin-model';
 
 @Component({
