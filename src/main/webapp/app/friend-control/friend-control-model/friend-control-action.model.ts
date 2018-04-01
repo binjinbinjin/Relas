@@ -8,10 +8,14 @@ export class FriendControlActionModel {
     userLogin?: string;
     targetLogin: string;
     action: FriendControlActionEnum;
-    constructor(action: FriendControlActionEnum, targetLogin: string, userLogin?: string) {
+    reason?: string;
+    constructor(action: FriendControlActionEnum, targetLogin: string, reason?: string, userLogin?: string) {
         this.action = action;
         this.targetLogin = targetLogin;
         if (userLogin)
             this.userLogin = userLogin;
+
+        if (this.reason)
+            this.reason = reason;
     }
 }
