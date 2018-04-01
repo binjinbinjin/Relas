@@ -1,5 +1,5 @@
 import { INITIAL_ADD_FRIEND, INITIAL_RECEIVED_REQUEST } from '../friend-control/friend-control.data';
-import { FriendshipRequest } from './../../friend-control/friend-control-services/friend-request-model';
+import { FriendshipRequest } from './../../friend-control/friend-control-model/friend-request-model';
 
 /**Describe where is the data come from */
 export const enum StoreDataSource {
