@@ -47,6 +47,7 @@ public interface IntroduceUserRepository extends JpaRepository<IntroduceUser, Lo
      * @return if remove return the entity, otherwise null
      */
     //NOT TEST YET
-    Optional<IntroduceUser> removeByIntroduceUserID_LoginAndIntroduceTo_Login(String introUserLogin, String introToUserLogin);
+    void deleteAllByIntroduceUserID_LoginAndIntroduceTo_Login(String introUserLogin, String introToUserLogin);
+
 
 }
