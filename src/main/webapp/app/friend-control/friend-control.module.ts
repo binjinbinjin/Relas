@@ -9,6 +9,8 @@ import { RelasSharedCommonModule } from './../shared/shared-common.module';
 import { RelasSharedModule } from './../shared/shared.module';
 import { AddFriendComponent } from './add-friend/add-friend.component';
 import { ShowFriendRequestComponent } from './show-friend-request/show-friend-request.component';
+import { DirectivesModule } from '../directives/directives.module';
+import { FriendshipControlService } from '../app-store/service/friendshipControl.service';
 
 @NgModule({
   imports: [
@@ -18,7 +20,10 @@ import { ShowFriendRequestComponent } from './show-friend-request/show-friend-re
     RelasSharedCommonModule,
     NgbModule,
     RelasSharedModule,
-    AppStoreModule
+    AppStoreModule,
+    DirectivesModule,
+    UserPortfolioModule,
+    NgbModule,
   ],
   exports: [AddFriendComponent, ShowFriendRequestComponent],
   providers: [],
