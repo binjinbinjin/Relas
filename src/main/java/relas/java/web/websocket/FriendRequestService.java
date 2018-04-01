@@ -36,11 +36,9 @@ public class FriendRequestService extends ServiceWithInitialSubscribeListener<In
 
     @SubscribeMapping("/addFriend/{login}")
     @SendTo("/addFriend/{login}")
-    public List<IntroduceUserDTO> subscribedEvent(@DestinationVariable String login, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
+    public List<IntroduceUserDTO> subscribedEvent(@NotNull @DestinationVariable String login, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
 
         log.debug("User subscribed the add friend {}", login);
-        log.debug("Subscriber's Principal: {}", principal.getName());
-        log.debug("Current user {} ", SecurityUtils.getCurrentUserLogin().get());
         this.authenticatedCheck(stompHeaderAccessor, principal, login);
         List<IntroduceUserDTO> users = this.introduceUserService.findByIntroduceUserID_Login(login);
         if (users == null)
@@ -52,6 +50,7 @@ public class FriendRequestService extends ServiceWithInitialSubscribeListener<In
     public void receivedNewMessage(@NotNull @Payload IntroduceUserDTO dto, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
         //adding new friend
         log.debug("Received a add friend request", dto);
+
         IntroduceUserDTO check = this.introduceUserService.saveIfNotExist(dto);
         if(check == null) return;
         if (dto.getIntroduceByLogin().equals(dto.getIntroduceToLogin())) {
@@ -73,13 +72,7 @@ public class FriendRequestService extends ServiceWithInitialSubscribeListener<In
 
     }
 
-    private void authenticatedCheck(StompHeaderAccessor stompHeaderAccessor, Principal principal, String login) {
 
-        if(principal == null || !principal.getName().equals(login)  || !login.equals(SecurityUtils.getCurrentUserLogin().get()))
-            throw new SubscribeOtherUserChannelException("Friendship request");
-
-
-    }
 
 
 }
