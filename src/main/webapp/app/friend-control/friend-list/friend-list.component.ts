@@ -21,7 +21,7 @@ export class FriendListComponent implements OnInit {
   ngOnInit() {
     this.req = {num: 1};
     this.getFriendList.subscribe((response) => {
-      this.req = response;
+      this.req = response.payloads;
     });
   }
 
