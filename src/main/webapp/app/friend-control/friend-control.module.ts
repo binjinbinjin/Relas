@@ -11,6 +11,7 @@ import { AddFriendComponent } from './add-friend/add-friend.component';
 import { ShowFriendRequestComponent } from './show-friend-request/show-friend-request.component';
 import { DirectivesModule } from '../directives/directives.module';
 import { FriendshipControlService } from '../app-store/service/friendshipControl.service';
+import { FriendListComponent } from './friend-list/friend-list.component';
 
 @NgModule({
   imports: [
@@ -25,8 +26,8 @@ import { FriendshipControlService } from '../app-store/service/friendshipControl
     UserPortfolioModule,
     NgbModule,
   ],
-  exports: [AddFriendComponent, ShowFriendRequestComponent],
+  exports: [AddFriendComponent, ShowFriendRequestComponent, FriendListComponent],
   providers: [],
-  declarations: [AddFriendComponent, ShowFriendRequestComponent]
+  declarations: [AddFriendComponent, ShowFriendRequestComponent, FriendListComponent]
 })
 export class FriendControlModule { }
