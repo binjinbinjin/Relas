@@ -1,5 +1,7 @@
 import { INITIAL_ADD_FRIEND, INITIAL_RECEIVED_REQUEST } from '../friend-control/friend-control.data';
 import { FriendshipRequest } from './../../friend-control/friend-control-model/friend-request-model';
+import { INITIAL_GET_FRIEND_LIST } from '../friend-list/friend-list.data';
+import { FriendListModel } from '../../friend-control/friend-control-model/friend-list.model';
 
 /**Describe where is the data come from */
 export const enum StoreDataSource {
@@ -47,12 +49,14 @@ export interface StoreDataInter<T> {
 
 /**Store state interface */
 export interface AppStoreState {
-    [data: string]: StoreDataInter<FriendshipRequest>;
+    [data1: string]: StoreDataInter<FriendshipRequest> |
+                     StoreDataInter<FriendListModel>;
     route?: any;
 }
 
 /**Initial state */
 export const INITIAL_APP_STORE: AppStoreState = {
-    addFriend: INITIAL_ADD_FRIEND(),
-    receivedRequest: INITIAL_RECEIVED_REQUEST(),
+    addFriend: INITIAL_ADD_FRIEND(), // record of the last friend request that user have sent
+    receivedRequest: INITIAL_RECEIVED_REQUEST(), // record of friend request list
+    getFriendList: INITIAL_GET_FRIEND_LIST(), // record of current friend list
 };

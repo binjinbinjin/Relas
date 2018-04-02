@@ -23,12 +23,13 @@ export class AppStoreModule {
   constructor(public store: NgRedux<AppStoreState>,
     devTools: DevToolsExtension,
     ngReduxRouter: NgReduxRouter,
-    friendshipService: FriendshipRequestService
+    friendshipService: FriendshipRequestService,
+    friendshipControlService: FriendshipControlService
   ) {
       store.configureStore(
-        rootReducer(friendshipService),
+        rootReducer(friendshipService, friendshipControlService),
         INITIAL_APP_STORE,
-        [/*createLogger(), */...createEpics(friendshipService)],
+        [/*createLogger(), */...createEpics(friendshipService, friendshipControlService)],
         devTools.isEnabled() ? [devTools.enhancer()] : []);
 
       // Enable syncing of Angular router state with our Redux store.
@@ -40,8 +41,7 @@ export class AppStoreModule {
       provideReduxForms(store);
 
       // Initialize thing that have to be initialize
-      AppStoreInitializer.initialize(friendshipService);
-
+    AppStoreInitializer.initialize(friendshipService, friendshipControlService);
       // friendshipService.keepSubcribe();
     }
 
