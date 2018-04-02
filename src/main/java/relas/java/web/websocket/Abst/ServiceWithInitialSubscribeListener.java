@@ -14,7 +14,7 @@ import relas.java.web.websocket.error.SubscribeOtherUserChannelException;
 import java.security.Principal;
 import java.util.List;
 
-public abstract class ServiceWithInitialSubscribeListener<T, E> implements ApplicationListener<SessionDisconnectEvent> {
+public abstract class ServiceWithInitialSubscribeListener implements ApplicationListener<SessionDisconnectEvent> {
 
     protected final Logger log;
 
