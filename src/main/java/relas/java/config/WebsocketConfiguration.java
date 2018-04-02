@@ -43,7 +43,7 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic", "/addFriend");
+        config.enableSimpleBroker("/topic", "/addFriend", "/friendshipControl");
     }
 
     @Override
