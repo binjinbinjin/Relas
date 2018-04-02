@@ -50,13 +50,13 @@ public class FriendRequestService extends ServiceWithInitialSubscribeListener<In
     public void receivedNewMessage(@NotNull @Payload IntroduceUserDTO dto, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
         //adding new friend
         log.debug("Received a add friend request", dto);
-
         IntroduceUserDTO check = this.introduceUserService.saveIfNotExist(dto);
         if(check == null) return;
         if (dto.getIntroduceByLogin().equals(dto.getIntroduceToLogin())) {
             if(this.simpUserRegistry.getUser(dto.getIntroduceUserIDLogin()) == null)
                 return;
-           this.messagingTemplate.convertAndSend("/addFriend/"+dto.getIntroduceUserIDLogin(), dto);
+            this.messagingTemplate.convertAndSend("/addFriend/"+dto.getIntroduceUserIDLogin(), dto);
+            return;
 
         }
         if(this.simpUserRegistry.getUser(dto.getIntroduceToLogin()) == null)
