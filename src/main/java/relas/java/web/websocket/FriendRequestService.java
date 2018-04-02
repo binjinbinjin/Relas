@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Controller
-public class FriendRequestService extends ServiceWithInitialSubscribeListener<IntroduceUserDTO, String> {
+public class FriendRequestService extends ServiceWithInitialSubscribeListener{
 
 
     private final IntroduceUserService introduceUserService;
