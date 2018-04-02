@@ -19,7 +19,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-public class FriendshipControlService extends ServiceWithInitialSubscribeListener<FriendshipControlDTO, String>{
+public class FriendshipControlService extends ServiceWithInitialSubscribeListener{
 
     private final relas.java.service.FriendshipControlService friendshipControlService;
     public FriendshipControlService(SimpMessageSendingOperations messagingTemplate,
@@ -31,10 +31,10 @@ public class FriendshipControlService extends ServiceWithInitialSubscribeListene
 
     @SubscribeMapping("/friendshipControl/{login}")
     @SendTo("/friendshipControl/{login}")
-    public List<FriendshipControlDTO> subscribedEvent(@NotNull @DestinationVariable String login, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
+    public List<FriendListDTO> subscribedEvent(@NotNull @DestinationVariable String login, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
         this.authenticatedCheck(stompHeaderAccessor, principal, login);
         log.debug("User subscribe friendship control, login: {}", login);
-        return null;
+        return this.friendshipControlService.getAllFriend(login);
     }
 
     @MessageMapping("/friendshipControl/add")
