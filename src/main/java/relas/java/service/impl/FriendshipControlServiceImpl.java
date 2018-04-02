@@ -8,6 +8,8 @@ import relas.java.service.IntroduceUserService;
 import relas.java.service.UserService;
 import relas.java.service.dto.FriendListDTO;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class FriendshipControlServiceImpl implements FriendshipControlService{
@@ -55,5 +57,15 @@ public class FriendshipControlServiceImpl implements FriendshipControlService{
         dtoB.setFriendIDLogin(requestTo);
         dtoB.setUserIDLogin(requstSender);
         return new FriendListDTO[]{dtoB, dtoA};
+    }
+
+    /**
+     * Get a list of user friend
+     * @param  login user login
+     * @return null if user do not have any friend,
+     *          otherwise a list of friend will be return
+     * */
+    public List<FriendListDTO> getAllFriend(String login) {
+        return this.friendListService.getAllFriend(login);
     }
 }

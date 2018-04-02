@@ -4,6 +4,8 @@ import relas.java.service.dto.FriendListDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Service Interface for managing FriendList.
  */
@@ -17,6 +19,13 @@ public interface FriendListService {
      */
     FriendListDTO save(FriendListDTO friendListDTO);
 
+    /**
+     * Get a list of user friend
+     * @param  login user login
+     * @return null if user do not have any friend,
+     *          otherwise a list of friend will be return
+     * */
+    List<FriendListDTO> getAllFriend(String login);
     /**
      * Check if  user A  already in friendship with B
      * @param friendLogin user B's login

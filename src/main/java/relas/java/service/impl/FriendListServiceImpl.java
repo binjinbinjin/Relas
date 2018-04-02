@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -51,6 +54,23 @@ public class FriendListServiceImpl implements FriendListService {
         FriendListDTO result = friendListMapper.toDto(friendList);
         friendListSearchRepository.save(friendList);
         return result;
+    }
+
+    /**
+     * Get a list of user friend
+     *
+     * @param login user login
+     * @return null if user do not have any friend,
+     * otherwise a list of friend will be return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<FriendListDTO> getAllFriend(String login) {
+        Optional<List<FriendList>> optionList = this.friendListRepository.findByUserID_Login(login);
+        if (! optionList.isPresent())
+            return null;
+        List<FriendListDTO> friendList = this.friendListMapper.toDto(optionList.get());
+        return friendList;
     }
 
     /**

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data JPA repository for the FriendList entity.
@@ -26,4 +27,12 @@ public interface FriendListRepository extends JpaRepository<FriendList, Long> {
      * @return true is A and B are friend
      * */
     boolean existsFriendListByFriendID_LoginAndUserID_Login(String friendLogin, String userLogin);
+
+    /**
+     * Get a list of user friend
+     * @param  login user login
+     * @return null if user do not have any friend,
+     *          otherwise a list of friend will be return
+     * */
+    Optional<List<FriendList>> findByUserID_Login(String login);
 }
