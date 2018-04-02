@@ -54,6 +54,20 @@ public class FriendListServiceImpl implements FriendListService {
     }
 
     /**
+     * Check if  user A  already in friendship with B
+     * @param friendLogin user B's login
+     * @param userLogin user A's login
+     * @return true is A and B are friend
+     * */
+    @Override
+    @Transactional(readOnly = true)
+    public boolean friendshipCheck(String friendLogin, String userLogin){
+        boolean check = this.friendListRepository.existsFriendListByFriendID_LoginAndUserID_Login(friendLogin, userLogin);
+        log.debug("Check if {} is a friend of {}? Result: {}", friendLogin, userLogin, check);
+        return check;
+    }
+
+    /**
      * Get all the friendLists.
      *
      * @param pageable the pagination information
@@ -66,6 +80,7 @@ public class FriendListServiceImpl implements FriendListService {
         return friendListRepository.findAll(pageable)
             .map(friendListMapper::toDto);
     }
+
 
     /**
      * Get one friendList by id.

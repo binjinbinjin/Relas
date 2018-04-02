@@ -18,6 +18,14 @@ public interface FriendListService {
     FriendListDTO save(FriendListDTO friendListDTO);
 
     /**
+     * Check if  user A  already in friendship with B
+     * @param friendLogin user B's login
+     * @param userLogin user A's login
+     * @return true is A and B are friend
+     * */
+    public boolean friendshipCheck(String friendLogin, String userLogin);
+
+    /**
      * Get all the friendLists.
      *
      * @param pageable the pagination information
@@ -44,7 +52,7 @@ public interface FriendListService {
      * Search for the friendList corresponding to the query.
      *
      * @param query the query of the search
-     * 
+     *
      * @param pageable the pagination information
      * @return the list of entities
      */

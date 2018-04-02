@@ -19,4 +19,11 @@ public interface FriendListRepository extends JpaRepository<FriendList, Long> {
     @Query("select friend_list from FriendList friend_list where friend_list.friendID.login = ?#{principal.username}")
     List<FriendList> findByFriendIDIsCurrentUser();
 
+    /**
+     * Check if  user A  already in friendship with B
+     * @param friendLogin user B's login
+     * @param userLogin user A's login
+     * @return true is A and B are friend
+     * */
+    boolean existsFriendListByFriendID_LoginAndUserID_Login(String friendLogin, String userLogin);
 }
