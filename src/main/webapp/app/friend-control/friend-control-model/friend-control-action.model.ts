@@ -1,7 +1,10 @@
 
 export const  enum FriendControlActionEnum {
     ADD_FRIEND = 'ADD_FRIEND',
-    DELETE_FRIEND = 'DELETE_FRIEND'
+    DELETE_FRIEND = 'DELETE_FRIEND',
+    NEW_FRIEND = 'NEW_FRIEND',
+    GET_LIST = 'GET_LIST',
+    NEW_FRIEND_LIST = 'NEW_FRIEND_LIST',
 }
 
 export class FriendControlActionModel {
