@@ -29,10 +29,15 @@ public class FriendshipControlServiceImpl implements FriendshipControlService{
      *
      * @param requstSender
      * @param requestTo
+     * @return null if add fail, otherwise a array with index 0 requstSender FriendListDTO
+     *         index 1 requstTo FriendListDTO
      */
     @Override
     public FriendListDTO[] acceptRequest(String requstSender, String requestTo, String relationship) {
         this.introduceUserService.removeIntroduceUser(requstSender, requestTo);
+        if( this.friendListService.friendshipCheck(requestTo, requstSender))
+            return null;
+
         FriendListDTO dtoA = new FriendListDTO();
         FriendListDTO dtoB = new FriendListDTO();
         long idA = this.userService.getUserWithAuthoritiesByLogin(requstSender).get().getId();
@@ -44,8 +49,11 @@ public class FriendshipControlServiceImpl implements FriendshipControlService{
         dtoB.setFriendIDId(idB);
         dtoB.setUserIDId(idA);
         dtoA = this.friendListService.save(dtoA);
-        dtoB = this.friendListService.save(dtoB);
-
-        return new FriendListDTO[]{dtoA, dtoB};
+        dtoB  = this.friendListService.save(dtoB);
+        dtoA.setFriendIDLogin(requstSender);
+        dtoA.setUserIDLogin(requestTo);
+        dtoB.setFriendIDLogin(requestTo);
+        dtoB.setUserIDLogin(requstSender);
+        return new FriendListDTO[]{dtoB, dtoA};
     }
 }
