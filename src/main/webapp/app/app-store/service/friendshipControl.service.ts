@@ -81,9 +81,18 @@ export class FriendshipControlService {
         if (!this.userLogin)
             throw Error('Please login');
         friendsControlAction.userLogin = this.userLogin;
-        console.log("add friend", friendsControlAction);
         if (this.stompClient != null && this.stompClient.connected) {
             this.stompClient.send('/friendshipControl/add', JSON.stringify(friendsControlAction), {});
+        }
+    }
+
+    /***Send the delete friend action*/
+    deleteFriend(friendsControlAction: FriendControlActionModel) {
+        if (!this.userLogin)
+            throw Error('Please login');
+        friendsControlAction.userLogin = this.userLogin;
+        if (this.stompClient != null && this.stompClient.connected) {
+            this.stompClient.send('/friendshipControl/delete', JSON.stringify(friendsControlAction), {});
         }
     }
 
