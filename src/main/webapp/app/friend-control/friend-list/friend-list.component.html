@@ -1,3 +1,21 @@
-<p>
-  {{req| json}}
-</p>
+<div [style.display]="displayList? 'block' : 'none' ">
+  <ul class="list-group box">
+    <li class="list-group-item">
+      <div (click)="displayList = !displayList">&times;</div>
+    </li>
+    <li class="list-group-item" *ngFor="let request of req">
+      <app-friendblock [user]="request"></app-friendblock>
+    </li>
+  </ul>
+</div>
+
+
+
+<button [style.display]="displayList? 'none' : 'block' " 
+type="button" 
+class="btn btn-primary"
+(click)="displayList = !displayList"
+>
+<p class="button-content">&lt;&lt;<br>F<br>r<br>i<br>e<br>n<br>d<br><br>L<br>i<br>s<br>t</p>
+</button>
+

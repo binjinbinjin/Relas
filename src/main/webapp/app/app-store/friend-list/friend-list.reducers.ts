@@ -29,7 +29,15 @@ export function getFriendListReducer() {
             case FriendControlActionEnum.NEW_FRIEND_LIST : {
                 const newPayloads: FriendListModel[] = [];
                 (action.list as FriendListModel[]).forEach((element) => {
-                    newPayloads.push(element);
+                    const el: FriendListModel = new FriendListModel(
+                                                        element.id,
+                                                        element.userRelationship,
+                                                        element.remark,
+                                                        element.userIDLogin,
+                                                        element.userIDId,
+                                                        element.friendIDLogin,
+                                                        element.friendIDId);
+                    newPayloads.push(el);
                 });
 
                 return {
@@ -39,9 +47,17 @@ export function getFriendListReducer() {
                 };
 
             }
-            // get a friend to add into friendlist
+        // get a friend to add into friendlist
             case FriendControlActionEnum.NEW_FRIEND : {
-                state.payloads.push((action.list as FriendListModel));
+                const element = (action.list as FriendListModel);
+                state.payloads.push(new FriendListModel(
+                                                    element.id,
+                                                    element.userRelationship,
+                                                    element.remark,
+                                                    element.userIDLogin,
+                                                    element.userIDId,
+                                                    element.friendIDLogin,
+                                                    element.friendIDId));
                 return {
                     ...state,
                     dataInfo: {dataStatus: StoreDataStatus.COMPLETE}

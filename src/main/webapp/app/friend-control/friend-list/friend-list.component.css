@@ -1,0 +1,13 @@
+
+.box {
+    width: 300px;
+}
+
+li {
+    padding: 0 0 0 0;
+    border: solid;
+}
+
+.button-content {
+    font-size: 10px;
+}
