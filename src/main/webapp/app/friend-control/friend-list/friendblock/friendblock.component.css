@@ -1,0 +1,17 @@
+
+.link {
+    font-size: 10px;
+}
+.description {
+    overflow-y:scroll; 
+    overflow-x:hidden; 
+    height:22px;
+    color: gray;
+    font-size: 15px;
+}
+
+.box {
+    box-sizing: border-box;
+    max-width: 290px;
+    background-color: rgb(252, 255, 254);
+}
