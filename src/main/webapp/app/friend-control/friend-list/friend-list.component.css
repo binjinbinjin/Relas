@@ -1,4 +1,11 @@
 
+.friend-list {
+    float: right;
+    top: 50px;
+    position: -webkit-sticky;
+    position: sticky;
+}
+
 .box {
     width: 300px;
 }
