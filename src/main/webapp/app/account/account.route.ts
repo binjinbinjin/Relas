@@ -9,8 +9,8 @@ import {
     settingsRoute,
     socialAuthRoute,
     socialRegisterRoute,
+    portfolioRoute,
 } from './';
-import { portfolioRoute } from './portfolio/portfolio.route';
 
 const ACCOUNT_ROUTES = [
     activateRoute,
