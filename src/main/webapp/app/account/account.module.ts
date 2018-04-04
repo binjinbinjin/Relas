@@ -1,30 +1,32 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { RelasSharedModule } from '../shared';
-
+import { UserPortfolioModule } from '../user-portfolio/user-portfolio.module';
 import {
-    Register,
-    ActivateService,
-    PasswordService,
-    PasswordResetInitService,
-    PasswordResetFinishService,
-    PasswordStrengthBarComponent,
-    RegisterComponent,
+    accountState,
     ActivateComponent,
+    ActivateService,
     PasswordComponent,
-    PasswordResetInitComponent,
     PasswordResetFinishComponent,
+    PasswordResetFinishService,
+    PasswordResetInitComponent,
+    PasswordResetInitService,
+    PasswordService,
+    PasswordStrengthBarComponent,
+    Register,
+    RegisterComponent,
     SettingsComponent,
-    SocialRegisterComponent,
     SocialAuthComponent,
-    accountState
+    SocialRegisterComponent,
 } from './';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 @NgModule({
     imports: [
         RelasSharedModule,
-        RouterModule.forChild(accountState)
+        RouterModule.forChild(accountState),
+        UserPortfolioModule
     ],
     declarations: [
         SocialRegisterComponent,
@@ -35,7 +37,8 @@ import {
         PasswordStrengthBarComponent,
         PasswordResetInitComponent,
         PasswordResetFinishComponent,
-        SettingsComponent
+        SettingsComponent,
+        PortfolioComponent
     ],
     providers: [
         Register,
