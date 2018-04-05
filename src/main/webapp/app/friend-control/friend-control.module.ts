@@ -14,6 +14,8 @@ import { FriendshipControlService } from '../app-store/service/friendshipControl
 import { FriendListComponent } from './friend-list/friend-list.component';
 import { UtilsModule } from '../utils/utils.module';
 import { UserPortfolioModule } from '../user-portfolio/user-portfolio.module';
+import { RouterModule } from '@angular/router';
+import { friendControlMainRoute } from './friend-control.route';
 
 @NgModule({
   imports: [
@@ -27,6 +29,7 @@ import { UserPortfolioModule } from '../user-portfolio/user-portfolio.module';
     DirectivesModule,
     NgbModule,
     UtilsModule,
+    RouterModule.forChild(friendControlMainRoute),
   ],
   exports: [AddFriendComponent, ShowFriendRequestComponent, FriendListComponent],
   providers: [],
