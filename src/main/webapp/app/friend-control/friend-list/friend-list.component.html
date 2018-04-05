@@ -1,6 +1,6 @@
-<div class="friend-list">
-  <div [style.display]="displayList? 'none' : 'block'">
-    <ul class="list-group box">
+<div class="friend-list" [class.friend-list-open]="!displayList"> 
+  <div [style.display]="displayList? 'none' : 'block'" class="box rounded animated fadeInRight">
+    <ul class="list-group">
       <li class="list-group-item">
         <div (click)="displayList = !displayList">&times;</div>
       </li>
