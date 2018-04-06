@@ -1,0 +1,12 @@
+<div class="container chat rounded" [style.display]="open? 'block': 'none'">
+  <span aria-hidden="true" (click)="open = !open">&times;</span>  
+  <div class="messages">
+    <app-message-dispaly [messages]="message"></app-message-dispaly>
+  </div>
+  <form class="input">
+    <div class="form-group ">
+      <button type="button" class="btn btn-primary button-font">Send</button>
+      <textarea class="form-control" id="text" rows="3"></textarea>
+    </div
+  </form>
+</div>

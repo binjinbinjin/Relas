@@ -1,0 +1,13 @@
+<div class="row message animated fadeIn">
+  <div class="col-2" *ngIf="message.sendInMessage">
+    <app-display-url-image [imageUrl]="message.image" ></app-display-url-image>
+  </div>
+   
+  <div class="col-10" >
+    <p class="alert alert-secondary" [style.textAlign]="message.sendInMessage? 'left': 'right'">{{message.message}}</p>
+  </div>
+
+  <div class="col-2" *ngIf="!message.sendInMessage">
+    <app-display-url-image style="float: right" [imageUrl]="message.image" ></app-display-url-image>
+  </div>
+</div>

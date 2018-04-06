@@ -1,0 +1,22 @@
+.messages {
+    box-sizing: border-box;
+    /* padding: 3px 3px 3px 3px; */
+    height: 450px;
+    border: solid;
+    border-width: 1px;
+    margin-top: 6px;
+}
+
+.chat {
+    box-sizing: border-box;
+    width: 420px;
+    border: solid
+}
+
+.input {
+    margin-top: 6px;
+}
+
+.button-font {
+    font-size: 9px;
+}
