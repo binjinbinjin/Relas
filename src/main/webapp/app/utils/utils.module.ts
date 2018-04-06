@@ -7,6 +7,7 @@ import {
   EnlargeImageModalContentComponent,
 } from './enlarge-image/enlarge-image-modal-content/enlarge-image-modal-content.component';
 import { EnlargeImageComponent } from './enlarge-image/enlarge-image.component';
+import { DisplayUrlImageComponent } from './display-url-image/display-url-image.component';
 
 @NgModule({
   imports: [
@@ -16,11 +17,12 @@ import { EnlargeImageComponent } from './enlarge-image/enlarge-image.component';
 
   declarations: [EnlargeImageComponent,
                   EnlargeImageModalContentComponent,
-                  DisplayServiceImageComponent],
+                  DisplayServiceImageComponent,
+                  DisplayUrlImageComponent],
 
   providers: [],
 
-  exports: [EnlargeImageComponent, DisplayServiceImageComponent],
+  exports: [EnlargeImageComponent, DisplayServiceImageComponent, DisplayUrlImageComponent],
 
   entryComponents: [EnlargeImageModalContentComponent]
 })

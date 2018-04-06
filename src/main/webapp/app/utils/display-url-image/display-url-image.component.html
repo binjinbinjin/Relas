@@ -1,0 +1,16 @@
+<div *ngIf="imageUrl">
+  <img [src]="imageUrl" alt="image" (click)="open(content)" style="max-height: 50px; max-width: 100%;"
+    class="rounded" />
+</div>
+
+<ng-template #content>
+  <div class="modal-header">
+    <h4 class="modal-title">Image</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img [src]="imageUrl" alt="image" style="max-width: 100%;" />
+  </div>
+</ng-template>
