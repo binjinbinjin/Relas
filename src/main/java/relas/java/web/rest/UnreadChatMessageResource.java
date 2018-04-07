@@ -16,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Nullable;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -112,6 +114,33 @@ public class UnreadChatMessageResource {
         log.debug("REST request to get UnreadChatMessage : {}", id);
         UnreadChatMessageDTO unreadChatMessageDTO = unreadChatMessageService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(unreadChatMessageDTO));
+    }
+
+    /**
+     * GET  /unread-chat-messages/:login : get the "login" unreadChatMessage.
+     *
+     * @param login the user login
+     * @return the ResponseEntity with status 200 (OK) and with body the unreadChatMessageDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/unread-chat-messages/{login}")
+    @Timed
+    public ResponseEntity<List<UnreadChatMessageDTO>> getUnreadChatMessages(@PathVariable String login) {
+        log.debug("REST request to get a list of UnreadChatMessage : {}", login);
+        List<UnreadChatMessageDTO> unreadChatMessageDTO = this.unreadChatMessageService.getUnreadMessageByLogin(login);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(unreadChatMessageDTO));
+    }
+
+    /**
+     * Delete /unread-chat-messages/remove?userLogin=login&messageId=id
+     *@param login user login
+     *@param id message id (ChatMessage entity id)
+     *@return the ResponseEntity with status 200 (OK)
+     * */
+    @DeleteMapping("/unread-chat-messages/remove")
+    @Timed
+    public ResponseEntity<Void> deleteUnreadChatMessage(@NotNull @PathVariable("userLogin") String login, @NotNull @PathVariable("messageId") Long id) {
+        this.unreadChatMessageService.deleteByLoginAndMessageId(login, id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, login + id.toString())).build();
     }
 
     /**
