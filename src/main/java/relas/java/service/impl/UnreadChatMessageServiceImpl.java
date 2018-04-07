@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -54,6 +57,22 @@ public class UnreadChatMessageServiceImpl implements UnreadChatMessageService {
     }
 
     /**
+     * Get entity by user login
+     *
+     * @param login user login
+     * @return if specified user exist at least one unread message than a list of unread message
+     * will be return, otherwise a null will be return
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UnreadChatMessageDTO> getUnreadMessageByLogin(String login) {
+        Optional<List<UnreadChatMessage>> entities = this.unreadChatMessageRepository.findUnreadChatMessageByUserID_Login(login);
+        if (!entities.isPresent())
+            return null;
+        return this.unreadChatMessageMapper.toDto(entities.get());
+    }
+
+    /**
      * Get all the unreadChatMessages.
      *
      * @param pageable the pagination information
@@ -91,6 +110,17 @@ public class UnreadChatMessageServiceImpl implements UnreadChatMessageService {
         log.debug("Request to delete UnreadChatMessage : {}", id);
         unreadChatMessageRepository.delete(id);
         unreadChatMessageSearchRepository.delete(id);
+    }
+
+    /**
+     * Remove entity by user login and ChatMessage id
+     *
+     * @param login user login
+     * @param id    message id
+     */
+    @Override
+    public void deleteByLoginAndMessageId(String login, long id) {
+        this.unreadChatMessageRepository.deleteByUserID_LoginAndMessage_Id(login, id);
     }
 
     /**
