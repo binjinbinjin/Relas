@@ -25,7 +25,7 @@ public class FriendshipControlService extends ServiceWithInitialSubscribeListene
     public FriendshipControlService(SimpMessageSendingOperations messagingTemplate,
                                     SimpUserRegistry defaultSimpUserRegistry,
                                     relas.java.service.FriendshipControlService friendshipControlService) {
-        super(messagingTemplate, defaultSimpUserRegistry, FriendRequestService.class);
+        super(messagingTemplate, defaultSimpUserRegistry, FriendshipControlService.class);
         this.friendshipControlService = friendshipControlService;
     }
 
