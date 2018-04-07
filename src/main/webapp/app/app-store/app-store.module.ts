@@ -1,3 +1,4 @@
+import { ChatSocketService } from './service/chat-socket.service';
 import { provideReduxForms } from '@angular-redux/form';
 import { NgReduxRouter, NgReduxRouterModule } from '@angular-redux/router';
 import { DevToolsExtension, NgRedux, NgReduxModule } from '@angular-redux/store';
@@ -10,12 +11,14 @@ import { rootReducer } from './app-store/app.reducers';
 import { AppStoreState, INITIAL_APP_STORE } from './app-store/app.store.model';
 import { FriendshipRequestService } from './service/friendshipRequest.service';
 import { FriendshipControlService } from './service/friendshipControl.service';
+import { ChatRoomService } from './service/chat-room.service';
+import { UnreadChatMessageService } from './service/unread-chat-message.service';
 
 @NgModule({
   imports: [
     CommonModule,
     NgReduxModule, NgReduxRouterModule],
-  providers: [FriendshipRequestService, FriendshipControlService],
+  providers: [FriendshipRequestService, FriendshipControlService, ChatRoomService, ChatSocketService, UnreadChatMessageService],
   exports: [],
   declarations: []
 })
