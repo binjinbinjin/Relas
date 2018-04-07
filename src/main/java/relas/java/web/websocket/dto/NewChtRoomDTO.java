@@ -1,6 +1,6 @@
 package relas.java.web.websocket.dto;
 
-public class NewChtRoom {
+public class NewChtRoomDTO {
     private long chatId;
 
     public long getChatId() {
@@ -13,7 +13,7 @@ public class NewChtRoom {
 
     @Override
     public String toString() {
-        return "NewChtRoom{" +
+        return "NewChtRoomDTO{" +
             "chatId=" + chatId +
             '}';
     }
