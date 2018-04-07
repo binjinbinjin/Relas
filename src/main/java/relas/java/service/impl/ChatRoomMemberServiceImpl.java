@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -51,6 +54,22 @@ public class ChatRoomMemberServiceImpl implements ChatRoomMemberService {
         ChatRoomMemberDTO result = chatRoomMemberMapper.toDto(chatRoomMember);
         chatRoomMemberSearchRepository.save(chatRoomMember);
         return result;
+    }
+
+    /**
+     * Get a list of chat room member by chat room id
+     *
+     * @param chatId chat room id
+     * @return return a list of chat room member, if this chat room is not empty, otherwise null
+     */
+    @Override
+    public List<ChatRoomMemberDTO> getMembersOfChatRoom(long chatId) {
+        Optional<List<ChatRoomMember>> members = this.chatRoomMemberRepository.findChatRoomMemberByChatID_Id(chatId);
+        List<ChatRoomMemberDTO> membersResult = null;
+        if(members.isPresent())
+            membersResult = this.chatRoomMemberMapper.toDto(members.get());
+        log.debug("Get chat room members: members {}", members);
+        return membersResult;
     }
 
     /**
