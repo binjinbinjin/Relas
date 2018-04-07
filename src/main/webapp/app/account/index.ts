@@ -19,5 +19,6 @@ export * from './settings/settings.route';
 export * from './social/social-auth.component';
 export * from './social/social-register.component';
 export * from './social/social.route';
-export * from './portfolio/portfolio.route';
+export * from './portfolio/portfolio.component';
+export * from './portfolio/user-portfolio.route';
 export * from './account.route';
