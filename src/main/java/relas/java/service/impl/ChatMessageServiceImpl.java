@@ -107,4 +107,26 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         Page<ChatMessage> result = chatMessageSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(chatMessageMapper::toDto);
     }
+
+    /**
+     * Convert ChatMessage to ChatMessageDTO
+     *
+     * @param message chat message
+     * @return correspond ChatMessageDTO object
+     */
+    @Override
+    public ChatMessageDTO convertEntityToDTO(ChatMessage message) {
+        return this.chatMessageMapper.toDto(message);
+    }
+
+    /**
+     * Convert ChatMessageDTO to ChatMessage
+     *
+     * @param messageDTO chat message
+     * @return correspond ChatMessage object
+     */
+    @Override
+    public ChatMessage convertDTOToEntity(ChatMessageDTO messageDTO) {
+        return this.chatMessageMapper.toEntity(messageDTO);
+    }
 }
