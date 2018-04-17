@@ -8,10 +8,13 @@ export enum friendRequestReason {
     'STRANGER' = 5
 }
 
-/**FriendshipRequest model, this model is the data model for a friendship request
+/**
+ * FriendshipRequest model, this model is the data model for a friendship request
  *
  * This data model is both for 1. when user wants to add a new friend,
  * 2. when user wants to introduce a friend to an other user
+ *
+ * (Model use in service)
  */
 export interface FriendshipRequest {
     id?: number;

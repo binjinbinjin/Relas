@@ -1,17 +1,18 @@
 
+/**Model for friend in friends list (Model use in service)*/
 export class FriendListModel {
     private friendDescription?: string;
     private friendImage?: any;
     private friendImageContentType?: string;
-    private friendDisplayName?: string;
+    public friendDisplayName?: string;
     constructor(
-        public id?: number,
-        public userRelationship?: string,
-        public remark?: string,
-        public userIDLogin?: string,
-        public userIDId?: number,
-        public friendIDLogin?: string,
-        public friendIDId?: number,
+        public id?: number, // (property use in service)
+        public userRelationship?: string, // (property use in service)
+        public remark?: string, // (property use in service)
+        public userIDLogin?: string, // (property use in service)
+        public userIDId?: number, // (property use in service)
+        public friendIDLogin?: string, // (property use in service)
+        public friendIDId?: number, // (property use in service)
     ) {}
 
     public getFriendDescription(): string {
