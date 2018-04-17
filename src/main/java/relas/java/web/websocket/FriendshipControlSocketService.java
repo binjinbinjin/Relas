@@ -9,7 +9,6 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import relas.java.service.IntroduceUserService;
 import relas.java.service.dto.FriendListDTO;
 import relas.java.web.websocket.Abst.ServiceWithInitialSubscribeListener;
 import relas.java.web.websocket.dto.FriendshipControlDTO;
@@ -19,13 +18,13 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-public class FriendshipControlService extends ServiceWithInitialSubscribeListener{
+public class FriendshipControlSocketService extends ServiceWithInitialSubscribeListener{
 
     private final relas.java.service.FriendshipControlService friendshipControlService;
-    public FriendshipControlService(SimpMessageSendingOperations messagingTemplate,
-                                    SimpUserRegistry defaultSimpUserRegistry,
-                                    relas.java.service.FriendshipControlService friendshipControlService) {
-        super(messagingTemplate, defaultSimpUserRegistry, FriendshipControlService.class);
+    public FriendshipControlSocketService(SimpMessageSendingOperations messagingTemplate,
+                                          SimpUserRegistry defaultSimpUserRegistry,
+                                          relas.java.service.FriendshipControlService friendshipControlService) {
+        super(messagingTemplate, defaultSimpUserRegistry, FriendshipControlSocketService.class);
         this.friendshipControlService = friendshipControlService;
     }
 
@@ -33,7 +32,7 @@ public class FriendshipControlService extends ServiceWithInitialSubscribeListene
     @SendTo("/friendshipControl/{login}")
     public List<FriendListDTO> subscribedEvent(@NotNull @DestinationVariable String login, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
         this.authenticatedCheck(stompHeaderAccessor, principal, login);
-        log.debug("User subscribe friendship control, login: {}", login);
+        log.debug("User subscribed friendship control, login: {}", login);
         return this.friendshipControlService.getAllFriend(login);
     }
 

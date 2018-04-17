@@ -10,27 +10,21 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import relas.java.config.Constants;
-import relas.java.security.SecurityUtils;
 import relas.java.service.IntroduceUserService;
 import relas.java.service.dto.IntroduceUserDTO;
-import relas.java.service.dto.UserPortfolioDTO;
 import relas.java.web.websocket.Abst.ServiceWithInitialSubscribeListener;
-import relas.java.web.websocket.error.SubscribeOtherUserChannelException;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
-public class FriendRequestService extends ServiceWithInitialSubscribeListener{
+public class FriendRequestSocketService extends ServiceWithInitialSubscribeListener{
 
 
     private final IntroduceUserService introduceUserService;
-    public FriendRequestService(SimpMessageSendingOperations messagingTemplate, SimpUserRegistry defaultSimpUserRegistry, IntroduceUserService introduceUserService) {
-        super(messagingTemplate, defaultSimpUserRegistry, FriendRequestService.class);
+    public FriendRequestSocketService(SimpMessageSendingOperations messagingTemplate, SimpUserRegistry defaultSimpUserRegistry, IntroduceUserService introduceUserService) {
+        super(messagingTemplate, defaultSimpUserRegistry, FriendRequestSocketService.class);
         this.introduceUserService = introduceUserService;
     }
 
