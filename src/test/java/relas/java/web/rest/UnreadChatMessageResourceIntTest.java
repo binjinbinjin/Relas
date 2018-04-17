@@ -6,6 +6,7 @@ import relas.java.domain.UnreadChatMessage;
 import relas.java.domain.ChatMessage;
 import relas.java.domain.User;
 import relas.java.repository.UnreadChatMessageRepository;
+import relas.java.service.ChatMessageService;
 import relas.java.service.UnreadChatMessageService;
 import relas.java.repository.search.UnreadChatMessageSearchRepository;
 import relas.java.service.dto.UnreadChatMessageDTO;
@@ -54,6 +55,9 @@ public class UnreadChatMessageResourceIntTest {
     private UnreadChatMessageService unreadChatMessageService;
 
     @Autowired
+    private ChatMessageService chatMessageService;
+
+    @Autowired
     private UnreadChatMessageSearchRepository unreadChatMessageSearchRepository;
 
     @Autowired
@@ -75,7 +79,7 @@ public class UnreadChatMessageResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final UnreadChatMessageResource unreadChatMessageResource = new UnreadChatMessageResource(unreadChatMessageService);
+        final UnreadChatMessageResource unreadChatMessageResource = new UnreadChatMessageResource(unreadChatMessageService, chatMessageService);
         this.restUnreadChatMessageMockMvc = MockMvcBuilders.standaloneSetup(unreadChatMessageResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
