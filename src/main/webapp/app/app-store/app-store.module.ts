@@ -1,24 +1,37 @@
-import { ChatSocketService } from './service/chat-socket.service';
 import { provideReduxForms } from '@angular-redux/form';
 import { NgReduxRouter, NgReduxRouterModule } from '@angular-redux/router';
 import { DevToolsExtension, NgRedux, NgReduxModule } from '@angular-redux/store';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
+import { UserPortfolioService } from '../user-portfolio/user-portfolio-service/user-portfolio.service';
+import { UserPortfolioModule } from '../user-portfolio/user-portfolio.module';
 import { createEpics } from './app-store/app.epics';
 import { AppStoreInitializer } from './app-store/app.initialize';
 import { rootReducer } from './app-store/app.reducers';
 import { AppStoreState, INITIAL_APP_STORE } from './app-store/app.store.model';
-import { FriendshipRequestService } from './service/friendshipRequest.service';
-import { FriendshipControlService } from './service/friendshipControl.service';
 import { ChatRoomService } from './service/chat-room.service';
+import { ChatSocketService } from './service/chat-socket.service';
+import { FriendshipControlService } from './service/friendshipControl.service';
+import { FriendshipRequestService } from './service/friendshipRequest.service';
 import { UnreadChatMessageService } from './service/unread-chat-message.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    NgReduxModule, NgReduxRouterModule],
-  providers: [FriendshipRequestService, FriendshipControlService, ChatRoomService, ChatSocketService, UnreadChatMessageService],
+    NgReduxModule,
+    NgReduxRouterModule,
+    UserPortfolioModule,
+    RouterModule
+  ],
+  providers: [
+    FriendshipRequestService,
+    FriendshipControlService,
+    ChatRoomService,
+    ChatSocketService,
+    UnreadChatMessageService,
+  ],
   exports: [],
   declarations: []
 })
@@ -27,12 +40,17 @@ export class AppStoreModule {
     devTools: DevToolsExtension,
     ngReduxRouter: NgReduxRouter,
     friendshipService: FriendshipRequestService,
-    friendshipControlService: FriendshipControlService
+    friendshipControlService: FriendshipControlService,
+    chatSocket: ChatSocketService,
+    portfolioService: UserPortfolioService,
+    chatRoomService: ChatRoomService,
+    unreadMessagService: UnreadChatMessageService,
+    router: Router
   ) {
       store.configureStore(
-        rootReducer(friendshipService, friendshipControlService),
+        rootReducer(friendshipService, friendshipControlService, chatSocket, unreadMessagService, router),
         INITIAL_APP_STORE,
-        [/*createLogger(), */...createEpics(friendshipService, friendshipControlService)],
+        [/*createLogger(), */...createEpics(friendshipService, friendshipControlService, portfolioService, chatSocket, chatRoomService, unreadMessagService )],
         devTools.isEnabled() ? [devTools.enhancer()] : []);
 
       // Enable syncing of Angular router state with our Redux store.
@@ -44,7 +62,7 @@ export class AppStoreModule {
       provideReduxForms(store);
 
       // Initialize thing that have to be initialize
-    AppStoreInitializer.initialize(friendshipService, friendshipControlService);
+    AppStoreInitializer.initialize();
       // friendshipService.keepSubcribe();
     }
 
