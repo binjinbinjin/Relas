@@ -5,7 +5,7 @@ import java.util.List;
 public class AddChatMemberDTO {
 
     private Long chatId;
-    private List<String> addMembers;
+    private List<Long> addMembers;
 
     public Long getChatId() {
         return chatId;
@@ -15,11 +15,11 @@ public class AddChatMemberDTO {
         this.chatId = chatId;
     }
 
-    public List<String> getAddMembers() {
+    public List<Long> getAddMembers() {
         return addMembers;
     }
 
-    public void setAddMembers(List<String> addMembers) {
+    public void setAddMembers(List<Long> addMembers) {
         this.addMembers = addMembers;
     }
 
