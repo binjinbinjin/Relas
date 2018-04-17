@@ -111,9 +111,10 @@ export function newMessage(
             }
 
             case ChatActionEnum.REMOVE_UNREAD_MESSAGE : {
-                if (!action.messageId)
-                    throw new Error('AppStore error, action.messageId cannot be null when action.type = ChatActionEnum.REMOVE_UNREAD_MESSAGE');
-                unreadChatMessage.removeUnreadMessage(action.messageId);
+                if (!action.chatId)
+                    throw new Error('AppStore error, action.chatId cannot be null when action.type = ChatActionEnum.REMOVE_UNREAD_MESSAGE');
+                const newPayloads = state.payloads.slice();
+                    unreadChatMessage.removeUnreadMessage(action.messageId);
                 return state;
             }
         }
@@ -207,7 +208,8 @@ function addMessageToThread(stateName: string, state: StoreDataInter <ChatRoomDa
         return { ...state, dataInfo: { ...action.dataInfo } };
 
     const newPayLoads = state.payloads.slice();
-    const find = newPayLoads.find((each) => each.chatId === action.chatId);
+    const find: ChatRoomDataModel = deepCopyOfSameChatId(newPayLoads, action.chatId);
+
     if (!find) return state;
     if (Array.isArray(action.payLoad)) {
         find.addMessages((action.payLoad as ChatMessage[]));
@@ -266,7 +268,7 @@ function newChatMember(chatSocket: ChatSocketService,
 
             const newPayLoads = state.payloads.slice();
 
-            const find  = newPayLoads.find((each) => each.chatId === action.chatId);
+            const find: ChatRoomDataModel = deepCopyOfSameChatId(newPayLoads, action.chatId);
 
             if (!find)
                 throw new Error('AppStor error, can not add a new members to chat thred that is not exist');
@@ -281,4 +283,27 @@ function newChatMember(chatSocket: ChatSocketService,
         }
     }
     return state;
+}
+
+/**
+ * Find the chat room with specified chat id, and replace chat room with an deep copy of
+ * original objet, and return the deep copy
+ * - This method will only make change to the first chat room with specified chat id
+ * - This method may return a null object, iff input array do not contain the chat room with specifed chat id
+ * @param array an array of chat room
+ * @param chatId chat room id
+ * @returns a ChatRoomDataModel object iff the input array
+ * contain a chat room with specified chatId, otherwise null
+ */
+function deepCopyOfSameChatId(array: ChatRoomDataModel[], chatId: number): ChatRoomDataModel  {
+    let find: ChatRoomDataModel = null;
+    for (let i = 0; i < array.length; i++) {
+        const each = array[i];
+        if (each.chatId !== chatId) continue;
+
+        find = Object.assign({}, each);
+        array[i] = find;
+        break;
+    }
+    return find;
 }
