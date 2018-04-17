@@ -1,16 +1,20 @@
+import { Router } from '@angular/router';
+
 import { ChatMessage } from '../../chat/model/chat-message.model';
 import { ChatRoomDataModel } from '../../chat/model/chat-room.model';
 import { StoreDataInter } from '../app-store/app.store.model';
+import { UnreadChatMessageService } from '../service/unread-chat-message.service';
 import { AddChatMemberModel } from './../../chat/model/add-chat-member.model';
 import { StoreDataStatus } from './../app-store/app.store.model';
 import { ChatSocketService } from './../service/chat-socket.service';
-import { UnreadChatMessageService } from './../service/unread-chat-message.service';
 import { ChatAction, ChatActionEnum } from './chat.action';
-import { INITIAL_CHAT_MESSAGE, INITIAL_CHAT_THREADS} from './chat.data';
-import { Router } from '@angular/router';
+import { INITIAL_CHAT_MESSAGE, INITIAL_CHAT_THREADS } from './chat.data';
 
-export function existThreadReduder(stateName: string, chatSocket: ChatSocketService,
-    router: Router) {
+export function existThreadReduder(
+    stateName: string,
+    chatSocket: ChatSocketService,
+    router: Router,
+    unreadChatMessage: UnreadChatMessageService) {
 
     return (state: StoreDataInter<ChatRoomDataModel> = INITIAL_CHAT_THREADS(), action: ChatAction): StoreDataInter<ChatRoomDataModel> => {
         let newState: StoreDataInter<ChatRoomDataModel>;
@@ -24,10 +28,10 @@ export function existThreadReduder(stateName: string, chatSocket: ChatSocketServ
         newState = beenAddToANewChatRoomWithMembers(stateName, state, action, router);
         if (newState !== state) return newState;
 
-        newState = addMessageToThread(stateName, state, action);
+        newState = newChat(stateName, state, action, chatSocket, router);
         if (newState !== state) return newState;
 
-        newState = newChat(stateName, state, action, chatSocket, router);
+        newState = messageToThread(stateName, unreadChatMessage, state, action);
         if (newState !== state) return newState;
 
         return state;
@@ -91,7 +95,7 @@ export function newChat(
  * @param unreadChatMessage unread message http service
  */
 export function newMessage(
-    chatSocket: ChatSocketService, unreadChatMessage: UnreadChatMessageService) {
+    chatSocket: ChatSocketService) {
 
     return (state: StoreDataInter<ChatMessage> = INITIAL_CHAT_MESSAGE(), action: ChatAction): StoreDataInter<ChatMessage> => {
 
@@ -107,14 +111,6 @@ export function newMessage(
                 if (!action.payLoad || !action.chatId)
                     throw new Error('AppStore error, action.payLoad and action.chatId cannot be null when action.type = ChatActionEnum.SEND_NEW_MESSAGE ');
                 chatSocket.newMessage(action.payLoad, action.chatId);
-                return state;
-            }
-
-            case ChatActionEnum.REMOVE_UNREAD_MESSAGE : {
-                if (!action.chatId)
-                    throw new Error('AppStore error, action.chatId cannot be null when action.type = ChatActionEnum.REMOVE_UNREAD_MESSAGE');
-                const newPayloads = state.payloads.slice();
-                    unreadChatMessage.removeUnreadMessage(action.messageId);
                 return state;
             }
         }
@@ -199,28 +195,58 @@ function beenAddToANewChatRoomWithMembers(
  * @param state app state
  * @param action chat action
  */
-function addMessageToThread(stateName: string, state: StoreDataInter <ChatRoomDataModel>,
+function messageToThread(
+    stateName: string,
+    unreadChatMessage: UnreadChatMessageService,
+    state: StoreDataInter <ChatRoomDataModel>,
     action: ChatAction): StoreDataInter <ChatRoomDataModel> {
 
     if (!action.stateName || stateName !== action.stateName) return state;
-    if (action.type !== ChatActionEnum.NEW_UNREAD_MESSAGE) return state;
+
+    if (action.type !== ChatActionEnum.NEW_UNREAD_MESSAGE &&
+        action.type !== ChatActionEnum.REMOVE_UNREAD_MESSAGE)
+        return state;
+
     if (action.dataInfo.dataStatus !== StoreDataStatus.COMPLETE)
         return { ...state, dataInfo: { ...action.dataInfo } };
 
-    const newPayLoads = state.payloads.slice();
-    const find: ChatRoomDataModel = deepCopyOfSameChatId(newPayLoads, action.chatId);
+    switch (action.type) {
+        case ChatActionEnum.NEW_UNREAD_MESSAGE: {
+            const newPayLoads = state.payloads.slice();
+            const find: ChatRoomDataModel = deepCopyOfSameChatId(newPayLoads, action.chatId);
 
-    if (!find) return state;
-    if (Array.isArray(action.payLoad)) {
-        find.addMessages((action.payLoad as ChatMessage[]));
-    } else {
-        find.addMessage((action.payLoad as ChatMessage));
+            if (!find) return state;
+            if (Array.isArray(action.payLoad)) {
+                find.addMessages((action.payLoad as ChatMessage[]));
+            } else {
+                find.addMessage((action.payLoad as ChatMessage));
+            }
+            return {
+                ...state,
+                payloads: newPayLoads,
+                dataInfo: action.dataInfo
+            };
+        }
+        case ChatActionEnum.REMOVE_UNREAD_MESSAGE: {
+            if (!action.chatId)
+                throw new Error('AppStore error, action.chatId cannot be null when action.type = ChatActionEnum.REMOVE_UNREAD_MESSAGE');
+            const newPayloads = state.payloads.slice();
+            const find: ChatRoomDataModel = deepCopyOfSameChatId(newPayloads, action.chatId);
+
+            if (!find || find.messages.length < 1) return state;
+
+            find.messages.forEach((each) => {
+                each.isRead = true;
+                unreadChatMessage.removeUnreadMessage(each.messageId);
+            });
+
+            return {
+                ...state,
+                payloads: newPayloads,
+                dataInfo: action.dataInfo
+            };
+        }
     }
-    return {
-        ...state,
-        payloads: newPayLoads,
-        dataInfo: action.dataInfo
-        };
 
 }
 
@@ -301,7 +327,7 @@ function deepCopyOfSameChatId(array: ChatRoomDataModel[], chatId: number): ChatR
         const each = array[i];
         if (each.chatId !== chatId) continue;
 
-        find = Object.assign({}, each);
+        find = Object.assign(each, {});
         array[i] = find;
         break;
     }

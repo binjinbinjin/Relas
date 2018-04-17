@@ -27,7 +27,7 @@ export const rootReducer = (friendshipService: FriendshipRequestService,
         _sendFriendListActionToService: sendFriendListActionReducer(friendshipControlService), // reducer to add/remove friend, the data is not save in state
         router: routerReducer,
         /**Chat */
-        chat_messages: newMessage(chatSocket, unreadChatMessage), // reducer for chat message
-        chatThreads: existThreadReduder(CHAT_THREADS, chatSocket, router), // reducer for chat thread
+        chat_messages: newMessage(chatSocket), // reducer for chat message
+        chatThreads: existThreadReduder(CHAT_THREADS, chatSocket, router, unreadChatMessage), // reducer for chat thread
 
     }));
