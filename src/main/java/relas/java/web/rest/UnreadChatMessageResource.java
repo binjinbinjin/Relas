@@ -1,7 +1,9 @@
 package relas.java.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import relas.java.service.ChatMessageService;
 import relas.java.service.UnreadChatMessageService;
+import relas.java.service.dto.ChatMessageDTO;
 import relas.java.web.rest.errors.BadRequestAlertException;
 import relas.java.web.rest.util.HeaderUtil;
 import relas.java.web.rest.util.PaginationUtil;
@@ -41,8 +43,11 @@ public class UnreadChatMessageResource {
 
     private final UnreadChatMessageService unreadChatMessageService;
 
-    public UnreadChatMessageResource(UnreadChatMessageService unreadChatMessageService) {
+    private final ChatMessageService chatMessageService;
+
+    public UnreadChatMessageResource(UnreadChatMessageService unreadChatMessageService, ChatMessageService chatMessageService) {
         this.unreadChatMessageService = unreadChatMessageService;
+        this.chatMessageService = chatMessageService;
     }
 
     /**
@@ -122,12 +127,14 @@ public class UnreadChatMessageResource {
      * @param login the user login
      * @return the ResponseEntity with status 200 (OK) and with body the unreadChatMessageDTO, or with status 404 (Not Found)
      */
-    @GetMapping("/unread-chat-messages/{login}")
+    @GetMapping("/unread-chat-messages/allMessages/{login}")
     @Timed
-    public ResponseEntity<List<UnreadChatMessageDTO>> getUnreadChatMessages(@PathVariable String login) {
+    public ResponseEntity<List<ChatMessageDTO>> getUnreadChatMessages(@PathVariable String login) {
         log.debug("REST request to get a list of UnreadChatMessage : {}", login);
         List<UnreadChatMessageDTO> unreadChatMessageDTO = this.unreadChatMessageService.getUnreadMessageByLogin(login);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(unreadChatMessageDTO));
+        List<ChatMessageDTO> messageDTOS = this.chatMessageService.getAllMessage(unreadChatMessageDTO);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(messageDTOS));
     }
 
     /**
@@ -138,7 +145,7 @@ public class UnreadChatMessageResource {
      * */
     @DeleteMapping("/unread-chat-messages/remove")
     @Timed
-    public ResponseEntity<Void> deleteUnreadChatMessage(@NotNull @PathVariable("userLogin") String login, @NotNull @PathVariable("messageId") Long id) {
+    public ResponseEntity<Void> deleteUnreadChatMessage(@NotNull @RequestParam("userLogin") String login, @NotNull @RequestParam("messageId") Long id) {
         this.unreadChatMessageService.deleteByLoginAndMessageId(login, id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, login + id.toString())).build();
     }

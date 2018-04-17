@@ -2,6 +2,7 @@ package relas.java.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import relas.java.service.ChatRoomMemberService;
+import relas.java.web.rest.dto.MemberOfChatRoomDTO;
 import relas.java.web.rest.errors.BadRequestAlertException;
 import relas.java.web.rest.util.HeaderUtil;
 import relas.java.web.rest.util.PaginationUtil;
@@ -113,6 +114,52 @@ public class ChatRoomMemberResource {
         ChatRoomMemberDTO chatRoomMemberDTO = chatRoomMemberService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(chatRoomMemberDTO));
     }
+
+
+ /**
+     * GET  /chat-room-members/chat_ids/:login ; get all the chat room id that user is currently
+     *
+     * @param login the login of user
+     * @return the ResponseEntity with status 200 (OK) and with body the List<Long>, or with status 404 (Not Found)
+     */
+    @GetMapping("/chat-room-members/chat_ids/{login}")
+    @Timed
+    public ResponseEntity<List<Long>> getUserChatRoomIds(@PathVariable String login) {
+        log.debug("REST request get all the chat room id that user is currently in : {}", login);
+        List<Long> chatRoomId = this.chatRoomMemberService.getUserChatRoomId(login);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(chatRoomId));
+    }
+
+    /**
+     * GET  /chat-room-members/chat_ids/:login ; get all the chat room id that user is currently
+     *
+     * @param login the login of user
+     * @return the ResponseEntity with status 200 (OK) and with body the List<Long>, or with status 404 (Not Found)
+     */
+    @GetMapping("/chat-room-members/membersOfChatRooms/{login}")
+    @Timed
+    public ResponseEntity<List<MemberOfChatRoomDTO>> getUserChatRoomsAndChatRoomMembers(@PathVariable String login) {
+        log.debug("REST request all chat rooms and members of chat rooms that user is currently in, user : {}", login);
+        List<MemberOfChatRoomDTO> result = this.chatRoomMemberService.getMembersOfChatRooms(login);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    /**
+     * GET  /chat-room-members/allMembers/:chatID ; get all the chat room id that user is currently
+     *
+     * @param chatID chatID of chat room
+     * @return the ResponseEntity with status 200 (OK) and with body the List<chatRoomMemberDTO>, or with status 404 (Not Found)
+     */
+    @GetMapping("/chat-room-members/allMembers/{chatID}")
+    @Timed
+    public ResponseEntity<List<ChatRoomMemberDTO>> getUserChatRoomIds(@PathVariable Long chatID) {
+        log.debug("REST request get members of chat room : {}", chatID);
+        List<ChatRoomMemberDTO> members = this.chatRoomMemberService.getMembersOfChatRoom(chatID);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(members));
+    }
+
+
 
     /**
      * DELETE  /chat-room-members/:id : delete the "id" chatRoomMember.
