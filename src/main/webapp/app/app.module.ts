@@ -1,3 +1,4 @@
+import { ChatModule } from './chat/chat.module';
 import './vendor.ts';
 
 import { NgReduxRouterModule } from '@angular-redux/router';
@@ -45,7 +46,8 @@ import { FriendControlModule } from './friend-control/friend-control.module';
         NgbModule.forRoot(),
         NgReduxModule,
         NgReduxRouterModule.forRoot(),
-        FriendControlModule
+        FriendControlModule,
+        ChatModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
