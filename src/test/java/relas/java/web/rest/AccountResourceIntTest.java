@@ -8,6 +8,7 @@ import relas.java.repository.AuthorityRepository;
 import relas.java.repository.UserPortfolioRepository;
 import relas.java.repository.UserRepository;
 import relas.java.security.AuthoritiesConstants;
+import relas.java.service.FriendListService;
 import relas.java.service.MailService;
 import relas.java.service.UserPortfolioService;
 import relas.java.service.dto.UserDTO;
@@ -76,6 +77,9 @@ public class AccountResourceIntTest {
     private UserPortfolioService userPortfolioService;
 
     @Autowired
+    private FriendListService friendListService;
+
+    @Autowired
     private UserPortfolioRepository userPortfolioRepository;
 
     @Mock
@@ -93,10 +97,10 @@ public class AccountResourceIntTest {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(anyObject());
         AccountResource accountResource =
-            new AccountResource(userRepository, userService, mockMailService, userPortfolioService);
+            new AccountResource(userRepository, userService, mockMailService, userPortfolioService, friendListService);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService, mockMailService, userPortfolioService);
+            new AccountResource(userRepository, mockUserService, mockMailService, userPortfolioService, friendListService);
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)

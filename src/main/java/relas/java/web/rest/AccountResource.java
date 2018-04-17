@@ -5,9 +5,11 @@ import com.codahale.metrics.annotation.Timed;
 import relas.java.domain.User;
 import relas.java.repository.UserRepository;
 import relas.java.security.SecurityUtils;
+import relas.java.service.FriendListService;
 import relas.java.service.MailService;
 import relas.java.service.UserPortfolioService;
 import relas.java.service.UserService;
+import relas.java.service.dto.FriendListDTO;
 import relas.java.service.dto.UserDTO;
 import relas.java.web.rest.errors.*;
 import relas.java.web.rest.util.DefaultUserPortfolioDTO;
@@ -41,12 +43,15 @@ public class AccountResource {
 
     private final UserPortfolioService userPortfolioService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, UserPortfolioService userPortfolioService) {
+    private final FriendListService friendListService;
+
+    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, UserPortfolioService userPortfolioService, FriendListService freiendListService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
         this.userPortfolioService = userPortfolioService;
+        this.friendListService = freiendListService;
     }
 
 
@@ -69,6 +74,10 @@ public class AccountResource {
         userRepository.findOneByEmailIgnoreCase(managedUserVM.getEmail()).ifPresent(u -> {throw new EmailAlreadyUsedException();});
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         this.userPortfolioService.save(DefaultUserPortfolioDTO.getUserPortfolioDTO(user.getId(), user.getLogin()));
+        FriendListDTO friendListDTO = new FriendListDTO();
+        friendListDTO.setUserIDId(user.getId());
+        friendListDTO.setFriendIDId(user.getId());
+        this.friendListService.save(friendListDTO);
         mailService.sendActivationEmail(user);
     }
 
