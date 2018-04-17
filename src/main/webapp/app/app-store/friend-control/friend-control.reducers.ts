@@ -6,9 +6,8 @@ import { INITIAL_ADD_FRIEND, INITIAL_RECEIVED_REQUEST } from './friend-control.d
 
 /**Reducer for add friend request
  *
- * param: friendshipService: FriendshipService
- *          a service that use to send the request
-*/
+ * @param friendshipService a service that use to send the request
+ */
 export function sendRequestReducer(friendshipService: FriendshipRequestService) {
      return (state: StoreDataInter<FriendshipRequest> = INITIAL_ADD_FRIEND(), action: FriendControlActionRequestAction) => {
         if (action.type !== FriendControlActionsList.ADD_FRIEND)
@@ -40,7 +39,7 @@ export function receivedRequestReducer() {
 
         switch (action.dataInfo.dataStatus) {
             case StoreDataStatus.COMPLETE: {
-                const oldPayLoads: FriendshipRequest[] = state.payloads;
+                const oldPayLoads: FriendshipRequest[] = state.payloads.slice();
                 if (Array.isArray(action.request)) {
                     action.request.forEach((value) => {
                         oldPayLoads.push(value);
