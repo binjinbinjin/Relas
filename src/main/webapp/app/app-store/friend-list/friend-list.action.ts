@@ -3,24 +3,20 @@ import { FriendControlActionEnum, FriendControlActionModel } from '../../friend-
 import { AppAction } from '../app-store/app.action.model';
 import { FriendListModel } from '../../friend-control/friend-control-model/friend-list.model';
 import { ActionCreator } from 'redux';
+import { portfolioRoute } from '../../account/portfolio/user-portfolio.route';
+import { UserPortfolio } from '../../user-portfolio/user-portfolio.model';
 
 /**Basic action interface about friend list */
 export interface FriendlistAction extends AppAction {
     type: FriendControlActionEnum;
-}
-
-/**Action interface to get the friend list */
-export interface FriendListActionGet extends FriendlistAction {
-    list: FriendListModel[] | FriendListModel;
-}
-
-/***Action interface to add the friend into friend list */
-export interface FriendListActionSend extends FriendlistAction {
-    actionObj: FriendControlActionModel;
+    list?: FriendListModel[] | FriendListModel;
+    actionObj?: FriendControlActionModel;
+    login?: string;
+    portfolio?: UserPortfolio;
 }
 
 /**A creator to create an action to get friend list */
-export const createGetFriendlistAction: ActionCreator<FriendListActionGet> =
+export const createGetFriendlistAction: ActionCreator<FriendlistAction> =
 (reqType: FriendControlActionEnum,
     dataInfoObj: StoreDataInfo,
     listObj?: FriendListModel[] | FriendListModel) => ({
