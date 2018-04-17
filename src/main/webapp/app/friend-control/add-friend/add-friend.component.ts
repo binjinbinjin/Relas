@@ -54,7 +54,10 @@ export class AddFriendComponent implements OnInit {
     request.introduceUserIDId = this.req.id;
     request.introduceUserIDLogin = this.req.login;
     request.reason = reason;
-    const action = createSendRequstAction(FriendControlActionsList.ADD_FRIEND, { dataStatus: StoreDataStatus.SENT }, request);
+    const action = createSendRequstAction(
+      FriendControlActionsList.ADD_FRIEND,
+      { dataStatus: StoreDataStatus.SENT },
+      request);
     return action;
 
   }
