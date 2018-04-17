@@ -1,5 +1,7 @@
 package relas.java.repository;
 
+import org.springframework.data.repository.query.Param;
+import relas.java.domain.ChatRoom;
 import relas.java.domain.ChatRoomMember;
 import org.springframework.stereotype.Repository;
 
@@ -23,5 +25,11 @@ public interface ChatRoomMemberRepository extends JpaRepository<ChatRoomMember, 
      * @return return a list of chat room member, if this chat room is not empty
      * */
     Optional<List<ChatRoomMember>> findChatRoomMemberByChatID_Id(long chatId);
+
+    /**
+     * Get the chat
+     * */
+    @Query("select c.chatID from ChatRoomMember  c where c.memberID.login = :login")
+    List<ChatRoom> findChatID(@Param("login")String login);
 
 }
