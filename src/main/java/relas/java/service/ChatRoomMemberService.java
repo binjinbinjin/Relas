@@ -1,8 +1,10 @@
 package relas.java.service;
 
+import relas.java.domain.ChatRoom;
 import relas.java.service.dto.ChatRoomMemberDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import relas.java.web.rest.dto.MemberOfChatRoomDTO;
 
 import java.util.List;
 
@@ -26,6 +28,26 @@ public interface ChatRoomMemberService {
      * */
     List<ChatRoomMemberDTO> getMembersOfChatRoom(long chatId);
 
+    /**
+     * Get user's chat room id
+     * @param login user login
+     * @return a list of chat room of specified user, null will be return, iff the specified user do not have any chat room
+     * */
+    List<Long> getUserChatRoomId(String login);
+
+    /**
+     *Get a list of chat rooms and members of chat room that user is currently in
+     * @param login user login
+     * @return return a list of chat rooms and members of chat room, if user is in any chat room
+     * */
+    List<MemberOfChatRoomDTO> getMembersOfChatRooms(String login);
+
+    /**
+     * Get user's chat room entities
+     * @param login user login
+     * @return a list of chat room entities of specified user, null will be return, iff the specified user do not have any chat room
+     * */
+    List<ChatRoom> getUserChatRoomEntity(String login);
     /**
      * Get all the chatRoomMembers.
      *

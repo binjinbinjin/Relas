@@ -4,8 +4,10 @@ import relas.java.domain.ChatMessage;
 import relas.java.service.dto.ChatMessageDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import relas.java.service.dto.UnreadChatMessageDTO;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Service Interface for managing ChatMessage.
@@ -19,6 +21,16 @@ public interface ChatMessageService {
      * @return the persisted entity
      */
     ChatMessageDTO save(ChatMessageDTO chatMessageDTO);
+
+
+    /**
+     * Get all the message of unreadMessage
+     *
+     * @param messages a list of unreadMessage
+     * @return a list of messageDTO, null if input is null
+     *
+     * */
+    List<ChatMessageDTO> getAllMessage(List<UnreadChatMessageDTO> messages);
 
     /**
      * Get all the chatMessages.

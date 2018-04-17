@@ -15,12 +15,35 @@ public interface ChatService {
     ChatRoomDTO newChatRoom(ChatRoomDTO chat);
 
     /**
+     * Get chat room by chat id
+     * @param chatId chat room id
+     *@return a chatRoomDTO will be return iff chat room exist, otherwise null
+     * */
+    ChatRoomDTO getChatRoom(Long chatId);
+
+
+    /**
+     * Get User login by id
+     * @param id user id
+     * @return login if user exist, otherwise null
+     * */
+    String convertUserIdToUserLogin(Long id);
+
+    /**
      * Add a list of user to the chat room
      * @param  chatId Chat room id
      * @param userLogin a list of users login that want to add to the chat room
-     * @return true if successfully add those users to chat room, else false
+     * @return a list a new ChatRoomMemberDTO that just add, otherwise false
      * */
-    boolean addUsersToChatRoom(long chatId, List<String> userLogin);
+    List<ChatRoomMemberDTO> addUsersToChatRoom(long chatId, List<String> userLogin);
+
+    /**
+     * Add a list of user to the chat room
+     * @param userId a list of users login that want to add to the chat room
+     * @param  chatId Chat room id
+     * @return a list a new ChatRoomMemberDTO that just add, otherwise false
+     * */
+    List<ChatRoomMemberDTO> addUsersToChatRoom(List<Long> userId, long chatId);
 
     /**
      * Get members of chat room

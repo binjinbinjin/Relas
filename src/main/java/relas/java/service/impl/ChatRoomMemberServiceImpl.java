@@ -1,10 +1,14 @@
 package relas.java.service.impl;
 
+import relas.java.domain.ChatRoom;
 import relas.java.service.ChatRoomMemberService;
 import relas.java.domain.ChatRoomMember;
 import relas.java.repository.ChatRoomMemberRepository;
 import relas.java.repository.search.ChatRoomMemberSearchRepository;
+import relas.java.service.ChatRoomService;
+import relas.java.service.dto.ChatRoomDTO;
 import relas.java.service.dto.ChatRoomMemberDTO;
+import relas.java.service.mapper.ChatRoomMapper;
 import relas.java.service.mapper.ChatRoomMemberMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import relas.java.web.rest.dto.MemberOfChatRoomDTO;
 
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,10 +40,52 @@ public class ChatRoomMemberServiceImpl implements ChatRoomMemberService {
 
     private final ChatRoomMemberSearchRepository chatRoomMemberSearchRepository;
 
-    public ChatRoomMemberServiceImpl(ChatRoomMemberRepository chatRoomMemberRepository, ChatRoomMemberMapper chatRoomMemberMapper, ChatRoomMemberSearchRepository chatRoomMemberSearchRepository) {
+    private final ChatRoomMapper chatRoomMapper;
+
+    public ChatRoomMemberServiceImpl(ChatRoomMemberRepository chatRoomMemberRepository,
+                                     ChatRoomMemberMapper chatRoomMemberMapper,
+                                     ChatRoomMemberSearchRepository chatRoomMemberSearchRepository,
+                                     ChatRoomMapper chatRoomMapper) {
+
         this.chatRoomMemberRepository = chatRoomMemberRepository;
         this.chatRoomMemberMapper = chatRoomMemberMapper;
         this.chatRoomMemberSearchRepository = chatRoomMemberSearchRepository;
+        this.chatRoomMapper = chatRoomMapper;
+    }
+
+    /**
+     * Get user's chat room id
+     *
+     * @param login user login
+     * @return a list of chat room of specified user, null will be return, iff the specified user do not have any chat room
+     */
+    @Override
+    public List<Long> getUserChatRoomId(String login) {
+        List<ChatRoom> result = this.getUserChatRoomEntity(login);
+        if (result == null) return null;
+        List<Long> ids = new LinkedList<>();
+        result.forEach(each -> {
+            ids.add(each.getChatID());
+        });
+        return ids;
+    }
+
+    /**
+     * Get user's chat room entities
+     *
+     * @param login user login
+     * @return a list of chat room entities of specified user, null will be return, iff the specified user do not have any chat room
+     */
+    @Override
+    public List<ChatRoom> getUserChatRoomEntity(String login) {
+        log.debug("Get a list of chat room from login: {}", login );
+        List<ChatRoom> result = this.chatRoomMemberRepository.findChatID(login);
+        if (result == null){
+            log.debug("can not found any chat room return null");
+            return null;
+        }
+        log.debug("find a list of rooms {}", result);
+        return result;
     }
 
     /**
@@ -57,12 +105,40 @@ public class ChatRoomMemberServiceImpl implements ChatRoomMemberService {
     }
 
     /**
+     * Get a list of chat rooms and members of chat room that user is currently in
+     *
+     * @param login user login
+     * @return return a list of chat rooms and members of chat room, if user is in any chat room
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<MemberOfChatRoomDTO> getMembersOfChatRooms(String login) {
+        List<MemberOfChatRoomDTO> result = new LinkedList<>();
+        List<ChatRoom> rooms =  this.getUserChatRoomEntity(login);
+        if (rooms == null) return null;
+        log.debug("find a list of rooms: {}", rooms);
+        rooms.forEach(each -> {
+            List<ChatRoomMemberDTO> members = this.getMembersOfChatRoom(each.getChatID());
+            ChatRoomDTO chatRoom  = this.chatRoomMapper.toDto(each);
+            if (members != null && chatRoom != null)
+            {
+                MemberOfChatRoomDTO membersOfChat = new MemberOfChatRoomDTO();
+                membersOfChat.setChatRoom(chatRoom);
+                membersOfChat.setMembers(members);
+                result.add(membersOfChat);
+            }
+        });
+        return result;
+    }
+
+    /**
      * Get a list of chat room member by chat room id
      *
      * @param chatId chat room id
      * @return return a list of chat room member, if this chat room is not empty, otherwise null
      */
     @Override
+    @Transactional(readOnly = true)
     public List<ChatRoomMemberDTO> getMembersOfChatRoom(long chatId) {
         Optional<List<ChatRoomMember>> members = this.chatRoomMemberRepository.findChatRoomMemberByChatID_Id(chatId);
         List<ChatRoomMemberDTO> membersResult = null;

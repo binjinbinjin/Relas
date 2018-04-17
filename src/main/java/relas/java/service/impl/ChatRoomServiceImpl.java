@@ -46,7 +46,10 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     @Override
     public ChatRoomDTO save(ChatRoomDTO chatRoomDTO) {
         log.debug("Request to save ChatRoom : {}", chatRoomDTO);
+        chatRoomDTO.setChatID(1l);
         ChatRoom chatRoom = chatRoomMapper.toEntity(chatRoomDTO);
+        chatRoom = chatRoomRepository.save(chatRoom);
+        chatRoom.setChatID(chatRoom.getId());
         chatRoom = chatRoomRepository.save(chatRoom);
         ChatRoomDTO result = chatRoomMapper.toDto(chatRoom);
         chatRoomSearchRepository.save(chatRoom);

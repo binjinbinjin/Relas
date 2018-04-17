@@ -5,6 +5,7 @@ import relas.java.domain.ChatMessage;
 import relas.java.repository.ChatMessageRepository;
 import relas.java.repository.search.ChatMessageSearchRepository;
 import relas.java.service.dto.ChatMessageDTO;
+import relas.java.service.dto.UnreadChatMessageDTO;
 import relas.java.service.mapper.ChatMessageMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -28,6 +32,23 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
 
     private final ChatMessageMapper chatMessageMapper;
+
+    /**
+     * Get all the message of unreadMessage
+     *
+     * @param messages a list of unreadMessage
+     * @return a list of messageDTO, null if input is null
+     */
+    @Override
+    public List<ChatMessageDTO> getAllMessage(List<UnreadChatMessageDTO> messages) {
+        if (messages == null) return null;
+        List<ChatMessageDTO> list  = new LinkedList<>();
+        messages.forEach(each -> {
+            ChatMessageDTO get = this.chatMessageMapper.toDto(this.chatMessageRepository.findOne(each.getMessageId()));
+            list.add(get);
+        });
+        return list;
+    }
 
     private final ChatMessageSearchRepository chatMessageSearchRepository;
 

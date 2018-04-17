@@ -1,21 +1,27 @@
 package relas.java.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import relas.java.domain.ChatMessage;
 import relas.java.domain.ChatRoomMember;
 import relas.java.domain.UnreadChatMessage;
 import relas.java.domain.User;
+import relas.java.repository.UserRepository;
 import relas.java.service.*;
 import relas.java.service.dto.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class ChatServiceImpl implements ChatService{
+
+    private final Logger log = LoggerFactory.getLogger(ChatServiceImpl.class);
 
     private final ChatMessageService chatMessageService;
     private final UnreadChatMessageService unreadChatMessageService;
@@ -27,7 +33,8 @@ public class ChatServiceImpl implements ChatService{
                            UnreadChatMessageService unreadChatMessageService,
                            ChatRoomService chatRoomService,
                            ChatRoomMemberService chatRoomMemberService,
-                           UserService userService) {
+                           UserService userService,
+                           UserRepository userRepository) {
         this.chatMessageService = chatMessageService;
         this.unreadChatMessageService = unreadChatMessageService;
         this.chatRoomMemberService = chatRoomMemberService;
@@ -46,17 +53,78 @@ public class ChatServiceImpl implements ChatService{
     }
 
     /**
+     * Get User login by id
+     *
+     * @param id user id
+     * @return login if user exist, otherwise null
+     */
+    @Override
+    public String convertUserIdToUserLogin(Long id) {
+        Optional<User> user = this.userService.getUserWithAuthorities(id);
+        if (!user.isPresent()) return null;
+        return user.get().getLogin();
+
+    }
+
+    /**
+     * Get chat room by chat id
+     *
+     * @param chatId chat room id
+     * @return a chatRoomDTO will be return iff chat room exist, otherwise null
+     */
+    @Override
+    public ChatRoomDTO getChatRoom(Long chatId) {
+        return this.chatRoomService.findOne(chatId);
+    }
+
+    /**
+     * Add a list of user to the chat room
+     *
+     * @param userId a list of users login that want to add to the chat room
+     * @param chatId Chat room id
+     * @return a list a new ChatRoomMemberDTO that just add, otherwise false
+     */
+    @Override
+    public List<ChatRoomMemberDTO> addUsersToChatRoom(List<Long> userId, long chatId) {
+        List<ChatRoomMemberDTO> result = new LinkedList<>();
+        try{
+            userId.forEach(id -> {
+                ChatRoomMemberDTO member =  this.chatRoomMemberService.save(this.newChatRoomMember(chatId, id));
+                if (member.getMemberIDLogin() == null) {
+                    Optional<User> user = this.userService.getUserWithAuthorities(member.getMemberIDId());
+                    member.setMemberIDLogin(user.get().getLogin());
+                }
+                result.add(member);
+            });
+        } catch (Exception e) {
+            log.debug("Error occur when add new user to the chat room. So a null will be return" );
+            return null;
+        }
+
+
+        return result;
+    }
+
+    /**
      * Add a list of user to the chat room
      * @param  chatId Chat room id
      * @param userLogin a list of users login that want to add to the chat room
-     * @return true if successfully add those users to chat room, else false
+     * @return a list a new ChatRoomMemberDTO that just add, otherwise false
      * */
     @Override
-    public boolean addUsersToChatRoom(long chatId, List<String> userLogin) {
-        userLogin.forEach(login -> {
-            this.chatRoomMemberService.save(this.newChatRoomMember(chatId, login));
-        });
-        return true;
+    public List<ChatRoomMemberDTO> addUsersToChatRoom(long chatId, List<String> userLogin){
+        List<ChatRoomMemberDTO> result = new LinkedList<>();
+        try{
+            userLogin.forEach(login -> {
+                result.add(this.chatRoomMemberService.save(this.newChatRoomMember(chatId, login)));
+            });
+        } catch (Exception e) {
+            log.debug("Error occur when add new user to the chat room. So a null will be return" );
+            return null;
+        }
+
+
+        return result;
     }
 
     /**
@@ -138,6 +206,20 @@ public class ChatServiceImpl implements ChatService{
         if (!user.isPresent())
             return null;
         long userId = user.get().getId();
+        ChatRoomMemberDTO newMember = new ChatRoomMemberDTO();
+        newMember.setChatIDId(chatId);
+        newMember.setMemberIDId(userId);
+        return newMember;
+    }
+
+    /**
+     * Create a ChatRoomMemberDTO by chat room id and user login
+     *
+     * @param chatId chat room id
+     * @param userId user Id
+     * @return a ChatRoomMemberDTO
+     * */
+    private ChatRoomMemberDTO newChatRoomMember(long chatId, Long userId){
         ChatRoomMemberDTO newMember = new ChatRoomMemberDTO();
         newMember.setChatIDId(chatId);
         newMember.setMemberIDId(userId);
