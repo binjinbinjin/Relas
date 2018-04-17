@@ -1,14 +1,14 @@
-import { select$, dispatch } from '@angular-redux/store';
+import { dispatch, select$ } from '@angular-redux/store';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 
 import { StoreDataInter, StoreDataStatus } from '../../app-store/app-store/app.store.model';
+import { FriendlistAction } from '../../app-store/friend-list/friend-list.action';
 import { PortfolioSearchOption } from '../../user-portfolio/portfolio-search/search-util';
 import { FriendControlActionEnum, FriendControlActionModel } from '../friend-control-model/friend-control-action.model';
 import { FriendshipRequest } from '../friend-control-model/friend-request-model';
 import { RECEIVED_REQUEST } from './../../app-store/friend-control/friend-control.data';
-import { FriendListActionSend } from '../../app-store/friend-list/friend-list.action';
 
 export const getRequst = (payloads$: Observable<{}>) => {
   return payloads$.map((value) => {
@@ -65,8 +65,13 @@ export class ShowFriendRequestComponent implements OnInit {
   }
 
   @dispatch()
-  addFriend(targetLogin: string): FriendListActionSend  {
-    const send: FriendListActionSend = { type: FriendControlActionEnum.ADD_FRIEND, actionObj: new FriendControlActionModel(FriendControlActionEnum.ADD_FRIEND, targetLogin), dataInfo: {dataStatus: StoreDataStatus.SENT}};
+  /**Add new friend from friend request */
+  addFriend(targetLogin: string): FriendlistAction {
+    const send: FriendlistAction = {
+      type: FriendControlActionEnum.ADD_FRIEND,
+      actionObj: new FriendControlActionModel(FriendControlActionEnum.ADD_FRIEND, targetLogin),
+      dataInfo: {dataStatus: StoreDataStatus.SENT}
+    };
     // this.friendshipControlService.addFriend(new FriendControlActionModel(FriendControlActionEnum.ADD_FRIEND, targetLogin));
     return send;
   }
