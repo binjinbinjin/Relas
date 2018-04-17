@@ -43,13 +43,13 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic", "/addFriend", "/friendshipControl");
+        config.enableSimpleBroker("/topic", "/addFriend", "/friendshipControl", "/chat");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         String[] allowedOrigins = Optional.ofNullable(jHipsterProperties.getCors().getAllowedOrigins()).map(origins -> origins.toArray(new String[0])).orElse(new String[0]);
-        registry.addEndpoint("/websocket/tracker", "/websocket/addFriend", "/websocket/friendshipControl")
+        registry.addEndpoint("/websocket/tracker", "/websocket/addFriend", "/websocket/friendshipControl", "/websocket/chat")
             .setHandshakeHandler(defaultHandshakeHandler())
             .setAllowedOrigins(allowedOrigins)
             .withSockJS()
