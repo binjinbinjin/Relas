@@ -20,11 +20,14 @@ public abstract class ServiceWithInitialSubscribeListener implements Application
 
     protected final SimpMessageSendingOperations messagingTemplate;
 
+    protected final SimpUserRegistry defaultSimpUserRegistry;
+
     protected final SimpUserRegistry simpUserRegistry;
 
     public ServiceWithInitialSubscribeListener(SimpMessageSendingOperations messagingTemplate, SimpUserRegistry defaultSimpUserRegistry, Object o) {
         this.messagingTemplate = messagingTemplate;
         this.simpUserRegistry = defaultSimpUserRegistry;
+        this.defaultSimpUserRegistry = defaultSimpUserRegistry;
         this.log = LoggerFactory.getLogger(o.getClass());
     }
 
