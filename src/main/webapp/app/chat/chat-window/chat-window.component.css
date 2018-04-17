@@ -1,3 +1,4 @@
+/**Style for display messages*/
 .messages {
     box-sizing: border-box;
     /* padding: 3px 3px 3px 3px; */
@@ -7,16 +8,19 @@
     margin-top: 6px;
 }
 
+/**Wrap the component*/
 .chat {
     box-sizing: border-box;
     width: 420px;
     border: solid
 }
 
+/**Style for compose new message*/
 .input {
     margin-top: 6px;
 }
 
+/**Style for buttom*/
 .button-font {
     font-size: 9px;
 }

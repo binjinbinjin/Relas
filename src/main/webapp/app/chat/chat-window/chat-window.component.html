@@ -3,10 +3,10 @@
   <div class="messages">
     <app-message-dispaly [messages]="message"></app-message-dispaly>
   </div>
-  <form class="input">
+  <form class="input" #f="ngForm" (ngSubmit)="newMessage(inputText.value); f.reset()" >
     <div class="form-group ">
-      <button type="button" class="btn btn-primary button-font">Send</button>
-      <textarea class="form-control" id="text" rows="3"></textarea>
-    </div
+      <button type="submit" class="btn btn-primary button-font" *ngIf="f.valid">Send</button>
+      <textarea ngModel name="newMessage" required class="form-control" id="text" rows="3"  #inputText="ngModel"></textarea>
+    </div>
   </form>
 </div>

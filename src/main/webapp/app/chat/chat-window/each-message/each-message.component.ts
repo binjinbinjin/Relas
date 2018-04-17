@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 import { ChatMessage } from '../../model/chat-message.model';
 
 @Component({
@@ -6,14 +7,13 @@ import { ChatMessage } from '../../model/chat-message.model';
   templateUrl: './each-message.component.html',
   styleUrls: ['each-message.component.css']
 })
-export class EachMessageComponent implements OnInit {
+/**This component is use to display the message */
+export class EachMessageComponent {
 
+  /**The message to display */
   @Input('message') message: ChatMessage;
   constructor() {
     this.message = null;
-  }
-
-  ngOnInit() {
   }
 
 }

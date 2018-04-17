@@ -1,6 +1,6 @@
 <div class="row message animated fadeIn">
   <div class="col-2" *ngIf="message.sendInMessage">
-    <app-display-url-image [imageUrl]="message.image" ></app-display-url-image>
+    <app-display-service-image [imageSrc]= "message.image" [imageContentType]="message.imageType"></app-display-service-image>
   </div>
    
   <div class="col-10" >
@@ -8,6 +8,6 @@
   </div>
 
   <div class="col-2" *ngIf="!message.sendInMessage">
-    <app-display-url-image style="float: right" [imageUrl]="message.image" ></app-display-url-image>
+      <app-display-service-image [imageSrc]="message.image" [imageContentType]="message.imageType"></app-display-service-image>
   </div>
 </div>
