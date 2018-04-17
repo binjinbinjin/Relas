@@ -11,6 +11,9 @@ import { CSRFService } from '../../shared/auth/csrf.service';
 import { WindowRef } from '../../shared/tracker/window.service';
 
 @Injectable()
+/**Socket for friendship request
+ * - HTTP WEB SOCKET SERVICE
+ */
 export class FriendshipRequestService {
     stompClient = null;
     subscriber = null;
@@ -35,7 +38,7 @@ export class FriendshipRequestService {
     }
 
     /**Connect to service */
-    connect() {
+    private connect() {
         if (this.connectedPromise === null) {
             this.connection = this.createConnection();
         }
@@ -59,7 +62,7 @@ export class FriendshipRequestService {
         });
     }
 
-    disconnect() {
+    private disconnect() {
         if (this.stompClient !== null) {
             this.stompClient.disconnect();
             this.stompClient = null;
@@ -82,7 +85,15 @@ export class FriendshipRequestService {
         const selfID = this.principalService.getUserID();
         if (!selfLogin || selfID < 0)
             throw Error('Please login');
-        const reqBody = this.createRqustObject(selfID, selfLogin, selfID, selfLogin, friendShipRequst.introduceUserIDId, friendShipRequst.introduceUserIDLogin, friendShipRequst.reason);
+        const reqBody = this.createRqustObject(
+            selfID,
+            selfLogin,
+            selfID,
+            selfLogin,
+            friendShipRequst.introduceUserIDId,
+            friendShipRequst.introduceUserIDLogin,
+            friendShipRequst.reason);
+
         if (this.stompClient !== null && this.stompClient.connected) {
             this.stompClient.send(
                 '/addFriend/req', // destination
@@ -92,7 +103,7 @@ export class FriendshipRequestService {
         }
     }
 
-    subscribe() {
+    private subscribe() {
         this.connection.then(() => {
             this.subscriber = this.stompClient.subscribe('/addFriend/' + this.principalService.getUserLogin(), (data) => {
                 this.listenerObserver.next(JSON.parse(data.body));
@@ -100,7 +111,7 @@ export class FriendshipRequestService {
         });
     }
 
-    unsubscribe() {
+    private unsubscribe() {
         if (this.subscriber !== null) {
             this.subscriber.unsubscribe();
         }

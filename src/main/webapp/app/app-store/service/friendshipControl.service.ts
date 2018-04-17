@@ -11,6 +11,9 @@ import { CSRFService } from '../../shared/auth/csrf.service';
 import { WindowRef } from '../../shared/tracker/window.service';
 
 @Injectable()
+/**Socket for friendship control
+ * - HTTP WEB SOCKET SERVICE
+ */
 export class FriendshipControlService {
     stompClient = null;
     subscriber = null;
@@ -35,7 +38,7 @@ export class FriendshipControlService {
     }
 
     /**Connect to service */
-    connect() {
+    private connect() {
         if (this.connectedPromise === null) {
             this.connection = this.createConnection();
         }
@@ -59,7 +62,7 @@ export class FriendshipControlService {
         });
     }
 
-    disconnect() {
+    private disconnect() {
         if (this.stompClient !== null) {
             this.stompClient.disconnect();
             this.stompClient = null;
@@ -96,7 +99,7 @@ export class FriendshipControlService {
         }
     }
 
-    subscribe() {
+    private subscribe() {
         this.connection.then(() => {
             this.subscriber = this.stompClient.subscribe('/friendshipControl/' + this.principalService.getUserLogin(), (data) => {
                 this.listenerObserver.next(JSON.parse(data.body));
@@ -104,7 +107,7 @@ export class FriendshipControlService {
         });
     }
 
-    unsubscribe() {
+    private unsubscribe() {
         if (this.subscriber !== null) {
             this.subscriber.unsubscribe();
         }
