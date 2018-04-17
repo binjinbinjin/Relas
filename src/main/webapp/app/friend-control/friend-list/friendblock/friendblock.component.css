@@ -1,7 +1,10 @@
 
+/**For link*/
 .link {
     font-size: 10px;
 }
+
+/**For user descripiton*/
 .description {
     overflow-y:scroll; 
     overflow-x:hidden; 
@@ -10,6 +13,7 @@
     font-size: 15px;
 }
 
+/**Wrap the component*/
 .box {
     box-sizing: border-box;
     max-width: 290px;

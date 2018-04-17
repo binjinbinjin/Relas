@@ -1,10 +1,11 @@
-import { UserPortfolioService } from './../../user-portfolio/user-portfolio-service/user-portfolio.service';
-import { Observable } from 'rxjs/Observable';
+import { select } from '@angular-redux/store';
 import { Component, OnInit } from '@angular/core';
-import { FriendListModel } from '../friend-control-model/friend-list.model';
+import { Observable } from 'rxjs/Observable';
+
 import { StoreDataInter } from '../../app-store/app-store/app.store.model';
-import { select$, select } from '@angular-redux/store';
 import { GET_FRIEND_LIST } from '../../app-store/friend-list/friend-list.data';
+import { FriendListModel } from '../friend-control-model/friend-list.model';
+import { UserPortfolioService } from './../../user-portfolio/user-portfolio-service/user-portfolio.service';
 
 /**This component is use to dispaly the a list of friend */
 @Component({
@@ -32,24 +33,6 @@ export class FriendListComponent implements OnInit {
     // subscribe the data change from store
     this.getFriendList.subscribe((response) => {
       this.req = response.payloads;
-      this.loadFriendInfo();
-    });
-  }
-
-  /**Load the user data of friendlist from service */
-  loadFriendInfo() {
-    this.req.forEach((item) => {
-      if (item.friendInfoCheck())
-         return;
-      this.userPortfolioService
-      .fetchPortfolioByLogin(item.friendIDLogin)
-      .toPromise()
-      .then((response) => {
-        item.setFriendDescription(response.body.description);
-        item.setfriendImage(response.body.image);
-        item.setFriendImageContentType(response.body.imageContentType);
-        item.setFriendDisplayName(response.body.displayName);
-      });
     });
   }
 
