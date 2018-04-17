@@ -66,8 +66,9 @@ export function newChat(
         case ChatActionEnum.NEW_CAHT_ROOM: {
             const login = chatSocket.userLogin;
             const friendlogin: string = action.list;
+            if (login === friendlogin ) return state;
             for (const chat of state.payloads) {
-                if (chat.maxMembers !== 2) continue;
+                if (chat.maxMembers !== 2 || !chat.members || chat.members.length !== 2) continue;
 
                 if ((chat.members[0].login === login && chat.members[1].login === friendlogin) ||
                 (chat.members[1].login === login && chat.members[0].login === friendlogin)) {
