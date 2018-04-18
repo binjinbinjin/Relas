@@ -1,21 +1,19 @@
-.image {
-    max-width: 100%;
-}
-
-.thread {
-    display: flex;
-}
-
-.infos {
-    margin-left: 10px;
-    padding: 0 0 0 0;
-    width: 100%;
-}
-
 ul {
     padding: 0 0 0 0;
 }
 
+/**Style for the thread that contain unread message/s*/
+.unread {
+    background-color: rgb(232, 238, 247);
+}
+
+
+/**The wrapp of each thread*/
+.thread {
+    display: flex;
+}
+
+/**located*/
 .image-container {
     width: 80px;
     display: -webkit-flex;
@@ -28,21 +26,29 @@ ul {
     justify-content: center;
 }
 
+/**For display image*/
+.image {
+    max-width: 100%;
+}
+
+/**The text content of chat thread*/
+.infos {
+    margin-left: 10px;
+    padding: 0 0 0 0;
+    width: 100%;
+}
+
+/**Style for the last message in the thead*/
 .message {
     height: 30px;;
     width: 100%;
     background-color: rgb(196, 252, 255);
 }
 
+/**Style for the content of last message in the thead*/
 p {
     padding-left: 3px;
     max-width: 100%;
     max-height: 100%;
 }
-.alert {
-    padding: 0 0 0 0;
-}
 
-.unread {
-    background-color: rgb(232, 238, 247);
-}
