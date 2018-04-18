@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -30,8 +30,10 @@ export class UnreadChatMessageService {
    * @param id the message id (message id not unread message id)
    */
   removeUnreadMessage(id: number) {
-    const option = creatRequestOptionWithoutPaging({ userLogin: this.userLogin, messageId: id });
-    this.http.delete(this.resourceUrl + '/remove', {params: option});
+    const option: HttpParams = creatRequestOptionWithoutPaging({ userLogin: this.userLogin, messageId: id });
+    this.http.delete<any>(`${this.resourceUrl}/remove`, { params: option, observe: 'response'})
+    .toPromise().then((res) => {
+    });
   }
 
   get userId() {
