@@ -8,6 +8,7 @@ import { EachMessageComponent } from './chat-window/each-message/each-message.co
 import { RouterModule } from '@angular/router';
 import { chatMainRoute } from './chat-route';
 import { FormsModule } from '@angular/forms';
+import { ChatThreadsComponent } from './chat-threads/chat-threads.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { FormsModule } from '@angular/forms';
     RouterModule.forChild(chatMainRoute),
     FormsModule
   ],
-  declarations: [ChatWindowComponent, MessageDispalyComponent, EachMessageComponent],
+  declarations: [ChatWindowComponent, MessageDispalyComponent, EachMessageComponent, ChatThreadsComponent],
   exports: [ChatWindowComponent]
 })
 export class ChatModule { }
