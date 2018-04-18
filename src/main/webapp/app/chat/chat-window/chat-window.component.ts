@@ -2,7 +2,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/mergeMap';
 
 import { dispatch, select } from '@angular-redux/store';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -21,7 +21,7 @@ import { ChatAction, ChatActionEnum } from './../../app-store/chat/chat.action';
  *  - this component will display the messages
  *  - this component can compose and send new message
  */
-export class ChatWindowComponent implements OnInit {
+export class ChatWindowComponent implements OnInit, OnDestroy {
 
   /**Emmiter use to emmit when windows close*/
   @Output('close') close: EventEmitter<boolean>;
@@ -53,8 +53,10 @@ export class ChatWindowComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.mergeMap((parm) => {
-      if (parm.chatId)
+      if (parm.chatId) {
         this.chatId = +parm.chatId; // get the chat id from route query
+        this.removeUnreadMessages();
+      }
       return this.chatThreads;
     }).subscribe((chat) => {
       if (this.chatId > 0 ) {
@@ -78,6 +80,20 @@ export class ChatWindowComponent implements OnInit {
       payLoad: chatMessage,
       chatId: this.chatId,
       dataInfo: {dataStatus: StoreDataStatus.SENT}
+    };
+  }
+
+  ngOnDestroy() {
+    this.removeUnreadMessages();
+  }
+  @dispatch()
+  /**Make all message in current chat room as read */
+  removeUnreadMessages(): ChatAction {
+    return {
+      type: ChatActionEnum.REMOVE_UNREAD_MESSAGE,
+      chatId: this.chatId,
+      stateName: CHAT_THREADS,
+      dataInfo: {dataStatus: StoreDataStatus.COMPLETE}
     };
   }
 
