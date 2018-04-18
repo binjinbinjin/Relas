@@ -4,7 +4,7 @@ import 'rxjs/add/operator/mergeMap';
 import { dispatch, select } from '@angular-redux/store';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { StoreDataInter, StoreDataStatus } from '../../app-store/app-store/app.store.model';
 import { CHAT_THREADS } from '../../app-store/chat/chat.data';
@@ -33,6 +33,9 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   @select([CHAT_THREADS])
   chatThreads: Observable<StoreDataInter<ChatRoomDataModel>>;
 
+  /**Reference of subscription */
+  subscription: Subscription;
+
   /**Messages to dispaly */
   message: ChatMessage[];
 
@@ -52,7 +55,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.queryParams.mergeMap((parm) => {
+    this.subscription = this.route.queryParams.mergeMap((parm) => {
       if (parm.chatId) {
         this.chatId = +parm.chatId; // get the chat id from route query
         this.removeUnreadMessages();
@@ -85,7 +88,10 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.removeUnreadMessages();
+    if (this.subscription)
+      this.subscription.unsubscribe();
   }
+
   @dispatch()
   /**Make all message in current chat room as read */
   removeUnreadMessages(): ChatAction {
