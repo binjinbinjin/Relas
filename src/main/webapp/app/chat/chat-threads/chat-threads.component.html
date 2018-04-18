@@ -1,0 +1,36 @@
+<div>
+  <ul class="list-group" >
+    <div *ngIf="chatListUnread && chatListUnread.length > 0">
+      <div *ngFor="let thread of chatListUnread">
+        <li class="list-group-item thread" [class.unread]="!thread.isRead">
+          <div class="image-container">
+            <app-display-service-image class="image" [imageContentType]="thread.image.imageContentType" [imageSrc]="thread.image.image"></app-display-service-image>
+          </div>
+          <div class="infos" (click)="clicked(thread.chatId)">
+            <h6 class="name">{{thread.name}}</h6>
+            <div class="message rounded">
+              <p>{{thread.message}}</p>
+            </div>
+          </div>
+        </li>
+      </div>
+    </div>
+    <div *ngIf="chatListRead && chatListRead.length > 0">
+      <div *ngFor="let thread of chatListRead">
+        <li class="list-group-item thread" [class.unread]="!thread.isRead">
+          <div class="image-container">
+            <app-display-service-image class="image" [imageContentType]="thread.image.imageContentType" [imageSrc]="thread.image.image"></app-display-service-image>
+          </div>
+          <div class="infos" (click)="clicked(thread.chatId)">
+            <h6 class="name">{{thread.name}}</h6>
+            <div class="message rounded">
+              <p>{{thread.message}}</p>
+            </div>
+          </div>
+        </li>
+      </div>
+    </div>
+  </ul>
+</div>
+
+
