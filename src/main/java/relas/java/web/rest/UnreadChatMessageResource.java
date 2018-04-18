@@ -146,6 +146,7 @@ public class UnreadChatMessageResource {
     @DeleteMapping("/unread-chat-messages/remove")
     @Timed
     public ResponseEntity<Void> deleteUnreadChatMessage(@NotNull @RequestParam("userLogin") String login, @NotNull @RequestParam("messageId") Long id) {
+        log.debug("Remove unread message {},  {}", login, id);
         this.unreadChatMessageService.deleteByLoginAndMessageId(login, id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, login + id.toString())).build();
     }
