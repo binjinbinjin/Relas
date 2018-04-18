@@ -24,3 +24,25 @@
 .button-font {
     font-size: 9px;
 }
+
+@media screen and (max-width: 460px) {
+    .messages {
+        height: 270px;
+    }
+    .chat {
+        width: 93%;
+    }
+
+    textarea {
+        height: 60px;
+    }
+}
+
+@media screen and (max-width: 620px) and (min-width: 461px) {
+    .messages {
+        height: 300px;
+    }
+    .chat {
+        width: 93%;
+    }
+}
