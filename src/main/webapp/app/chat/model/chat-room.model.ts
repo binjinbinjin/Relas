@@ -79,6 +79,7 @@ export class ChatMessageImageDisplayModel {
  *in client side (The model do not user in service)
  */
 export class ChatRoomDataModel {
+    private unreadMessages;
     messages: ChatMessage[];
     constructor(
         public chatId?: number,
@@ -89,6 +90,7 @@ export class ChatRoomDataModel {
         public description?: string,
     ) {
         this.messages = [];
+        this.unreadMessages = 0;
     }
 
     /**
@@ -109,7 +111,9 @@ export class ChatRoomDataModel {
      * @param chatMessages new messages
      */
     addMessages(chatMessages: ChatMessage[]): void {
-        chatMessages.forEach((each) => this.addMessage(each));
+        chatMessages.forEach((each) => {
+            this.addMessage(each);
+        });
     }
 
     /**
@@ -118,6 +122,8 @@ export class ChatRoomDataModel {
      */
     addMessage(chatMessage: ChatMessage): void {
         this.messages.push(chatMessage);
+        if (!chatMessage.isRead && chatMessage.sendInMessage) this.unreadMessages++;
+
     }
 
     /**
@@ -153,6 +159,20 @@ export class ChatRoomDataModel {
         });
     }
 
+    /**
+     * Return the number of unread messages in this chat thread
+     */
+    numberOfUnreadMessage() {
+        return this.unreadMessages;
+    }
+
+    /**
+     * Set the number of unread message in this chat thread
+     * @param n number of unread message
+     */
+    setNumberOfUnreadMessage(n: number) {
+        this.unreadMessages = n;
+    }
     /**
      * To check the new member object is valid or not
      * @param member new member
