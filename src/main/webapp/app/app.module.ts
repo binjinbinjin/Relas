@@ -18,7 +18,6 @@ import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interc
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
-import { RelasEntityModule } from './entities/entity.module';
 import { RelasHomeModule } from './home/home.module';
 import {
     ActiveMenuDirective,
@@ -43,7 +42,6 @@ import { AppStoreModule } from './app-store/app-store.module';
         RelasHomeModule,
         RelasAdminModule,
         RelasAccountModule,
-        RelasEntityModule,
         NgbModule.forRoot(),
         NgReduxModule,
         NgReduxRouterModule.forRoot(),
