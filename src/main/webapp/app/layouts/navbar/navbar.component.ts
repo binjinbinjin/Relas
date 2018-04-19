@@ -7,6 +7,11 @@ import { ProfileService } from '../profiles/profile.service';
 import { JhiLanguageHelper, Principal, LoginModalService, LoginService } from '../../shared';
 
 import { VERSION } from '../../app.constants';
+import { select } from '@angular-redux/store';
+import { CHAT_THREADS } from '../../app-store/chat/chat.data';
+import { StoreDataInter } from '../../app-store/app-store/app.store.model';
+import { ChatRoomDataModel } from '../../chat/model/chat-room.model';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'jhi-navbar',
@@ -22,6 +27,9 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    @select([CHAT_THREADS])
+    chatThreads: Observable<StoreDataInter<ChatRoomDataModel>>;
+    unreadMessages: number;
 
     constructor(
         private loginService: LoginService,
@@ -34,6 +42,7 @@ export class NavbarComponent implements OnInit {
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
+        this.unreadMessages = 0;
     }
 
     ngOnInit() {
@@ -44,6 +53,14 @@ export class NavbarComponent implements OnInit {
         this.profileService.getProfileInfo().then((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
+        });
+
+        this.chatThreads.subscribe((threads: StoreDataInter<ChatRoomDataModel>) => {
+            let n = 0;
+            threads.payloads.forEach((each) => {
+                n += each.numberOfUnreadMessage();
+            });
+            this.unreadMessages = n;
         });
     }
 

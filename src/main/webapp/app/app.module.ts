@@ -31,6 +31,7 @@ import {
 } from './layouts';
 import { RelasSharedModule, UserRouteAccessService } from './shared';
 import { FriendControlModule } from './friend-control/friend-control.module';
+import { AppStoreModule } from './app-store/app-store.module';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 @NgModule({
@@ -47,7 +48,8 @@ import { FriendControlModule } from './friend-control/friend-control.module';
         NgReduxModule,
         NgReduxRouterModule.forRoot(),
         FriendControlModule,
-        ChatModule
+        ChatModule,
+        AppStoreModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
