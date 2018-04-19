@@ -240,6 +240,8 @@ function messageToThread(
                 unreadChatMessage.removeUnreadMessage(each.messageId);
             });
 
+            find.setNumberOfUnreadMessage(0);
+
             return {
                 ...state,
                 payloads: newPayloads,
