@@ -229,7 +229,8 @@ function messageToThread(
         }
         case ChatActionEnum.REMOVE_UNREAD_MESSAGE: {
             if (!action.chatId)
-                throw new Error('AppStore error, action.chatId cannot be null when action.type = ChatActionEnum.REMOVE_UNREAD_MESSAGE');
+                return state;
+
             const newPayloads = state.payloads.slice();
             const find: ChatRoomDataModel = deepCopyOfSameChatId(newPayloads, action.chatId);
 
