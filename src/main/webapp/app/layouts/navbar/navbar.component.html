@@ -94,12 +94,6 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li *ngSwitchCase="true">
-                        <a class="dropdown-item" routerLink="chat/chat-windows" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-clock-o" aria-hidden="true"></i>
-                            <span>Chat</span>
-                        </a>
-                    </li>
-                    <li *ngSwitchCase="true">
                         <a class="dropdown-item" [routerLink]="['chat/threads', userLogin]" routerLinkActive="active" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-clock-o" aria-hidden="true"></i>
                             <span>Chat Threads</span>
