@@ -54,7 +54,7 @@ export class ChatThreadsComponent implements OnInit {
    * @param chatId chat id
    */
   clicked(chatId: number) {
-    this.router.navigate(['chat/chat-windows'], { queryParams: { chatId: chatId.toString()}});
+    this.router.navigate(['chat/chat-windows'], { queryParams: { chatId: chatId.toString(), userName: this.userLogin}});
   }
 
   ngOnInit() {

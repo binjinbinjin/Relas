@@ -3,7 +3,7 @@ import 'rxjs/add/operator/mergeMap';
 
 import { dispatch, select } from '@angular-redux/store';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs/Rx';
 
 import { StoreDataInter, StoreDataStatus } from '../../app-store/app-store/app.store.model';
@@ -33,6 +33,9 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   @select([CHAT_THREADS])
   chatThreads: Observable<StoreDataInter<ChatRoomDataModel>>;
 
+  /**Current login user's login, design to get this value from route*/
+  userLogin: string;
+
   /**Reference of subscription */
   subscription: Subscription;
 
@@ -42,11 +45,12 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   /**To recored the windows is close or not */
   open: boolean;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.open = true;
     this.close = new EventEmitter();
     this.message = [];
     this.chatId = 0;
+    this.userLogin = '';
   }
 
   /**Close the chat windows */
@@ -58,6 +62,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     this.subscription = this.route.queryParams.mergeMap((parm) => {
       if (parm.chatId) {
         this.chatId = +parm.chatId; // get the chat id from route query
+        this.userLogin = parm.userName;
         this.removeUnreadMessages();
       }
       return this.chatThreads;
@@ -84,6 +89,11 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
       chatId: this.chatId,
       dataInfo: {dataStatus: StoreDataStatus.SENT}
     };
+  }
+
+  closeChat() {
+    this.open = !this.open;
+    this.router.navigate(['chat/threads', this.userLogin]);
   }
 
   ngOnDestroy() {

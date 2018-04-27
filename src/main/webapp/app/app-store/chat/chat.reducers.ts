@@ -28,7 +28,7 @@ export function existThreadReduder(
         newState = beenAddToANewChatRoomWithMembers(stateName, state, action, router);
         if (newState !== state) return newState;
 
-        newState = newChat(stateName, state, action, chatSocket, router);
+        newState = newChat(stateName, state, action, chatSocket, router, chatSocket.userLogin);
         if (newState !== state) return newState;
 
         newState = messageToThread(stateName, unreadChatMessage, state, action);
@@ -50,7 +50,8 @@ export function existThreadReduder(
 export function newChat(
     stateName: string, state: StoreDataInter<ChatRoomDataModel>,
     action: ChatAction, chatSocket: ChatSocketService,
-    router: Router): StoreDataInter<ChatRoomDataModel> {
+    router: Router,
+    currentLoginUser: string): StoreDataInter<ChatRoomDataModel> {
 
     if (!action.stateName || action.stateName !== stateName)
         return state;
@@ -77,7 +78,7 @@ export function newChat(
                 if ((chat.members[0].login === login && chat.members[1].login === friendlogin) ||
                 (chat.members[1].login === login && chat.members[0].login === friendlogin)) {
 
-                    router.navigate(['chat/chat-windows'], { queryParams: { chatId: chat.chatId.toString() }});
+                    router.navigate(['chat/chat-windows'], { queryParams: { chatId: chat.chatId.toString(), userName: currentLoginUser}});
                     return state;
                 }
             }

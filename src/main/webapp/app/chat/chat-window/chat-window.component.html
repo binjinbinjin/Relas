@@ -1,5 +1,5 @@
 <div class="container chat rounded" [style.display]="open? 'block': 'none'">
-  <span aria-hidden="true" (click)="open = !open">&times;</span>  
+  <span aria-hidden="true" (click)="closeChat()">&times;</span>  
   <div class="messages">
     <app-message-dispaly [messages]="message"></app-message-dispaly>
   </div>
