@@ -12,6 +12,7 @@ import { CHAT_THREADS } from '../../app-store/chat/chat.data';
 import { StoreDataInter } from '../../app-store/app-store/app.store.model';
 import { ChatRoomDataModel } from '../../chat/model/chat-room.model';
 import { Observable } from 'rxjs/Observable';
+import { DisplayFeedRouteWhoEnum } from '../../feed/model/display-feed-query-models';
 
 @Component({
     selector: 'jhi-navbar',
@@ -96,5 +97,10 @@ export class NavbarComponent implements OnInit {
 
     getImageUrl() {
         return this.isAuthenticated() ? this.principal.getImageUrl() : null;
+    }
+
+    getDisplayFeedWho(who: string): DisplayFeedRouteWhoEnum  {
+        if (who === 'user') return DisplayFeedRouteWhoEnum.USER;
+        return DisplayFeedRouteWhoEnum.FRIENDS;
     }
 }
