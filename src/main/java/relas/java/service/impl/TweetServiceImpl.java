@@ -54,6 +54,34 @@ public class TweetServiceImpl implements TweetService {
     }
 
     /**
+     * Get all tweet that post by user
+     *
+     * @param pageable page info
+     * @param id       user id
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TweetDTO> getAllTweetByUserID(Pageable pageable, Long id) {
+        log.debug("Get all tweets that post by user with userID: {}  and page info: {}", id, pageable);
+        return tweetRepository.findAllByUserID_Id(id, pageable).map(tweetMapper::toDto);
+    }
+
+    /**
+     * Get all friend's tweet by user id
+     *
+     * @param pageable page info
+     * @param id       user id
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TweetDTO> getAllFriendTweetByUserID(Pageable pageable, Long id) {
+        log.debug("Get all tweets that post by friend of user with userID: {}  and page info: {}", id, pageable);
+        return tweetRepository.getFriendsTweets(id, pageable).map(tweetMapper::toDto);
+    }
+
+    /**
      * Get all the tweets.
      *
      * @param pageable the pagination information
@@ -96,7 +124,7 @@ public class TweetServiceImpl implements TweetService {
     /**
      * Search for the tweet corresponding to the query.
      *
-     * @param query the query of the search
+     * @param query    the query of the search
      * @param pageable the pagination information
      * @return the list of entities
      */

@@ -18,6 +18,24 @@ public interface TweetService {
     TweetDTO save(TweetDTO tweetDTO);
 
     /**
+     * Get all tweet that post by user
+     *
+     * @param  pageable page info
+     * @param id user id
+     * @return  the list of entities
+     * */
+    Page<TweetDTO> getAllTweetByUserID(Pageable pageable, Long id);
+
+    /**
+     * Get all friend's tweet by user
+     *
+     * @param  pageable page info
+     * @param id user id
+     * @return  the list of entities
+     * */
+    Page<TweetDTO> getAllFriendTweetByUserID(Pageable pageable, Long id);
+
+    /**
      * Get all the tweets.
      *
      * @param pageable the pagination information
@@ -44,7 +62,7 @@ public interface TweetService {
      * Search for the tweet corresponding to the query.
      *
      * @param query the query of the search
-     * 
+     *
      * @param pageable the pagination information
      * @return the list of entities
      */
