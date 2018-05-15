@@ -1,4 +1,3 @@
-import { ChatModule } from './chat/chat.module';
 import './vendor.ts';
 
 import { NgReduxRouterModule } from '@angular-redux/router';
@@ -13,11 +12,15 @@ import { LocalStorageService, Ng2Webstorage, SessionStorageService } from 'ngx-w
 import { RelasAccountModule } from './account/account.module';
 import { RelasAdminModule } from './admin/admin.module';
 import { RelasAppRoutingModule } from './app-routing.module';
+import { AppStoreModule } from './app-store/app-store.module';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
+import { ChatModule } from './chat/chat.module';
+import { FeedModule } from './feed/feed.module';
+import { FriendControlModule } from './friend-control/friend-control.module';
 import { RelasHomeModule } from './home/home.module';
 import {
     ActiveMenuDirective,
@@ -29,8 +32,6 @@ import {
     ProfileService,
 } from './layouts';
 import { RelasSharedModule, UserRouteAccessService } from './shared';
-import { FriendControlModule } from './friend-control/friend-control.module';
-import { AppStoreModule } from './app-store/app-store.module';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 @NgModule({
@@ -47,6 +48,7 @@ import { AppStoreModule } from './app-store/app-store.module';
         NgReduxRouterModule.forRoot(),
         FriendControlModule,
         ChatModule,
+        FeedModule,
         AppStoreModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
