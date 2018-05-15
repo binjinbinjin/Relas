@@ -129,10 +129,46 @@ public class TweetResource {
     }
 
     /**
+     * Get all tweets that were posted by user
+     * /getAllTweets?id=:<id>&<pageInfo>
+     *
+     * @param id    userID
+     * @param pageable the pagination information
+     * @return all tweets that post by user
+     */
+    @GetMapping("/tweets/getAllTweets")
+    @Timed
+    public ResponseEntity<List<TweetDTO>> getAllTweets(@RequestParam Long id, Pageable pageable) {
+        log.debug("REST get all friend tweet id: {}   pageable: {}", id, pageable);
+        Page<TweetDTO> page = tweetService.getAllTweetByUserID(pageable, id);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "api/tweets/getAllTweet");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+
+    }
+
+    /**
+     * Get all tweets that were posted by user's friends
+     * /getAllTweets?id=:<id>&<pageInfo>
+     *
+     * @param id    userID
+     * @param pageable the pagination information
+     * @return all tweets that post by user
+     */
+    @GetMapping("/tweets/getAllFriendsTweets")
+    @Timed
+    public ResponseEntity<List<TweetDTO>> getAllFriendsTweets(@RequestParam Long id, Pageable pageable) {
+        log.debug("REST get all friend tweet id: {}   pageable: {}", id, pageable);
+        Page<TweetDTO> page = tweetService.getAllFriendTweetByUserID(pageable, id);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "api/tweets/getAllTweet");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+
+    }
+
+    /**
      * SEARCH  /_search/tweets?query=:query : search for the tweet corresponding
      * to the query.
      *
-     * @param query the query of the tweet search
+     * @param query    the query of the tweet search
      * @param pageable the pagination information
      * @return the result of the search
      */
