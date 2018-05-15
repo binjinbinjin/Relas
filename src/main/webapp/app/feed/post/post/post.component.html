@@ -1,3 +1,27 @@
-<p>
-  post works!
-</p>
+<div class="border border-dark rounded box">
+  <form #f= "ngForm" (ngSubmit)="post(text.value, imageData.value, imageType.value); f.reset()" >
+
+  <div class="form-group">
+    <label class="form-control-label" jhiTranslate="relasApp.userPortfolio.image" for="field_image"><strong>Step 1 :Pick a image</strong></label>
+    <div>
+      <img *ngIf="image.image" [src]="'data:' + image.imageContentType + ';base64,' + image.image" style="max-height: 100px;" alt="userPortfolio image"/>
+      <input type="file" id="file_image" (change)="setFileData($event, image, 'image', true)" accept="image/*" jhiTranslate="entity.action.addimage"/>
+    </div>
+    <input type="hidden" class="form-control" name="image" id="field_image" [(ngModel)]="image.image"  #imageData="ngModel" required/>
+    <input type="hidden" class="form-control" name="imageContentType" id="field_imageContentType" [(ngModel)]="image.imageContentType" #imageType="ngModel" required />
+  </div>
+
+  <div class="grom-group">
+    <label for="text" class="form-control-label"><strong>Step 2: Write text</strong></label>
+    <textarea class="form-control" id="text" rows="2" ngModel name="text" required maxlength="200" #text="ngModel"></textarea>
+  </div>
+  <br>
+  <button *ngIf="f.valid" type="submit" class="btn btn-primary">Post</button>
+</form>
+</div>
+
+<br>
+<br>
+<button type="button" (click)="feed()">feed </button>
+
+<button type="button" (click)="friendsFeed()">friendsFeed </button>
