@@ -1,5 +1,6 @@
+
+import {throwError as observableThrowError, of as observableOf,  Observable } from 'rxjs';
 import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
 import { Renderer, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -85,7 +86,7 @@ describe('Component Tests', () => {
         it('should update success to OK after resetting password',
             inject([PasswordResetFinishService],
                 fakeAsync((service: PasswordResetFinishService) => {
-                    spyOn(service, 'save').and.returnValue(Observable.of({}));
+                    spyOn(service, 'save').and.returnValue(observableOf({}));
 
                     comp.resetAccount.password = 'password';
                     comp.confirmPassword = 'password';
@@ -105,7 +106,7 @@ describe('Component Tests', () => {
         it('should notify of generic error',
             inject([PasswordResetFinishService],
                 fakeAsync((service: PasswordResetFinishService) => {
-                    spyOn(service, 'save').and.returnValue(Observable.throw('ERROR'));
+                    spyOn(service, 'save').and.returnValue(observableThrowError('ERROR'));
 
                     comp.resetAccount.password = 'password';
                     comp.confirmPassword = 'password';

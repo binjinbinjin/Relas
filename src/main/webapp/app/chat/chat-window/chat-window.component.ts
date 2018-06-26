@@ -1,5 +1,7 @@
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergeMap';
+
+import {mergeMap} from 'rxjs/operators';
+
+
 
 import { dispatch, select } from '@angular-redux/store';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
@@ -59,14 +61,14 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.route.queryParams.mergeMap((parm) => {
+    this.subscription = this.route.queryParams.pipe(mergeMap((parm) => {
       if (parm.chatId) {
         this.chatId = +parm.chatId; // get the chat id from route query
         this.userLogin = parm.userName;
         this.removeUnreadMessages();
       }
       return this.chatThreads;
-    }).subscribe((chat) => {
+    })).subscribe((chat) => {
       if (this.chatId > 0 ) {
         this.message = chat.payloads.find((each) => each.chatId === this.chatId).messages;
       }

@@ -1,12 +1,14 @@
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/switchMap';
+
+import {startWith, catchError, map, mergeMap} from 'rxjs/operators';
+
+
+
+
+
+
 
 import { ActionsObservable, createEpicMiddleware, Epic } from 'redux-observable';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import { StoreDataStatus } from '../app-store/app.store.model';
 import { FriendshipRequestService} from '../service/friendshipRequest.service';
@@ -34,31 +36,31 @@ export function getFriendRequest(friendshipService: FriendshipRequestService) {
  */
 function getFriendRequestImp(friendshipService: FriendshipRequestService): Epic<FriendControlActionRequestAction, AppStoreState> {
     return (action$: ActionsObservable<FriendControlActionRequestAction>, store) => {
-        return action$.ofType(FriendControlActionsList.RECEIVED_REQUEST)
-        .mergeMap(() => {
+        return action$.ofType(FriendControlActionsList.RECEIVED_REQUEST).pipe(
+        mergeMap(() => {
             // get the request from service
-            return friendshipService.receive().map((response) => {
+            return friendshipService.receive().pipe(map((response) => {
                 // if a new request arrived, then publich a action with tyep FriendControlActionsList.NEW_REQUEST
                 return {
                 type: FriendControlActionsList.NEW_REQUEST,
                 request: response,
                 dataInfo: { dataStatus: StoreDataStatus.COMPLETE }
                 };
-            })
-            .catch( (response) =>
+            }),
+            catchError( (response) =>
             of( // if error occured, publich an error action
                 {
                     type: FriendControlActionsList.NEW_REQUEST,
                     request: null,
                     dataInfo: { dataStatus: StoreDataStatus.ERROR }
                 }
-            ))
-            .startWith({
+            )),
+            startWith({
                 // publish an action telling the store that we are started to fetching the request form the service
                 type: FriendControlActionsList.NEW_REQUEST,
                 request: null,
                 dataInfo: { dataStatus: StoreDataStatus.LOADING }
-            });
-        });
+            }),);
+        }));
     };
 }

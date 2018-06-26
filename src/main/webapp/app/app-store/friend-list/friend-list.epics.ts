@@ -1,13 +1,16 @@
+
+import {from as observableFrom,  of ,  Observable } from 'rxjs';
+
+import {startWith, map, mergeMap, catchError} from 'rxjs/operators';
 import { FriendListModel } from './../../friend-control/friend-control-model/friend-list.model';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/switchMap';
+
+
+
+
+
+
 
 import { ActionsObservable, createEpicMiddleware, Epic } from 'redux-observable';
-import { of } from 'rxjs/observable/of';
 
 import { FriendControlActionEnum } from '../../friend-control/friend-control-model/friend-control-action.model';
 import { AppStoreState, StoreDataStatus } from '../app-store/app.store.model';
@@ -16,7 +19,6 @@ import { FriendlistAction } from './friend-list.action';
 import { UserPortfolio } from '../../user-portfolio/user-portfolio.model';
 import { UserPortfolioService } from '../../user-portfolio/user-portfolio-service/user-portfolio.service';
 import { newMessage } from '../chat/chat.reducers';
-import { Observable } from 'rxjs/Observable';
 
 /**Create a Epic (middleware) to get the friend list
  *@param friendshipControlService The service to get friend list
@@ -31,40 +33,40 @@ export function getFriendList(friendshipControlService: FriendshipControlService
  */
 function getFriendListImpl(friendshipControlService: FriendshipControlService, portfolioService: UserPortfolioService): Epic<FriendlistAction, AppStoreState> {
     return (action$: ActionsObservable<FriendlistAction>, stroe) => {
-        return action$.ofType(FriendControlActionEnum.GET_LIST)
-        .mergeMap(() => {
-            return friendshipControlService.receive().mergeMap((response) => {
-                return Observable.fromPromise(convetToUseableFriendListModel(response, portfolioService)).map((listRes) => {
+        return action$.ofType(FriendControlActionEnum.GET_LIST).pipe(
+        mergeMap(() => {
+            return friendshipControlService.receive().pipe(mergeMap((response) => {
+                return observableFrom(convetToUseableFriendListModel(response, portfolioService)).pipe(map((listRes) => {
                     return {
                         type: FriendControlActionEnum.NEW_FRIEND_LIST,
                         list: listRes,
                         dataInfo: { dataStatus: StoreDataStatus.COMPLETE }
                     };
-                })
-                .catch((listRes) => of ({ // catch for errors
+                }),
+                catchError((listRes) => of ({ // catch for errors
                 type: FriendControlActionEnum.NEW_FRIEND_LIST,
                 list: null,
                 dataInfo: { dataStatus: StoreDataStatus.ERROR }
                 }
-                ))
-                .startWith({ // makes the dataInfo.dataStatus as loading
+                )),
+                startWith({ // makes the dataInfo.dataStatus as loading
                     type: FriendControlActionEnum.NEW_FRIEND_LIST,
                     list: null,
                     dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                });
-            })
-            .catch((listRes) => of({ // catch for errors
+                }),);
+            }),
+            catchError((listRes) => of({ // catch for errors
                 type: FriendControlActionEnum.NEW_FRIEND_LIST,
                 list: null,
                 dataInfo: { dataStatus: StoreDataStatus.ERROR }
             }
-            ));
-        });
+            )),);
+        }));
     };
 }
 
 async function getPorfolio(profolio: UserPortfolioService, login): Promise<UserPortfolio> {
-    const result = await profolio.fetchPortfolioByLogin(login).map((res) => res.body).toPromise();
+    const result = await profolio.fetchPortfolioByLogin(login).pipe(map((res) => res.body)).toPromise();
     return result;
 }
 

@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from '../../app.constants';
 import { ChatMessageModel } from '../../chat/model/chat-message.model';
@@ -20,9 +22,9 @@ export class UnreadChatMessageService {
    * Get all unread messages of current login user
    */
   getAllUnreadMessage(): Observable<ChatMessageModel[]> {
-    return this.http.get(this.resourceUrl + '/allMessages/' + this.userLogin, {observe: 'response'}).map((response) => {
+    return this.http.get(this.resourceUrl + '/allMessages/' + this.userLogin, {observe: 'response'}).pipe(map((response) => {
       return (response.body as ChatMessageModel[]);
-    });
+    }));
   }
 
   /**

@@ -1,6 +1,6 @@
 import { select } from '@angular-redux/store';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { StoreDataInter } from '../../app-store/app-store/app.store.model';
 import { GET_FRIEND_LIST } from '../../app-store/friend-list/friend-list.data';

@@ -1,13 +1,15 @@
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/switchMap';
+
+import {from as observableFrom,  Observable ,  of } from 'rxjs';
+
+import {startWith, map, catchError, mergeMap} from 'rxjs/operators';
+
+
+
+
+
+
 
 import { ActionsObservable, createEpicMiddleware, Epic } from 'redux-observable';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 
 import { CreateNewRoomAndAddChatMemberModel } from '../../chat/model/add-chat-member.model';
 import { ChatMessage, ChatMessageModel, convertChatMessageModelToChatMessageB } from '../../chat/model/chat-message.model';
@@ -102,12 +104,12 @@ function loadAllChatRoom(
     unreadMessagService: UnreadChatMessageService): Epic<ChatAction, AppStoreState> {
 
     return (action$: ActionsObservable<ChatAction>, store) => {
-        return action$.ofType(ChatActionEnum.INITIAL_GET_ALL_CHAT_ROOM_FROM_SERVICE)
-            .mergeMap((actoin) => {
-                return chatRoomService.getChatRoomsAndMembersWhenLoginChange().mergeMap((rooms: ChatRoomsAndMembersModel[]) => {
-                    return Observable.fromPromise(convertChatRoomAndMembersIntoChatRoomDataModel(portfolioService, store, rooms))
-                            .mergeMap((dataModel) => {
-                        return unreadMessagService.getAllUnreadMessage().map((res: ChatMessageModel[]) => {
+        return action$.ofType(ChatActionEnum.INITIAL_GET_ALL_CHAT_ROOM_FROM_SERVICE).pipe(
+            mergeMap((actoin) => {
+                return chatRoomService.getChatRoomsAndMembersWhenLoginChange().pipe(mergeMap((rooms: ChatRoomsAndMembersModel[]) => {
+                    return observableFrom(convertChatRoomAndMembersIntoChatRoomDataModel(portfolioService, store, rooms)).pipe(
+                            mergeMap((dataModel) => {
+                        return unreadMessagService.getAllUnreadMessage().pipe(map((res: ChatMessageModel[]) => {
                             const unreadMessages = res;
                             const chatMessages: ChatMessage[] = [];
                             const login = chatRoomService.userLogin;
@@ -125,42 +127,42 @@ function loadAllChatRoom(
                                 stateName: CHAT_THREADS,
                                 dataInfo: { dataStatus: StoreDataStatus.COMPLETE }
                             };
-                        })
-                        .catch((response) =>
+                        }),
+                        catchError((response) =>
                             of( // if error occured, publich an error action
                                 {
                                     type: ChatActionEnum.NEW_UNREAD_MESSAGE,
                                     stateName: CHAT_THREADS,
                                     dataInfo: { dataStatus: StoreDataStatus.ERROR }
                                 }
-                            ))
-                        .startWith({
+                            )),
+                        startWith({
                             type: ChatActionEnum.RECEIVED_CHAT_ROOMS,
                             payLoad: dataModel,
                             stateName: CHAT_THREADS,
                             dataInfo: { dataStatus: StoreDataStatus.SENT }
-                        })
-                        .startWith({
+                        }),
+                        startWith({
                             type: ChatActionEnum.NEW_UNREAD_MESSAGE,
                             stateName: CHAT_THREADS,
                             dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                        });
-                    })
-                    .catch((response) =>
+                        }),);
+                    }),
+                    catchError((response) =>
                         of( // if error occured, publich an error action
                             {
                                 type: ChatActionEnum.RECEIVED_CHAT_ROOMS,
                                 stateName: CHAT_THREADS,
                                 dataInfo: { dataStatus: StoreDataStatus.ERROR }
                             }
-                        ))
-                    .startWith({
+                        )),
+                    startWith({
                         type: ChatActionEnum.RECEIVED_CHAT_ROOMS,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                    });
-                });
-            });
+                    }),);
+                }));
+            }));
     };
 }
 
@@ -176,11 +178,11 @@ function serviceAddNewMemberToChatRoom(
     portfolioService: UserPortfolioService): Epic<ChatAction, AppStoreState> {
 
     return (action$: ActionsObservable<ChatAction>, store) => {
-        return action$.ofType(ChatActionEnum.SUBSCRIBE_GET_NEW_CHAT_MEMBER)
-            .mergeMap((action) => {
-                return chatSocket.receiveNewChatRoomMember().mergeMap((members) => {
-                    return Observable.fromPromise(convertMemberModelListToDatMemberModelList(portfolioService, store, members))
-                            .map((list) => {
+        return action$.ofType(ChatActionEnum.SUBSCRIBE_GET_NEW_CHAT_MEMBER).pipe(
+            mergeMap((action) => {
+                return chatSocket.receiveNewChatRoomMember().pipe(mergeMap((members) => {
+                    return observableFrom(convertMemberModelListToDatMemberModelList(portfolioService, store, members)).pipe(
+                            map((list) => {
 
                         return {
                             type: ChatActionEnum.GET_NEW_CHAT_MEMBER,
@@ -188,22 +190,22 @@ function serviceAddNewMemberToChatRoom(
                             stateName: CHAT_THREADS,
                             dataInfo: { dataStatus: StoreDataStatus.COMPLETE }
                         };
-                    })
-                    .catch((response) =>
+                    }),
+                    catchError((response) =>
                         of( // if error occured, publich an error action
                             {
                                 type: ChatActionEnum.GET_NEW_CHAT_MEMBER,
                                 stateName: CHAT_THREADS,
                                 dataInfo: { dataStatus: StoreDataStatus.ERROR }
                             }
-                        ))
-                    .startWith({
+                        )),
+                    startWith({
                         type: ChatActionEnum.GET_NEW_CHAT_MEMBER,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                    });
-                });
-            });
+                    }),);
+                }));
+            }));
     };
 }
 
@@ -218,35 +220,35 @@ function newChatRoomAndMember(chatSocket: ChatSocketService,
     portfolioService: UserPortfolioService): Epic<ChatAction, AppStoreState>  {
 
     return (action$: ActionsObservable<ChatAction>, store) => {
-        return action$.ofType(ChatActionEnum.SUBSCRIBE_NEW_CHAT_ROOM_WITH_MEMBERS)
-        .mergeMap((action) => {
-            return chatSocket.receiveNewChatRoomAndMembers().mergeMap((res: CreateNewRoomAndAddChatMemberModel) => {
+        return action$.ofType(ChatActionEnum.SUBSCRIBE_NEW_CHAT_ROOM_WITH_MEMBERS).pipe(
+        mergeMap((action) => {
+            return chatSocket.receiveNewChatRoomAndMembers().pipe(mergeMap((res: CreateNewRoomAndAddChatMemberModel) => {
                 const chatRoom = new ChatRoomDataModel();
                 chatRoom.initialUsingChatRoomModel(res.room);
-                return Observable.fromPromise(convertMemberModelListToDatMemberModelList(portfolioService, store, res.roomMembers))
-                        .map((memberDataModel: ChatRoomMemberDataModel[]) => {
+                return observableFrom(convertMemberModelListToDatMemberModelList(portfolioService, store, res.roomMembers)).pipe(
+                        map((memberDataModel: ChatRoomMemberDataModel[]) => {
                     chatRoom.addMembers(memberDataModel);
                     return { type: ChatActionEnum.NEW_CHAT_ROOM_WITH_MEMBERS,
                         stateName: CHAT_THREADS,
                         payLoad: chatRoom,
                         dataInfo: { dataStatus: StoreDataStatus.COMPLETE },
                         redirect: true};
-                })
-                .catch((response) =>
+                }),
+                catchError((response) =>
                     of( // if error occured, publich an error action
                         {
                             type: ChatActionEnum.NEW_CHAT_ROOM_WITH_MEMBERS,
                             stateName: CHAT_THREADS,
                             dataInfo: { dataStatus: StoreDataStatus.ERROR }
                         }
-                    ))
-                    .startWith({
+                    )),
+                    startWith({
                         type: ChatActionEnum.NEW_CHAT_ROOM_WITH_MEMBERS,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                });
-            });
-        });
+                }),);
+            }));
+        }));
     };
 }
 
@@ -262,16 +264,16 @@ function beenAddToNewChatRoom(
     portfolioService: UserPortfolioService): Epic<ChatAction, AppStoreState> {
 
     return (action$: ActionsObservable<ChatAction>, store) => {
-        return action$.ofType(ChatActionEnum.BEEN_ADD_TO_A_CAHT_ROOM)
-        .mergeMap((action) => {
-            return chatSocket.receiveNewChatRoom().mergeMap((room: ChatRoomModel) => {
+        return action$.ofType(ChatActionEnum.BEEN_ADD_TO_A_CAHT_ROOM).pipe(
+        mergeMap((action) => {
+            return chatSocket.receiveNewChatRoom().pipe(mergeMap((room: ChatRoomModel) => {
                 if (!room.chatID)
                     throw new Error('chatId can not be null');
-                return chatRoomService.fetchChatRoomMembersByChatId(room.chatID).mergeMap((members: ChatRoomMemberModel[]) => {
+                return chatRoomService.fetchChatRoomMembersByChatId(room.chatID).pipe(mergeMap((members: ChatRoomMemberModel[]) => {
                     const chatRoom = new ChatRoomDataModel();
                     chatRoom.initialUsingChatRoomModel(room);
-                    return Observable.fromPromise(convertMemberModelListToDatMemberModelList(portfolioService, store, members))
-                            .map((memberDataModel: ChatRoomMemberDataModel[] ) => {
+                    return observableFrom(convertMemberModelListToDatMemberModelList(portfolioService, store, members)).pipe(
+                            map((memberDataModel: ChatRoomMemberDataModel[] ) => {
 
                         chatRoom.addMembers(memberDataModel);
                         return {
@@ -280,23 +282,23 @@ function beenAddToNewChatRoom(
                             payLoad: chatRoom,
                             dataInfo: { dataStatus: StoreDataStatus.COMPLETE }
                         };
-                    })
-                    .catch((response) =>
+                    }),
+                    catchError((response) =>
                         of( // if error occured, publich an error action
                             {
                                 type: ChatActionEnum.NEW_CHAT_ROOM_WITH_MEMBERS ,
                                 stateName: CHAT_THREADS,
                                 dataInfo: { dataStatus: StoreDataStatus.ERROR }
                             }
-                        ))
-                    .startWith({
+                        )),
+                    startWith({
                         type: ChatActionEnum.NEW_CHAT_ROOM_WITH_MEMBERS ,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING}
-                    });
-                });
-            });
-        });
+                    }),);
+                }));
+            }));
+        }));
     };
 }
 
@@ -306,10 +308,10 @@ function beenAddToNewChatRoom(
  */
 function newMessage(chatSocket: ChatSocketService): Epic<ChatAction, AppStoreState> {
     return (action$: ActionsObservable<ChatAction>, store) => {
-        return action$.ofType(ChatActionEnum.SUBSCRIBE_UNREAD_MESSAGE_FROM_SERVICE)
-            .mergeMap((action) => {
-                return chatSocket.receiveNewMessage()
-                    .map((response: ChatMessageModel) => {
+        return action$.ofType(ChatActionEnum.SUBSCRIBE_UNREAD_MESSAGE_FROM_SERVICE).pipe(
+            mergeMap((action) => {
+                return chatSocket.receiveNewMessage().pipe(
+                    map((response: ChatMessageModel) => {
                         const chatMessage = findImageFromChatAndConvetToChatMessage(store, response);
                         chatMessage.sendInMessage = response.messageSenderLogin === chatSocket.userLogin ? false : true;
                         return {
@@ -319,21 +321,21 @@ function newMessage(chatSocket: ChatSocketService): Epic<ChatAction, AppStoreSta
                             stateName: CHAT_THREADS,
                             dataInfo: { dataStatus: StoreDataStatus.COMPLETE }
                         };
-                    })
-                    .catch((response) =>
+                    }),
+                    catchError((response) =>
                         of( // if error occured, publich an error action
                             {
                                 type: ChatActionEnum.NEW_UNREAD_MESSAGE,
                                 stateName: CHAT_THREADS,
                                 dataInfo: { dataStatus: StoreDataStatus.ERROR }
                             }
-                        ))
-                    .startWith({
+                        )),
+                    startWith({
                         type: ChatActionEnum.NEW_UNREAD_MESSAGE,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                    });
-            });
+                    }),);
+            }));
     };
 }
 

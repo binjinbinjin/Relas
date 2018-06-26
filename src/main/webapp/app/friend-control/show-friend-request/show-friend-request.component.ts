@@ -1,7 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { dispatch, select$ } from '@angular-redux/store';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { StoreDataInter, StoreDataStatus } from '../../app-store/app-store/app.store.model';
 import { FriendlistAction } from '../../app-store/friend-list/friend-list.action';
@@ -11,11 +13,11 @@ import { FriendshipRequest } from '../friend-control-model/friend-request-model'
 import { RECEIVED_REQUEST } from './../../app-store/friend-control/friend-control.data';
 
 export const getRequst = (payloads$: Observable<{}>) => {
-  return payloads$.map((value) => {
+  return payloads$.pipe(map((value) => {
     const state = (value as StoreDataInter<FriendshipRequest>);
     const payloads = state.payloads;
     return payloads.filter((item) => item.introduceToId === item.introduceById);
-  });
+  }));
 };
 @Component({
   selector: 'app-show-friend-request',

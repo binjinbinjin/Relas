@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { SERVER_API_URL } from '../../app.constants';
 
 @Injectable()
@@ -10,7 +12,7 @@ export class JhiConfigurationService {
     }
 
     get(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'management/configprops', { observe: 'response' }).map((res: HttpResponse<any>) => {
+        return this.http.get(SERVER_API_URL + 'management/configprops', { observe: 'response' }).pipe(map((res: HttpResponse<any>) => {
             const properties: any[] = [];
 
             const propertiesObject = res.body;
@@ -25,11 +27,11 @@ export class JhiConfigurationService {
                 return (propertyA.prefix === propertyB.prefix) ? 0 :
                        (propertyA.prefix < propertyB.prefix) ? -1 : 1;
             });
-        });
+        }));
     }
 
     getEnv(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'management/env', { observe: 'response' }).map((res: HttpResponse<any>) => {
+        return this.http.get(SERVER_API_URL + 'management/env', { observe: 'response' }).pipe(map((res: HttpResponse<any>) => {
             const properties: any = {};
 
             const propertiesObject = res.body;
@@ -49,6 +51,6 @@ export class JhiConfigurationService {
             }
 
             return properties;
-        });
+        }));
     }
 }

@@ -1,9 +1,11 @@
+
+import {map} from 'rxjs/operators';
 import { FeedModel } from './../model/feed.model';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Principal } from '../../shared/auth/principal.service';
 import { SERVER_API_URL } from '../../app.constants';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ITEMS_PER_PAGE, createRequestOption } from '../../shared';
 
 /**Service for feed
@@ -23,11 +25,11 @@ export class FeedService {
    */
   create(tweet: FeedModel): Observable<HttpResponse<FeedModel>> {
     tweet.userIDId = this.principal.getUserID();
-    return this.http.post<FeedModel>(this.resourceUrl, tweet, { observe: 'response' })
-      .map((res: HttpResponse<FeedModel>) => {
+    return this.http.post<FeedModel>(this.resourceUrl, tweet, { observe: 'response' }).pipe(
+      map((res: HttpResponse<FeedModel>) => {
         const body: FeedModel = Object.assign({}, res.body);
         return res.clone({body});
-      });
+      }));
   }
 
   /**

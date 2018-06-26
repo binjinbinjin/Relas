@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SERVER_API_URL } from '../../app.constants';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { creatRequestOptionWithoutPaging, createRequestOption } from '../../shared';
 import { Principal } from '../../shared/auth/principal.service';
 import { UserPortfolio } from '../user-portfolio.model';

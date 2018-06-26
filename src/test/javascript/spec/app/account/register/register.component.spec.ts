@@ -1,5 +1,6 @@
+
+import {throwError as observableThrowError, of as observableOf,  Observable } from 'rxjs';
 import { ComponentFixture, TestBed, async, inject, tick, fakeAsync } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
 
 import { JhiLanguageService } from 'ng-jhipster';
 import { MockLanguageService } from '../../../helpers/mock-language.service';
@@ -44,7 +45,7 @@ describe('Component Tests', () => {
         it('should update success to OK after creating an account',
             inject([Register, JhiLanguageService],
                 fakeAsync((service: Register, mockTranslate: MockLanguageService) => {
-                    spyOn(service, 'save').and.returnValue(Observable.of({}));
+                    spyOn(service, 'save').and.returnValue(observableOf({}));
                     comp.registerAccount.password = comp.confirmPassword = 'password';
 
                     comp.register();
@@ -67,7 +68,7 @@ describe('Component Tests', () => {
         it('should notify of user existence upon 400/login already in use',
             inject([Register],
                 fakeAsync((service: Register) => {
-                    spyOn(service, 'save').and.returnValue(Observable.throw({
+                    spyOn(service, 'save').and.returnValue(observableThrowError({
                         status: 400,
                         error: { type: LOGIN_ALREADY_USED_TYPE }
                     }));
@@ -86,7 +87,7 @@ describe('Component Tests', () => {
         it('should notify of email existence upon 400/email address already in use',
             inject([Register],
                 fakeAsync((service: Register) => {
-                    spyOn(service, 'save').and.returnValue(Observable.throw({
+                    spyOn(service, 'save').and.returnValue(observableThrowError({
                         status: 400,
                         error: { type: EMAIL_ALREADY_USED_TYPE }
                     }));
@@ -105,7 +106,7 @@ describe('Component Tests', () => {
         it('should notify of generic error',
             inject([Register],
                 fakeAsync((service: Register) => {
-                    spyOn(service, 'save').and.returnValue(Observable.throw({
+                    spyOn(service, 'save').and.returnValue(observableThrowError({
                         status: 503
                     }));
                     comp.registerAccount.password = comp.confirmPassword = 'password';

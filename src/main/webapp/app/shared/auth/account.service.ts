@@ -1,7 +1,7 @@
 import { AccountIDUsername } from './account.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { SERVER_API_URL } from '../../app.constants';
 
 /**Account id and user name */

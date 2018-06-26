@@ -1,14 +1,14 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergeMap';
+
+
 import { Observable } from 'rxjs';
 import { ChatRoomDataModel, ChatMessageImageDisplayModel } from '../model/chat-room.model';
 import { StoreDataInter } from '../../app-store/app-store/app.store.model';
 import { Component, OnInit } from '@angular/core';
 import { select } from '@angular-redux/store';
 import { CHAT_THREADS } from '../../app-store/chat/chat.data';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergeMap';
+
+
 
 /**
  * The data model to keep the required data to display the

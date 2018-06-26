@@ -1,6 +1,8 @@
+
+import {map} from 'rxjs/operators';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observer } from 'rxjs/Observer';
+import { Observer } from 'rxjs';
 import { Observable } from 'rxjs/Rx';
 
 import { SERVER_API_URL } from '../../app.constants';
@@ -27,18 +29,18 @@ export class ChatRoomService {
    /**Create a new two person chat room */
   newTwoPersonChatRoom(): Observable<ChatRoomModel> {
     const chat = this.twoPersonChatRoom();
-    return this.http.post(this.chatRoomUrl, chat, {observe: 'response'}).map( (response) => {
+    return this.http.post(this.chatRoomUrl, chat, {observe: 'response'}).pipe(map( (response) => {
       return response.body;
-    });
+    }));
   }
 
   /**Fetch all chat room id for current login user
    * - error will error if user is not login
    */
   fetchAllChatRoomChatId(): Observable<number[]> {
-    return this.http.get(this.chatRoomMember + '/chat_ids/' + this.userLogin, {observe: 'response'}).map((response) => {
+    return this.http.get(this.chatRoomMember + '/chat_ids/' + this.userLogin, {observe: 'response'}).pipe(map((response) => {
       return (response.body as number[]);
-    });
+    }));
   }
 
   /**
@@ -46,17 +48,17 @@ export class ChatRoomService {
    * @param chatID chat room id
    */
   fetchChatRoomMembersByChatId(chatID: number): Observable<ChatRoomMemberModel[]> {
-    return this.http.get(this.chatRoomMember + '/allMembers/' + chatID, {observe: 'response'}).map((response) => {
+    return this.http.get(this.chatRoomMember + '/allMembers/' + chatID, {observe: 'response'}).pipe(map((response) => {
       return (response.body as ChatRoomMemberModel[]);
-    });
+    }));
   }
 
   /**Fetch all members of chat rooms of cureent login user
    */
   fetchChatRoomsAndMembers(): Observable<ChatRoomsAndMembersModel []>  {
-    return this.http.get(this.chatRoomMember + '/membersOfChatRooms/' + this.userLogin, { observe: 'response' }).map((response: HttpResponse<ChatRoomsAndMembersModel[]>) => {
+    return this.http.get(this.chatRoomMember + '/membersOfChatRooms/' + this.userLogin, { observe: 'response' }).pipe(map((response: HttpResponse<ChatRoomsAndMembersModel[]>) => {
       return response.body;
-    });
+    }));
   }
 
   /**Listener to get the members of chat rooms of cureent login user

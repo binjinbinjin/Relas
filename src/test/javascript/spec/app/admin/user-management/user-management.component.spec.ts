@@ -1,5 +1,6 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { RelasTestModule } from '../../../test.module';
@@ -37,7 +38,7 @@ describe('Component Tests', () => {
                     fakeAsync(() => {
                         // GIVEN
                         const headers = new HttpHeaders().append('link', 'link;link');
-                        spyOn(service, 'query').and.returnValue(Observable.of(new HttpResponse({
+                        spyOn(service, 'query').and.returnValue(observableOf(new HttpResponse({
                             body: [new User(123)],
                             headers
                         })));
@@ -61,11 +62,11 @@ describe('Component Tests', () => {
                         // GIVEN
                         const headers = new HttpHeaders().append('link', 'link;link');
                         const user = new User(123);
-                        spyOn(service, 'query').and.returnValue(Observable.of(new HttpResponse({
+                        spyOn(service, 'query').and.returnValue(observableOf(new HttpResponse({
                             body: [user],
                             headers
                         })));
-                        spyOn(service, 'update').and.returnValue(Observable.of(new HttpResponse({ status: 200 })));
+                        spyOn(service, 'update').and.returnValue(observableOf(new HttpResponse({ status: 200 })));
 
                         // WHEN
                         comp.setActive(user, true);
