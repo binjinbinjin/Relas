@@ -62,7 +62,7 @@ export class AppStoreModule {
       provideReduxForms(store);
 
       // Initialize thing that have to be initialize
-    AppStoreInitializer.initialize();
+      AppStoreInitializer.initialize();
       // friendshipService.keepSubcribe();
     }
 
