@@ -3,12 +3,6 @@ import {from as observableFrom,  Observable ,  of } from 'rxjs';
 
 import {startWith, map, catchError, mergeMap} from 'rxjs/operators';
 
-
-
-
-
-
-
 import { ActionsObservable, createEpicMiddleware, Epic } from 'redux-observable';
 
 import { CreateNewRoomAndAddChatMemberModel } from '../../chat/model/add-chat-member.model';
@@ -37,7 +31,7 @@ import { CHAT_THREADS } from './chat.data';
  * @param chatSocket chat Socket
  */
 export function newMessageSubscriberEpic(chatSocket: ChatSocketService) {
-    return createEpicMiddleware(newMessage(chatSocket));
+    return newMessage(chatSocket);
 }
 
 /**
@@ -49,7 +43,7 @@ export function newMessageSubscriberEpic(chatSocket: ChatSocketService) {
 export function loadAllChatRoomEpic(portfolioService: UserPortfolioService,
     chatRoomService: ChatRoomService, unreadMessagService: UnreadChatMessageService) {
 
-    return createEpicMiddleware(loadAllChatRoom(portfolioService, chatRoomService, unreadMessagService));
+    return loadAllChatRoom(portfolioService, chatRoomService, unreadMessagService);
 }
 
 /**
@@ -61,7 +55,7 @@ export function loadAllChatRoomEpic(portfolioService: UserPortfolioService,
 export function beenAddToNewChatRoomEpic(chatSocket: ChatSocketService,
     chatRoomService: ChatRoomService, portfolioService: UserPortfolioService) {
 
-    return createEpicMiddleware(beenAddToNewChatRoom(chatSocket, chatRoomService, portfolioService));
+    return beenAddToNewChatRoom(chatSocket, chatRoomService, portfolioService);
 }
 
 /**
@@ -75,7 +69,7 @@ export function serviceAddNewMemberToChatRoomEpic(
     chatSocket: ChatSocketService,
     portfolioService: UserPortfolioService) {
 
-    return createEpicMiddleware(serviceAddNewMemberToChatRoom(chatSocket, portfolioService));
+    return serviceAddNewMemberToChatRoom(chatSocket, portfolioService);
 }
 
 /**
@@ -89,7 +83,7 @@ export function newChatRoomAndMemberEpic(
     chatSocket: ChatSocketService,
     portfolioService: UserPortfolioService) {
 
-    return createEpicMiddleware(newChatRoomAndMember(chatSocket, portfolioService));
+    return newChatRoomAndMember(chatSocket, portfolioService);
 }
 
 /**
@@ -101,7 +95,7 @@ export function newChatRoomAndMemberEpic(
 function loadAllChatRoom(
     portfolioService: UserPortfolioService,
     chatRoomService: ChatRoomService,
-    unreadMessagService: UnreadChatMessageService): Epic<ChatAction, AppStoreState> {
+    unreadMessagService: UnreadChatMessageService): Epic<ChatAction, ChatAction, AppStoreState> {
 
     return (action$: ActionsObservable<ChatAction>, store) => {
         return action$.ofType(ChatActionEnum.INITIAL_GET_ALL_CHAT_ROOM_FROM_SERVICE).pipe(
@@ -146,7 +140,7 @@ function loadAllChatRoom(
                             type: ChatActionEnum.NEW_UNREAD_MESSAGE,
                             stateName: CHAT_THREADS,
                             dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                        }),);
+                        }), );
                     }),
                     catchError((response) =>
                         of( // if error occured, publich an error action
@@ -160,7 +154,7 @@ function loadAllChatRoom(
                         type: ChatActionEnum.RECEIVED_CHAT_ROOMS,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                    }),);
+                    }), );
                 }));
             }));
     };
@@ -175,7 +169,7 @@ function loadAllChatRoom(
  */
 function serviceAddNewMemberToChatRoom(
     chatSocket: ChatSocketService,
-    portfolioService: UserPortfolioService): Epic<ChatAction, AppStoreState> {
+    portfolioService: UserPortfolioService): Epic<ChatAction, ChatAction, AppStoreState> {
 
     return (action$: ActionsObservable<ChatAction>, store) => {
         return action$.ofType(ChatActionEnum.SUBSCRIBE_GET_NEW_CHAT_MEMBER).pipe(
@@ -203,7 +197,7 @@ function serviceAddNewMemberToChatRoom(
                         type: ChatActionEnum.GET_NEW_CHAT_MEMBER,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                    }),);
+                    }), );
                 }));
             }));
     };
@@ -217,7 +211,7 @@ function serviceAddNewMemberToChatRoom(
  * @param portfolioService service for getting user portfolio
  */
 function newChatRoomAndMember(chatSocket: ChatSocketService,
-    portfolioService: UserPortfolioService): Epic<ChatAction, AppStoreState>  {
+    portfolioService: UserPortfolioService): Epic<ChatAction, ChatAction, AppStoreState>  {
 
     return (action$: ActionsObservable<ChatAction>, store) => {
         return action$.ofType(ChatActionEnum.SUBSCRIBE_NEW_CHAT_ROOM_WITH_MEMBERS).pipe(
@@ -246,7 +240,7 @@ function newChatRoomAndMember(chatSocket: ChatSocketService,
                         type: ChatActionEnum.NEW_CHAT_ROOM_WITH_MEMBERS,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                }),);
+                }), );
             }));
         }));
     };
@@ -261,7 +255,7 @@ function newChatRoomAndMember(chatSocket: ChatSocketService,
 function beenAddToNewChatRoom(
     chatSocket: ChatSocketService,
     chatRoomService: ChatRoomService,
-    portfolioService: UserPortfolioService): Epic<ChatAction, AppStoreState> {
+    portfolioService: UserPortfolioService): Epic<ChatAction, ChatAction, AppStoreState> {
 
     return (action$: ActionsObservable<ChatAction>, store) => {
         return action$.ofType(ChatActionEnum.BEEN_ADD_TO_A_CAHT_ROOM).pipe(
@@ -295,7 +289,7 @@ function beenAddToNewChatRoom(
                         type: ChatActionEnum.NEW_CHAT_ROOM_WITH_MEMBERS ,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING}
-                    }),);
+                    }), );
                 }));
             }));
         }));
@@ -306,7 +300,7 @@ function beenAddToNewChatRoom(
  * Subscribe the socket, and publish a new action for every new chat message from service
  * @param chatSocket chat Socket
  */
-function newMessage(chatSocket: ChatSocketService): Epic<ChatAction, AppStoreState> {
+function newMessage(chatSocket: ChatSocketService): Epic<ChatAction, ChatAction, AppStoreState> {
     return (action$: ActionsObservable<ChatAction>, store) => {
         return action$.ofType(ChatActionEnum.SUBSCRIBE_UNREAD_MESSAGE_FROM_SERVICE).pipe(
             mergeMap((action) => {
@@ -334,7 +328,7 @@ function newMessage(chatSocket: ChatSocketService): Epic<ChatAction, AppStoreSta
                         type: ChatActionEnum.NEW_UNREAD_MESSAGE,
                         stateName: CHAT_THREADS,
                         dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                    }),);
+                    }), );
             }));
     };
 }

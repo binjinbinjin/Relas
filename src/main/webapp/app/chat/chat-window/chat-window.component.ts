@@ -1,8 +1,6 @@
 
 import {mergeMap} from 'rxjs/operators';
 
-
-
 import { dispatch, select } from '@angular-redux/store';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';

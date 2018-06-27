@@ -4,12 +4,6 @@ import {from as observableFrom,  of ,  Observable } from 'rxjs';
 import {startWith, map, mergeMap, catchError} from 'rxjs/operators';
 import { FriendListModel } from './../../friend-control/friend-control-model/friend-list.model';
 
-
-
-
-
-
-
 import { ActionsObservable, createEpicMiddleware, Epic } from 'redux-observable';
 
 import { FriendControlActionEnum } from '../../friend-control/friend-control-model/friend-control-action.model';
@@ -25,13 +19,13 @@ import { newMessage } from '../chat/chat.reducers';
  *
 */
 export function getFriendList(friendshipControlService: FriendshipControlService, portfolioService: UserPortfolioService) {
-    return createEpicMiddleware(getFriendListImpl(friendshipControlService, portfolioService)); // create the middleware
+    return getFriendListImpl(friendshipControlService, portfolioService); // create the middleware
 }
 
 /**Get friend list impl, that use to create the middleware
  * @param friendshipControlService The service to get friend list
  */
-function getFriendListImpl(friendshipControlService: FriendshipControlService, portfolioService: UserPortfolioService): Epic<FriendlistAction, AppStoreState> {
+function getFriendListImpl(friendshipControlService: FriendshipControlService, portfolioService: UserPortfolioService): Epic<FriendlistAction, FriendlistAction, AppStoreState> {
     return (action$: ActionsObservable<FriendlistAction>, stroe) => {
         return action$.ofType(FriendControlActionEnum.GET_LIST).pipe(
         mergeMap(() => {
@@ -53,14 +47,14 @@ function getFriendListImpl(friendshipControlService: FriendshipControlService, p
                     type: FriendControlActionEnum.NEW_FRIEND_LIST,
                     list: null,
                     dataInfo: { dataStatus: StoreDataStatus.LOADING }
-                }),);
+                }));
             }),
             catchError((listRes) => of({ // catch for errors
                 type: FriendControlActionEnum.NEW_FRIEND_LIST,
                 list: null,
                 dataInfo: { dataStatus: StoreDataStatus.ERROR }
             }
-            )),);
+            )));
         }));
     };
 }

@@ -7,7 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { UserPortfolioService } from '../user-portfolio/user-portfolio-service/user-portfolio.service';
 import { UserPortfolioModule } from '../user-portfolio/user-portfolio.module';
-import { createEpics } from './app-store/app.epics';
+import { /*createEpics,*/ EpicsMiddleWares } from './app-store/app.epics';
 import { AppStoreInitializer } from './app-store/app.initialize';
 import { rootReducer } from './app-store/app.reducers';
 import { AppStoreState, INITIAL_APP_STORE } from './app-store/app.store.model';
@@ -47,10 +47,11 @@ export class AppStoreModule {
     unreadMessagService: UnreadChatMessageService,
     router: Router
   ) {
+    const middleWares = new EpicsMiddleWares(friendshipService, friendshipControlService, portfolioService, chatSocket, chatRoomService, unreadMessagService);
       store.configureStore(
         rootReducer(friendshipService, friendshipControlService, chatSocket, unreadMessagService, router),
         INITIAL_APP_STORE,
-        [/*createLogger(), */...createEpics(friendshipService, friendshipControlService, portfolioService, chatSocket, chatRoomService, unreadMessagService )],
+        [/*createLogger(), */...middleWares.middleWares],
         devTools.isEnabled() ? [devTools.enhancer()] : []);
 
       // Enable syncing of Angular router state with our Redux store.
@@ -60,6 +61,8 @@ export class AppStoreModule {
 
       // Enable syncing of Angular form state with our Redux store.
       provideReduxForms(store);
+
+      middleWares.runMiddleWare();
 
       // Initialize thing that have to be initialize
       AppStoreInitializer.initialize();

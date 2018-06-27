@@ -5,7 +5,6 @@ import { HttpInterceptor, HttpRequest, HttpResponse, HttpHandler, HttpEvent } fr
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 
-
 export class NotificationInterceptor implements HttpInterceptor {
 
     private alertService: JhiAlertService;

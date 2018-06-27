@@ -1,14 +1,11 @@
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 import { Observable } from 'rxjs';
 import { ChatRoomDataModel, ChatMessageImageDisplayModel } from '../model/chat-room.model';
 import { StoreDataInter } from '../../app-store/app-store/app.store.model';
 import { Component, OnInit } from '@angular/core';
 import { select } from '@angular-redux/store';
 import { CHAT_THREADS } from '../../app-store/chat/chat.data';
-
-
 
 /**
  * The data model to keep the required data to display the

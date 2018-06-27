@@ -1,12 +1,6 @@
 
 import {startWith, catchError, map, mergeMap} from 'rxjs/operators';
 
-
-
-
-
-
-
 import { ActionsObservable, createEpicMiddleware, Epic } from 'redux-observable';
 import { of } from 'rxjs';
 
@@ -24,7 +18,7 @@ import { FriendControlActionRequestAction, FriendControlActionsList } from './fr
  */
 export function getFriendRequest(friendshipService: FriendshipRequestService) {
     // create the middleware
-    return createEpicMiddleware(getFriendRequestImp(friendshipService));
+    return getFriendRequestImp(friendshipService);
 }
 
 /**Epic to get the request from the service
@@ -34,7 +28,7 @@ export function getFriendRequest(friendshipService: FriendshipRequestService) {
  * param: friendshipService FriendshipRequestService
  *          service that with an observable function to subscribe the request from the service
  */
-function getFriendRequestImp(friendshipService: FriendshipRequestService): Epic<FriendControlActionRequestAction, AppStoreState> {
+function getFriendRequestImp(friendshipService: FriendshipRequestService): Epic<FriendControlActionRequestAction, FriendControlActionRequestAction, AppStoreState> {
     return (action$: ActionsObservable<FriendControlActionRequestAction>, store) => {
         return action$.ofType(FriendControlActionsList.RECEIVED_REQUEST).pipe(
         mergeMap(() => {
@@ -60,7 +54,7 @@ function getFriendRequestImp(friendshipService: FriendshipRequestService): Epic<
                 type: FriendControlActionsList.NEW_REQUEST,
                 request: null,
                 dataInfo: { dataStatus: StoreDataStatus.LOADING }
-            }),);
+            }));
         }));
     };
 }

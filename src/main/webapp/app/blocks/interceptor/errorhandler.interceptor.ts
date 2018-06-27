@@ -4,7 +4,6 @@ import { JhiEventManager } from 'ng-jhipster';
 import { HttpInterceptor, HttpRequest, HttpErrorResponse, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 export class ErrorHandlerInterceptor implements HttpInterceptor {
 
     constructor(private eventManager: JhiEventManager) {
