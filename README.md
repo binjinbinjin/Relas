@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/binjinbinjin/Relas/tree/master.svg?style=svg)](https://circleci.com/gh/binjinbinjin/Relas/tree/master)
+
 # Relas
 This application was developed using the JHipster 4.14.1
 
