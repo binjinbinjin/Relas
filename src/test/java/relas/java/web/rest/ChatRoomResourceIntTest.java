@@ -130,7 +130,7 @@ public class ChatRoomResourceIntTest {
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
         assertThat(chatRoomList).hasSize(databaseSizeBeforeCreate + 1);
         ChatRoom testChatRoom = chatRoomList.get(chatRoomList.size() - 1);
-        assertThat(testChatRoom.getChatID()).isEqualTo(DEFAULT_CHAT_ID);
+        assertThat(testChatRoom.getChatID()).isEqualTo(testChatRoom.getId());
         assertThat(testChatRoom.getMaxMember()).isEqualTo(DEFAULT_MAX_MEMBER);
         assertThat(testChatRoom.getChatRoomName()).isEqualTo(DEFAULT_CHAT_ROOM_NAME);
         assertThat(testChatRoom.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
@@ -268,7 +268,7 @@ public class ChatRoomResourceIntTest {
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
         assertThat(chatRoomList).hasSize(databaseSizeBeforeUpdate);
         ChatRoom testChatRoom = chatRoomList.get(chatRoomList.size() - 1);
-        assertThat(testChatRoom.getChatID()).isEqualTo(UPDATED_CHAT_ID);
+        assertThat(testChatRoom.getChatID()).isEqualTo(testChatRoom.getId());
         assertThat(testChatRoom.getMaxMember()).isEqualTo(UPDATED_MAX_MEMBER);
         assertThat(testChatRoom.getChatRoomName()).isEqualTo(UPDATED_CHAT_ROOM_NAME);
         assertThat(testChatRoom.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
